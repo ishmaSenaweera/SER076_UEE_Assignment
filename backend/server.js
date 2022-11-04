@@ -53,5 +53,5 @@ mongoose.connect(
 // ─── SET UP ROUTES ──────────────────────────────────────────────────────────────
 //
 
-app.use("/order", require("./routes/orderManagement/order.route"));
+app.use("/user", require("./routes/user.route"));
 
