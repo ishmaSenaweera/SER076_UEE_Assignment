@@ -17,6 +17,7 @@ export default function Login() {
   const { setType } = useContext(AuthContext);
   const login = async (e) => {
     e.preventDefault();
+    setType("Site Manager")
     try {
       /* Creating an object with the email and password. */
       const loginData = {
