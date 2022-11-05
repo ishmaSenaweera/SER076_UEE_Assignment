@@ -94,8 +94,9 @@ router.delete("/delete/:id", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     /* Finding the user by email. */
+    console.log(req.body)
     const user = await User.findOne({ email: req.body.email });
-
+    console.log(user)
     if (!user) {
       return res.status(401).json({ errorMessage: "Wrong email or password." });
     }
@@ -109,15 +110,8 @@ router.post("/login", async (req, res) => {
     if (!passwordCorrect) {
       return res.status(401).json({ errorMessage: "Wrong email or password." });
     }
-    /* This is creating a token for the user. */
-    const token = jwt.sign(
-      {
-        user: user._id,
-      },
-      process.env.KEY
-    );
 
-    return res.send({ type: user.userType, verified: user._id });
+    return res.send({ type: user.userType, userId: user._id });
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
