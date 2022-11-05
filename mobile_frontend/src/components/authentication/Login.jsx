@@ -26,7 +26,7 @@ export default function Login() {
 
       /* Sending a POST request to the server with the user's email and password. */
       const result = await axios.post(
-        "http://exp://e8-x7a.anonymous.mobile-frontend.exp.direct:8000/login",
+        "http://192.168.1.5:8000/user/login",
         loginData
       );
 
@@ -44,7 +44,7 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>EyePax</Text>
+      <Text style={styles.header}>Travel Buddy</Text>
       <Text style={styles.header2}>Login</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View style={styles.bar} />
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    fontSize: 60,
+    fontSize: 50,
     fontWeight: "bold",
     alignItems: "center",
   },
@@ -135,6 +135,6 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#ffa500",
+    backgroundColor: "#8B51F5",
   },
 });

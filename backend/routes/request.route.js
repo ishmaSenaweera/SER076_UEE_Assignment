@@ -5,6 +5,7 @@ const Request = require("../models/request.model");
 router.post("/add", async (req, res) => {
   try {
     const newRequest = new Request({
+      requestId: "REQ" + Math.floor(Math.random() * 900000 + 100000),
       passenger: req.body.passenger,
       vehicleOwner: req.body.vehicleOwner,
       vehicle: req.body.vehicle,
