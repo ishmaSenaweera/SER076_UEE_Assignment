@@ -1,8 +1,80 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Icon } from "@rneui/themed";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
+import { updatedata } from "./context/ContextProvider";
 
-export default function UpdateAction({ navigation }) {
+export default function UpdateAction({ navigation, id }) {
+
+  const { setUPdata } = useContext(updatedata);
+
+  const [inpval, setINP] = useState({
+    Action: "",
+    
+  });
+
+  const setdata = (e) => {
+    const { name, value } = e.target;
+    setINP((preval) => {
+      return {
+        ...preval,
+        [name]: value,
+      };
+    });
+  };
+
+  // const { id } = useParams("");
+
+  const getdata = async () => {
+    const res = await fetch(`http://192.168.25.248:8000/incident/view/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+
+    if (res.status === 422 || !data) {
+      console.log("Please take the action");
+      return 0;
+    } else {
+      setINP(data);
+      console.log("get data");
+    }
+  };
+
+  useEffect(() => {
+    getdata();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateaction = async (e) => {
+    e.preventDefault();
+
+    const { VehicleNo, OwnerName, PassengerName, Incident } = inpval;
+
+    const res2 = await fetch(`http://localhost:8000/incident/update/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Action,
+        
+        
+      }),
+    });
+
+    const data2 = await res2.json();
+
+    if (res2.status === 422 || !data2) {
+      alert("Please enter all action details");
+    } else {
+      alert("Update Action Details Successfully");
+      navigate("/view");
+      setUPdata(data2);
+    }
+  };
+
   return (
     <View>
       <View style={styles.row}>
@@ -11,7 +83,7 @@ export default function UpdateAction({ navigation }) {
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle1}>Take Action</Text>
+        <Text style={styles.TextTitle1}>Update Action</Text>
       </View>
 <View>
 
@@ -20,32 +92,37 @@ export default function UpdateAction({ navigation }) {
 
       <View style={styles.container}>
       <View style={styles.TextTitle2}>
-        <Text>Incident ID</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident ID :</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Vehicle No</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No :</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Owner Name</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name :</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Passenger Name</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name :</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Incident</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident :</Text>
       </View>
+      <View style={styles.TextTitle2}>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Action</Text>
+      
       <View style={styles.inputView}>
       
         <TextInput
           style={styles.TextInput}
           placeholder="Enter the Action"
           placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
+          value={inpval.Action}
+          onChangeText={(Action) => setdata(Action)}
         />
+      </View>
       </View>
       <View style={styles.fixToText} >
       <Button title='Back'></Button>
-      <Button title='Update'></Button>
+      <Button onClick={updateaction} title='Update'></Button>
       </View>
       {/* <View style={styles.button2} >
       <Button title='Add'></Button>
@@ -158,6 +235,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 100,
     marginRight: 100,
-    marginTop: 43
+    marginTop: 10
   },
 });

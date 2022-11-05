@@ -17,28 +17,22 @@ export default function AddIncident({ navigation }) {
     axios.post("http://192.168.25.248:8000/incident/new", data).then(()=>{
 
       if(data){
-        alert("Add Product Details Successfully");
-      // navigate("/products")
+        alert("Add Incident Details Successfully");
+      
       }
       }).catch((err)=>{
-      //   if (!inpval.Incident || !inpval.ProductName || !inpval.Description || !inpval.Qty || !inpval.Price || !inpval.Image) {
-      //     alert("Please enter all incident details")
-      //     return 0;
-      // }else if(inpval.Qty>20){
-      //     alert("Qty should be less than 20")
-      //   }else if(inpval.Description.length>20){
-      //     alert("Description should be less than 20 characters")
-      //   }
+        if (!inpval.Incident) {
+          alert("Please enter all incident details")
+          return 0;
+      }
       })
     }
 
     const setdata = (e) => {
-      setINP({...inpval, [e.target.name]: e.target.value});
+      setINP({...inpval, Incident : inputText});
   }
 
-  // const handlePhoto = (e) => {
-  //   setINP({...inpval, Image: e.target.files[0]});
-  // }
+  
 
   return (
     <View>
@@ -48,7 +42,7 @@ export default function AddIncident({ navigation }) {
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle1}>Take Incident</Text>
+        <Text style={styles.TextTitle1}>Add Incident</Text>
       </View>
 <View>
 
@@ -57,17 +51,20 @@ export default function AddIncident({ navigation }) {
 
       <View style={styles.container}>
       <View style={styles.TextTitle2}>
-        <Text>Referrence No</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Referrence No</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Vehicle No</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Owner Name</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Passenger Name</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name</Text>
       </View>
+      
+        
+      
       
       <View style={styles.inputView}>
       
@@ -75,17 +72,16 @@ export default function AddIncident({ navigation }) {
           style={styles.TextInput}
           placeholder="Enter the Incident"
           placeholderTextColor="#003f5c"
-          // onChangeText={(email) => setEmail(email)}
-          value={inpval.Incident} onChangeText={setdata} name="Incident"
+          
+          value={inpval.Incident} onChangeText={(Incident) => setdata(Incident)} name="Incident"
         />
       </View>
+      
       <View style={styles.fixToText} >
       <Button title='Back'></Button>
       <Button onClick={addinpdata} title='Add'></Button>
       </View>
-      {/* <View style={styles.button2} >
-      <Button title='Add'></Button>
-      </View> */}
+      
       </View>
     </View>
   );
@@ -194,6 +190,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 100,
     marginRight: 100,
-    marginTop: 43
+    marginTop: 10
   },
 });

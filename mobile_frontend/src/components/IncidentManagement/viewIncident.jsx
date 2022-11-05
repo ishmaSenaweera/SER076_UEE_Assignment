@@ -15,7 +15,7 @@ export default function ViewIncident({ navigation, id }) {
   const getdata = async () => {
     try {
       await axios
-        .get(`http://192.168.25.248:8000/incident/view/${id}`)
+        .get(`http://192.168.25.248:8000/incident/view/6364da749ae4c588894fc221`)
         .then((res) => {
           if (res.status === 201) {
             setProductdata(res.data);
@@ -49,22 +49,22 @@ export default function ViewIncident({ navigation, id }) {
 
       <View style={styles.container}>
       <View style={styles.TextTitle2}>
-        <Text>Indient ID : {getincidentdata.id}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Indient ID : {getincidentdata.id}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Vehicle No : {getincidentdata.VehicleNo}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No : {getincidentdata.VehicleNo}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Owner Name : {getincidentdata.OwnerName}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name : {getincidentdata.OwnerName}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Passenger Name : {getincidentdata.PassengerName}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name : {getincidentdata.PassengerName}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Incident : {getincidentdata.Incident}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {getincidentdata.Incident}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Action : {getincidentdata.Action}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Action : {getincidentdata.Action}</Text>
       </View>
       
       <View style={styles.fixToText} >

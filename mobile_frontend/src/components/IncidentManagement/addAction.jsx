@@ -20,29 +20,33 @@ export default function AddAction({ navigation }) {
 
       <View style={styles.container}>
       <View style={styles.TextTitle2}>
-        <Text>Incident ID</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident ID</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Vehicle No</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Owner Name</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Passenger Name</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Incident</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident</Text>
       </View>
+      
+        
+      
       <View style={styles.inputView}>
       
         <TextInput
           style={styles.TextInput}
           placeholder="Enter the Action"
           placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={(Action) => setEmail(Action)}
         />
       </View>
+      
       <View style={styles.fixToText} >
       <Button title='Back' 
       onPress={() =>
@@ -162,6 +166,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 100,
     marginRight: 100,
-    marginTop: 43
+    marginTop: 10
   },
 });

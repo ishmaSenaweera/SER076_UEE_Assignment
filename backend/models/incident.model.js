@@ -16,23 +16,7 @@ const incidentSchema = new mongoose.Schema({
   Incident: {
     type: String,
     required: true,
-  }
-  // Action: {
-  //   type: String,
-  //   required: true,
-  // }
-//   Status: {
-//     type: String,
-//     default: "Rejected",
-//   },
-//   Image: {
-//     type: String,
-//   },
-//   user: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "user",
-//     required: true,
-//   },
+  },
 });
 
 const incidents = new mongoose.model("incidents", incidentSchema);

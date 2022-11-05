@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const incidents = require("../models/incident.model");
-// const multer = require("multer");
-// const { v4: uuidv4 } = require("uuid");
-// let path = require("path");
-// const userAccess = require("../../middleware/accessChecker");
 
 
 
@@ -13,9 +9,7 @@ const incidents = require("../models/incident.model");
 router.post("/incident/new", async (req, res) => {
     const { VehicleNo, OwnerName, PassengerName, Incident } =
       req.body;
-// if(!VehicleNo || !OwnerName || !PassengerName || !Incident){
-// console.log("All data");
-// }else{
+
     
       try {
         const addincident = new incidents({
@@ -23,9 +17,7 @@ router.post("/incident/new", async (req, res) => {
           OwnerName: req.body.OwnerName,
           PassengerName: req.body.PassengerName,
           Incident: req.body.Incident
-          // Action: req.body.Action,
-        //   Image: req.file.filename,
-        //   user: req.body.user._id,
+          
         })
 
         await addincident.save();
@@ -103,7 +95,7 @@ router.get("/incident/view/:id", async (req, res) => {
   try {
     const { id } = req.params;
 const incidentindividual = await incidents.findById(id);
-    // const incidentindividual = await incidents.findById({ _id: id }).populate("user");
+    
     res.status(201).json(incidentindividual);
   } catch (error) {
     res.status(422).json(error);

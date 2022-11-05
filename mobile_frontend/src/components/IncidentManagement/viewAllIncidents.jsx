@@ -19,7 +19,7 @@ function ViewAllIncidents({ navigation }) {
   // const navigate = useNavigate();
 
   const getdata = async () => {
-    const res = await fetch(`http://192.168.25.248:8000/incident/view`, {
+    const res = await fetch(`http://192.168.1.100:8000/incident/view`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,8 @@ function ViewAllIncidents({ navigation }) {
 
   return (
     <>
-      <View style={{ marginTop: 70 }}>
+      <View style={{ marginTop: 40 }}>
+        
         <Text
           style={{
             color: "black",
@@ -57,20 +58,21 @@ function ViewAllIncidents({ navigation }) {
       <View style={{ margin: 10, backgroundColor: "white" }}>
         <SearchBar
           type="search"
-          placeholder="Search Items"
+          placeholder="Search"
           onChange={(incident) => {
             setSearchTerm(incident.target.value);
           }}
         />
       </View>
+      <ScrollView style={{ marginBottom: 80 }}>
       <View style={styles.item}>
-        <ScrollView style={{ marginBottom: 80 }}>
+        
           {getincidentdata.map((element, id) => {
               return (
                 <Card key={id}>
                   <Card.Divider />
                   
-                  <Text style={{ marginBottom: 10 }}>
+                  <Text style={{ marginBottom: 10, fontSize: 20 }}>
                     Incident ID : I{id+1000}
                   </Text>
                   
@@ -80,7 +82,7 @@ function ViewAllIncidents({ navigation }) {
         navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
       }
       ></Button>
-      <Button title='Take Action'></Button>
+      <Button style={{color: '#ed5209'}} title='Take Action'></Button>
       </View>
                   {/* <Button
                     icon={
@@ -106,8 +108,9 @@ function ViewAllIncidents({ navigation }) {
                 </Card>
               );
             })}
-        </ScrollView>
+        
       </View>
+      </ScrollView>
     </>
   );
 }
