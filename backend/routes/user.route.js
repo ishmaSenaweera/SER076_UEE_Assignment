@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
     await newUser.save();
 
     /* Sending a response to the client. */
-    res.status(201).send({ Message: "Verification Email sent to your email." });
+    res.status(201).send({ Message: "User added successfully." });
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
@@ -90,7 +90,6 @@ router.delete("/delete/:id", async (req, res) => {
     res.status(500).send();
   }
 });
-
 
 router.post("/login", async (req, res) => {
   try {
