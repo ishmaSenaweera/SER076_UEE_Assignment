@@ -54,4 +54,4 @@ mongoose.connect(
 //
 
 app.use("/user", require("./routes/user.route"));
-
+app.use("/vehicle", require("./routes/vehicle.route"));
