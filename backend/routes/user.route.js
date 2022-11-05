@@ -94,8 +94,9 @@ router.delete("/delete/:id", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     /* Finding the user by email. */
+    console.log(req.body)
     const user = await User.findOne({ email: req.body.email });
-
+    console.log(user)
     if (!user) {
       return res.status(401).json({ errorMessage: "Wrong email or password." });
     }
@@ -110,7 +111,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ errorMessage: "Wrong email or password." });
     }
 
-    return res.send({ type: user.userType, verified: user._id });
+    return res.send({ type: user.userType, userId: user._id });
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
