@@ -4,6 +4,7 @@ import Login from "../components/UserManagement/auth/Login";
 import Register from "../components/UserManagement/auth/Register";
 import RequestNavigationStack from "../components/Request";
 import VehicleNavigationStack from "../components/Vehicle";
+import RideSummary from "../components/RequestManagement/RideSummary";
 
 const Tab = createBottomTabNavigator();
 
@@ -101,7 +102,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Incident"
-        component={RequestNavigationStack}
+        component={RideSummary}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon
