@@ -1,5 +1,4 @@
 import React from "react";
-
 import { AuthContextProvider } from "./src/context/UserContext";
 import AppNav from "./src/navigation/AppNav";
 

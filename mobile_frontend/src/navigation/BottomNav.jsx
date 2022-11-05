@@ -3,6 +3,7 @@ import { Icon } from "@rneui/themed";
 import Login from "../components/UserManagement/auth/Login";
 import Register from "../components/UserManagement/auth/Register";
 import RequestNavigationStack from "../components/Request";
+import VehicleNavigationStack from "../components/Vehicle";
 
 const Tab = createBottomTabNavigator();
 
@@ -87,7 +88,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Vehicle"
-        component={RequestNavigationStack}
+        component={VehicleNavigationStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon
