@@ -1,8 +1,45 @@
-import React from "react";
+import React, {useState} from "react";
 import { Button, Card, Icon } from "@rneui/themed";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
 
 export default function AddIncident({ navigation }) {
+
+  const [inpval, setINP] = useState({
+    Incident: "",
+    
+  })
+
+  const addinpdata = async (e) => {
+    e.preventDefault();
+    const data =new FormData();
+    data.append('Incident',inpval.Incident);
+    
+    axios.post("http://192.168.25.248:8000/incident/new", data).then(()=>{
+
+      if(data){
+        alert("Add Product Details Successfully");
+      // navigate("/products")
+      }
+      }).catch((err)=>{
+      //   if (!inpval.Incident || !inpval.ProductName || !inpval.Description || !inpval.Qty || !inpval.Price || !inpval.Image) {
+      //     alert("Please enter all incident details")
+      //     return 0;
+      // }else if(inpval.Qty>20){
+      //     alert("Qty should be less than 20")
+      //   }else if(inpval.Description.length>20){
+      //     alert("Description should be less than 20 characters")
+      //   }
+      })
+    }
+
+    const setdata = (e) => {
+      setINP({...inpval, [e.target.name]: e.target.value});
+  }
+
+  // const handlePhoto = (e) => {
+  //   setINP({...inpval, Image: e.target.files[0]});
+  // }
+
   return (
     <View>
       <View style={styles.row}>
@@ -38,12 +75,13 @@ export default function AddIncident({ navigation }) {
           style={styles.TextInput}
           placeholder="Enter the Incident"
           placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
+          // onChangeText={(email) => setEmail(email)}
+          value={inpval.Incident} onChangeText={setdata} name="Incident"
         />
       </View>
       <View style={styles.fixToText} >
       <Button title='Back'></Button>
-      <Button title='Add'></Button>
+      <Button onClick={addinpdata} title='Add'></Button>
       </View>
       {/* <View style={styles.button2} >
       <Button title='Add'></Button>

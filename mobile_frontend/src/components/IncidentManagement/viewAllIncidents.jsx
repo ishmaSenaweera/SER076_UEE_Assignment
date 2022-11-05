@@ -19,7 +19,7 @@ function ViewAllIncidents({ navigation }) {
   // const navigate = useNavigate();
 
   const getdata = async () => {
-    const res = await fetch(`http://192.168.135.248:8000/incident/view`, {
+    const res = await fetch(`http://192.168.25.248:8000/incident/view`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -30,8 +30,8 @@ function ViewAllIncidents({ navigation }) {
     if (res.status === 422 || !data) {
       console.log(data);
     } else {
-        console.log(data.getincidentdata);
-      setIncidentdata(data.getincidentdata);
+        console.log(data);
+      setIncidentdata(data);
     }
   };
 
@@ -42,7 +42,7 @@ function ViewAllIncidents({ navigation }) {
 
   return (
     <>
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginTop: 70 }}>
         <Text
           style={{
             color: "black",
@@ -51,7 +51,7 @@ function ViewAllIncidents({ navigation }) {
             fontWeight: "bold",
           }}
         >
-          Products
+          All Incidents
         </Text>
       </View>
       <View style={{ margin: 10, backgroundColor: "white" }}>
@@ -71,11 +71,18 @@ function ViewAllIncidents({ navigation }) {
                   <Card.Divider />
                   
                   <Text style={{ marginBottom: 10 }}>
-                    {element.VehicleNo}
+                    Incident ID : I{id+1000}
                   </Text>
                   
-
-                  <Button
+                  <View style={styles.fixToText} >
+      <Button title='Remove' 
+      onPress={() =>
+        navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
+      }
+      ></Button>
+      <Button title='Take Action'></Button>
+      </View>
+                  {/* <Button
                     icon={
                       <Icon
                         name="code"
@@ -95,7 +102,7 @@ function ViewAllIncidents({ navigation }) {
                       marginBottom: 0,
                       width: "50%",
                     }}
-                  />
+                  /> */}
                 </Card>
               );
             })}
@@ -123,5 +130,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5FCFF",
     float: "right",
     width: "30%",
+  },
+  fixToText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 20,
+    marginRight: 50,
+    marginTop: 43
   },
 });

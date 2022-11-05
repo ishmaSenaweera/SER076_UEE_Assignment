@@ -15,7 +15,7 @@ function AppNav() {
 
   return (
     <>
-      {userType === null && <ViewAllIncidents />}
+      {userType === null && <AddIncident />}
       {userType === "Site Manager" && (
         <NavigationContainer>
           <Tabs />

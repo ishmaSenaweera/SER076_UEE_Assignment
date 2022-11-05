@@ -1,8 +1,37 @@
 import React from "react";
-import { Button, Card, Icon } from "@rneui/themed";
-import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { ScrollView } from "react-native";
+import { Card, Button, Icon } from "@rneui/themed";
+import axios from "axios";
+import AuthContext from "../../context/UserContext";
 
-export default function ViewIncident({ navigation }) {
+export default function ViewIncident({ navigation, id }) {
+  // const id = route.params.id;
+  const { userId } = useContext(AuthContext);
+  const [getincidentdata, setProductdata] = useState([]);
+  const [units, setUnits] = useState(2);
+
+  const getdata = async () => {
+    try {
+      await axios
+        .get(`http://192.168.25.248:8000/incident/view/${id}`)
+        .then((res) => {
+          if (res.status === 201) {
+            setProductdata(res.data);
+            console.log(res.data);
+          }
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    getdata();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <View>
       <View style={styles.row}>
@@ -20,22 +49,22 @@ export default function ViewIncident({ navigation }) {
 
       <View style={styles.container}>
       <View style={styles.TextTitle2}>
-        <Text>Incident ID</Text>
+        <Text>Indient ID : {getincidentdata.id}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Vehicle No</Text>
+        <Text>Vehicle No : {getincidentdata.VehicleNo}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Owner Name</Text>
+        <Text>Owner Name : {getincidentdata.OwnerName}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Passenger Name</Text>
+        <Text>Passenger Name : {getincidentdata.PassengerName}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Incident</Text>
+        <Text>Incident : {getincidentdata.Incident}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text>Action</Text>
+        <Text>Action : {getincidentdata.Action}</Text>
       </View>
       
       <View style={styles.fixToText} >
