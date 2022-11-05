@@ -6,6 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 /* Loading the environment variables from the .env file. */
 dotenv.config();
+const incident = require("./routes/incident.route");
 
 //
 // ─── SET UP SERVER ──────────────────────────────────────────────────────────────
@@ -58,4 +59,6 @@ app.use("/user", require("./routes/user.route"));
 app.use("/vehicle", require("./routes/vehicle.route"));
 
 app.use("/request", require("./routes/request.route"));
+
+app.use(incident);
 
