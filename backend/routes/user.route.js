@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
     await newUser.save();
 
     /* Sending a response to the client. */
-    res.status(201).send({ Message: "Verification Email sent to your email." });
+    res.status(201).send({ Message: "User added successfully." });
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
@@ -91,7 +91,6 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-
 router.post("/login", async (req, res) => {
   try {
     /* Finding the user by email. */
@@ -110,13 +109,6 @@ router.post("/login", async (req, res) => {
     if (!passwordCorrect) {
       return res.status(401).json({ errorMessage: "Wrong email or password." });
     }
-    /* This is creating a token for the user. */
-    const token = jwt.sign(
-      {
-        user: user._id,
-      },
-      process.env.KEY
-    );
 
     return res.send({ type: user.userType, verified: user._id });
   } catch (err) {
