@@ -109,13 +109,6 @@ router.post("/login", async (req, res) => {
     if (!passwordCorrect) {
       return res.status(401).json({ errorMessage: "Wrong email or password." });
     }
-    /* This is creating a token for the user. */
-    const token = jwt.sign(
-      {
-        user: user._id,
-      },
-      process.env.KEY
-    );
 
     return res.send({ type: user.userType, verified: user._id });
   } catch (err) {
