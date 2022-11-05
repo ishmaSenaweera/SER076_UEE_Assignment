@@ -8,9 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import DateTimePicker, {
-  DateTimePickerAndroid,
-} from "@react-native-community/datetimepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function AddRequest({ navigation }) {
   const [from, setFrom] = useState("");
@@ -37,7 +35,7 @@ export default function AddRequest({ navigation }) {
         </TouchableOpacity>
         <Text style={styles.TextTitle1}>Request a Ride</Text>
       </View>
-      <Card.Divider color="black" style={{ height: 20 }} />
+      <Card.Divider color="black" style={{ height: 4 }} />
       <View style={styles.container1}>
         <Text style={styles.text1}>Ride Details</Text>
         <Text style={styles.text2}>From</Text>
