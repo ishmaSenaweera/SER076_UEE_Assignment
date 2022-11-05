@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card, Icon } from "@rneui/themed";
 import {
   Button,
@@ -8,8 +8,54 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import axios from "axios";
+import AuthContext from "../../context/UserContext";
 
 export default function AddVehicle({ navigation }) {
+  const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
+  const [plateNo, setPlateNo] = useState("");
+  const [passengers, setPassengers] = useState("");
+  const [vehicleType, setVehicleType] = useState("");
+
+  const { userId } = useContext(AuthContext);
+
+  const resetForm = (e) => {
+    setMake("");
+    setModel("");
+    setPlateNo("");
+    setPassengers("");
+    setVehicleType("");
+  };
+
+  const register = async (e) => {
+    e.preventDefault();
+    try {
+      /* Creating an object with the same name as the variables. */
+      const UserData = {
+        user: userId,
+        make,
+        model,
+        plateNo,
+        passengers,
+        vehicleType,
+      };
+
+      const result = await axios.post(
+        "http://192.168.1.190:8000/vehicle/add",
+        UserData
+      );
+
+      if (result?.status === 201) {
+        alert(result?.data?.Message);
+        /* Reloading the page. */
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err?.response?.data?.errorMessage);
+    }
+  };
+
   return (
     <View>
       <View style={styles.row}>
@@ -24,40 +70,40 @@ export default function AddVehicle({ navigation }) {
       <View style={styles.container1}>
         <Text style={styles.text1}>Make</Text>
         <TextInput
-          // value={}
+          value={make}
           style={styles.TextInput}
-          // onChangeText={(location1) => setFrom(location1)}
+          onChangeText={(e) => setMake(e)}
         />
         <Text style={styles.text1}>Model</Text>
         <TextInput
-          // value={to}
+          value={model}
           style={styles.TextInput}
-          // onChangeText={(location2) => setTo(location2)}
-        />
-        <Text style={styles.text1}>Year</Text>
-        <TextInput
-          // value={to}
-          style={styles.TextInput}
-          // onChangeText={(location2) => setTo(location2)}
+          onChangeText={(e) => setModel(e)}
         />
         <Text style={styles.text1}>Plate Number</Text>
         <TextInput
-          // value={to}
+          value={plateNo}
           style={styles.TextInput}
-          // onChangeText={(location2) => setTo(location2)}
+          onChangeText={(e) => setPlateNo(e)}
         />
         <Text style={styles.text1}>No of Passengers</Text>
         <TextInput
-          // value={to}
+          value={passengers}
           style={styles.TextInput}
-          // onChangeText={(location2) => setTo(location2)}
+          onChangeText={(e) => setPassengers(e)}
+        />
+        <Text style={styles.text1}>Vehicle Type</Text>
+        <TextInput
+          value={vehicleType}
+          style={styles.TextInput}
+          onChangeText={(e) => setVehicleType(e)}
         />
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.resetBtn}>
+          <TouchableOpacity style={styles.resetBtn} onPress={resetForm}>
             <Text style={styles.resetText}>Reset</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity style={styles.addBtn} onPress={register}>
             <Text style={styles.addText}>Add</Text>
           </TouchableOpacity>
         </View>

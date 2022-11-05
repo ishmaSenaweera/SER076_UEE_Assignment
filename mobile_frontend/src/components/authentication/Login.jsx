@@ -15,9 +15,10 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const { setType } = useContext(AuthContext);
+
   const login = async (e) => {
     e.preventDefault();
-    setType("Site Manager")
+    setType("Site Manager");
     try {
       /* Creating an object with the email and password. */
       const loginData = {
@@ -37,8 +38,7 @@ export default function Login() {
         console.log(result.data.type);
       }
     } catch (err) {
-      // setLoading(false);
-      alert(err.response.data.errorMessage);
+      alert(err);
       console.log(err);
     }
   };

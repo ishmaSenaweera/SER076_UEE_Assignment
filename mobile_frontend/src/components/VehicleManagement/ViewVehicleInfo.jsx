@@ -1,15 +1,16 @@
-import React, { useState } from "react";
 import { Card, Icon } from "@rneui/themed";
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function ViewVehicleInfo({ navigation }) {
+export default function ViewVehicleInfo({ navigation, route }) {
+  const deleteVehicle = async () => {
+    try {
+      await axios.delete(
+        `http://192.168.1.190:8000/vehicle/delete/${route.params.vehicle._id}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View>
       <View style={styles.row}>
@@ -24,12 +25,22 @@ export default function ViewVehicleInfo({ navigation }) {
       <Card.Divider color="black" style={{ height: 4 }} />
 
       <View style={styles.container1}>
-        <Text style={styles.TextInput}>Make : </Text>
-        <Text style={styles.TextInput}>Model : </Text>
-        <Text style={styles.TextInput}>Year : </Text>
-        <Text style={styles.TextInput}>Plate No: </Text>
-        <Text style={styles.TextInput}>Passengers : </Text>
-        <Text style={styles.TextInput}>Registered : </Text>
+        <Text style={styles.TextInput}>Make : {route.params.vehicle.make}</Text>
+        <Text style={styles.TextInput}>
+          Model : {route.params.vehicle.model}
+        </Text>
+        <Text style={styles.TextInput}>
+          Plate No: {route.params.vehicle.plateNo}
+        </Text>
+        <Text style={styles.TextInput}>
+          Passengers : {route.params.vehicle.passengers}
+        </Text>
+        <Text style={styles.TextInput}>
+          Registered : {route.params.vehicle.registered}
+        </Text>
+        <Text style={styles.TextInput}>
+          Vehicle Type : {route.params.vehicle.vehicleType}
+        </Text>
 
         <View style={styles.row}>
           <TouchableOpacity style={styles.updateBtn}>
@@ -38,7 +49,7 @@ export default function ViewVehicleInfo({ navigation }) {
           <TouchableOpacity style={styles.hideBtn}>
             <Text style={styles.reqText}>Hide</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteBtn}>
+          <TouchableOpacity style={styles.deleteBtn} onPress={deleteVehicle}>
             <Text style={styles.reqText}>Delete</Text>
           </TouchableOpacity>
         </View>

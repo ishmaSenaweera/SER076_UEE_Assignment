@@ -1,11 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 const AuthContext = createContext();
 
 function AuthContextProvider(props) {
   /* Setting the state of the component. */
   const [userType, setUserType] = useState(null);
-  const [userId, setUserId] = useState("6361784ffd4e045a5e549e7c");
+  const [userId, setUserId] = useState("636608378b984d338dde3d4a");
+  const [userName, setUserName] = useState("Chathuni");
 
   function setType(type) {
     setUserType(type);
@@ -19,7 +20,17 @@ function AuthContextProvider(props) {
 
   /* Returning the AuthContext.Provider component with the value of userType and status. */
   return (
-    <AuthContext.Provider value={{ userId, userType, setType, logout }}>
+    <AuthContext.Provider
+      value={{
+        userId,
+        userType,
+        userName,
+        setType,
+        setUserId,
+        setUserName,
+        logout,
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
   );
