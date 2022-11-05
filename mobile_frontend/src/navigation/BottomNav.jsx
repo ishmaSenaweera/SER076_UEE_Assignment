@@ -1,12 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/themed";
-import ViewProducts from "../components/Product/ViewProducts";
-import ViewCart from "../components/Order/ViewCart";
-import ViewOrder from "../components/Order/ViewOrder";
-import SupplierList from "../components/Product/SupplierList";
-import ViewSingleCartItem from "../components/Order/ViewSingleCartItem";
-import Inquiry from "../components/Order/Inquiry";
-import DeliveryDetails from "../components/Order/DeliveryDetails";
+import Login from "../components/UserManagement/auth/Login";
+import Register from "../components/UserManagement/auth/Register";
+import RequestNavigationStack from "../components/Request";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +20,7 @@ const Tabs = () => {
           left: 0,
           right: 0,
           elevation: 10,
-          backgroundColor: "#ffffff",
+          backgroundColor: "#D5BEFF",
           borderTopWidth: 2,
           borderLeftWidth: 2,
           borderRightWidth: 2,
@@ -38,56 +34,93 @@ const Tabs = () => {
       }}
     >
       <Tab.Screen
-        name="Suppliers"
-        component={ViewProducts}
+        name="Login"
+        component={Login}
         options={{
-          tabBarIcon: () => (
-            <Icon name="code" color="#000000" iconStyle={{ marginRight: 10 }} />
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="code"
+              color={focused ? "#000000" : "#585858"}
+              iconStyle={{ marginRight: 10 }}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name="Cart"
-        component={ViewCart}
+        name="Register"
+        component={Register}
         options={{
-          tabBarIcon: () => (
-            <Icon name="code" color="#000000" iconStyle={{ marginRight: 10 }} />
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="code"
+              color={focused ? "#000000" : "#585858"}
+              iconStyle={{ marginRight: 10 }}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name="Orders"
-        component={ViewOrder}
+        name="Home"
+        component={RequestNavigationStack}
         options={{
-          tabBarIcon: () => (
-            <Icon name="code" color="#000000" iconStyle={{ marginRight: 10 }} />
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="home"
+              color={focused ? "#000000" : "#585858"}
+              iconStyle={{ marginRight: 10 }}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name="Order1"
-        component={ViewSingleCartItem}
+        name="Request"
+        component={RequestNavigationStack}
         options={{
-          tabBarIcon: () => (
-            <Icon name="code" color="#000000" iconStyle={{ marginRight: 10 }} />
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="collections-bookmark"
+              color={focused ? "#000000" : "#585858"}
+              iconStyle={{ marginRight: 10 }}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name="Inquiry"
-        component={Inquiry}
+        name="Vehicle"
+        component={RequestNavigationStack}
         options={{
-          tabBarIcon: () => (
-            <Icon name="code" color="#000000" iconStyle={{ marginRight: 10 }} />
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="directions-car"
+              color={focused ? "#000000" : "#585858"}
+              iconStyle={{ marginRight: 10 }}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name="Delivery"
-        component={DeliveryDetails}
+        name="Incident"
+        component={RequestNavigationStack}
         options={{
-          tabBarIcon: () => (
-            <Icon name="code" color="#000000" iconStyle={{ marginRight: 10 }} />
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="warning"
+              color={focused ? "#000000" : "#585858"}
+              iconStyle={{ marginRight: 10 }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={RequestNavigationStack}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="person"
+              color={focused ? "#000000" : "#585858"}
+              iconStyle={{ marginRight: 10 }}
+            />
           ),
         }}
       />
