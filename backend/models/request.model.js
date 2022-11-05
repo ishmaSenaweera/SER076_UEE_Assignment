@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const requestSchema = new mongoose.Schema(
   {
+    requestId: {
+      type: String,
+      required: true,
+    },
     passenger: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
