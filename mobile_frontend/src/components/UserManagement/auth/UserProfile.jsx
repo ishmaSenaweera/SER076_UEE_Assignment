@@ -1,83 +1,65 @@
 import { StatusBar } from "expo-status-bar";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect} from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import axios from "axios";
 
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function UserProfile() {
+
+  const [userData, setUserData] = useState("");
+ 
+  async function getData() {
+    try {
+      const result = await axios.get("");
+      
+      setUserData(result.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  useEffect(() => {
+    getData();
+  }, []);
 
  
-  const login = async (e) => {
-    e.preventDefault();
-    try {
-      
-      const loginData = {
-        email,
-        password,
-      };
-
-      
-      const result = await axios.post(
-        "http://192.168.8.174:8000/login",
-        loginData
-      );
-
-      
-      if (result) {
-        setType(result.data.type);
-        console.log(result.data.type);
-      }
-    } catch (err) {
-      
-      alert(err.response.data.errorMessage);
-      console.log(err);
-    }
-  };
-
+    
   return (
     <View style={styles.container}>
+      <View style={styles.bar} />
       <Text style={styles.header}>Travel Buddy</Text>
-      <Text style={styles.header2}>Login</Text>
+      <Text style={styles.header2}>user profile</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <View style={styles.bar} />
+        
       </View>
       <StatusBar style="auto" />
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Email"
-          placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
-        />
-      </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
-      </View>
-
-      <TouchableOpacity style={styles.loginBtn} onPress={login}>
-        <Text style={styles.loginText}>LOGIN</Text>
+      <ScrollView>
+     
+     
+      {userData ? (
+            <view>
+                {userData?.firstName} {userData?.lastName}
+            </view>}
+     
+      
+      <TouchableOpacity style={styles.loginBtn} onPress={delete}>
+        <Text style={styles.loginText}>delete</Text>
       </TouchableOpacity>
-    </View>
-  );
-}
-const styles = StyleSheet.create({
-    container: {
-      marginTop: 200,
+      </ScrollView>
+    </View>  
+    
+  );}
+  
+
+      const styles = StyleSheet.create({
+      container: {
+      marginTop: 70,
       marginHorizontal: 20,
       elevation: 20,
       borderRadius: 10,
@@ -87,7 +69,7 @@ const styles = StyleSheet.create({
     },
   
     header: {
-      fontSize: 60,
+      fontSize: 30,
       fontWeight: "bold",
       alignItems: "center",
     },
@@ -103,7 +85,7 @@ const styles = StyleSheet.create({
     },
   
     header2: {
-      fontSize: 30,
+      fontSize: 20,
       fontWeight: "bold",
       marginBottom: 10,
       alignItems: "center",
@@ -120,7 +102,7 @@ const styles = StyleSheet.create({
     },
   
     TextInput: {
-      height: 50,
+      height: 20,
       flex: 1,
       padding: 10,
       marginLeft: 20,

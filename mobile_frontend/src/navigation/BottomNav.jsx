@@ -7,6 +7,8 @@ import SupplierList from "../components/Product/SupplierList";
 import ViewSingleCartItem from "../components/Order/ViewSingleCartItem";
 import Inquiry from "../components/Order/Inquiry";
 import DeliveryDetails from "../components/Order/DeliveryDetails";
+import Login from "../components/UserManagement/auth/Login";
+import Register from "../components/UserManagement/auth/Register";
 
 const Tab = createBottomTabNavigator();
 
@@ -39,7 +41,7 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="Suppliers"
-        component={ViewProducts}
+        component={Login}
         options={{
           tabBarIcon: () => (
             <Icon name="code" color="#000000" iconStyle={{ marginRight: 10 }} />
@@ -48,7 +50,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Cart"
-        component={ViewCart}
+        component={Register}
         options={{
           tabBarIcon: () => (
             <Icon name="code" color="#000000" iconStyle={{ marginRight: 10 }} />
