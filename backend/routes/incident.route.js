@@ -7,21 +7,21 @@ const incidents = require("../models/incident.model");
 
 
 router.post("/incident/new", async (req, res) => {
-    const { VehicleNo, OwnerName, PassengerName, Incident } =
+    const { Incident } =
       req.body;
 
     
       try {
         const addincident = new incidents({
-          VehicleNo: req.body.VehicleNo,
-          OwnerName: req.body.OwnerName,
-          PassengerName: req.body.PassengerName,
+          // VehicleNo: req.body.VehicleNo,
+          // OwnerName: req.body.OwnerName,
+          // PassengerName: req.body.PassengerName,
           Incident: req.body.Incident
           
         })
 
         await addincident.save();
-        res.status(201).JSON.stringify(addincident);
+        res.status(201).json(addincident);
         console.log(addincident);
       } catch (error) {
         res.status(422).json('error');

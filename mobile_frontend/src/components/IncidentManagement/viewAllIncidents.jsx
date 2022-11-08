@@ -19,7 +19,7 @@ function ViewAllIncidents({ navigation }) {
   // const navigate = useNavigate();
 
   const getdata = async () => {
-    const res = await fetch(`http://192.168.1.100:8000/incident/view`, {
+    const res = await fetch(`http://192.168.92.248:8000/incident/view`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

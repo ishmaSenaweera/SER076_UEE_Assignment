@@ -16,11 +16,12 @@ export default function RequestNavigationStack() {
       }}
     >
       <Stack.Screen name="AddIncident" component={AddIncident} />
-      <Stack.Screen name="UpdateIncident" component={UpdateIncident} />
-      <Stack.Screen name="ViewIncident" component={ViewIncident} />
       <Stack.Screen name="ViewAllIncidents" component={ViewAllIncidents} />
+      {/* <Stack.Screen name="UpdateIncident" component={UpdateIncident} />
+      <Stack.Screen name="ViewIncident" component={ViewIncident} />
+      
       <Stack.Screen name="AddAction" component={AddAction} />
-      <Stack.Screen name="UpdateAction" component={UpdateAction} />
+      <Stack.Screen name="UpdateAction" component={UpdateAction} /> */}
     </Stack.Navigator>
   );
 }

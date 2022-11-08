@@ -25,7 +25,7 @@ export default function UpdateAction({ navigation, id }) {
   // const { id } = useParams("");
 
   const getdata = async () => {
-    const res = await fetch(`http://192.168.25.248:8000/incident/view/${id}`, {
+    const res = await fetch(`http://192.168.92.248:8000/incident/view/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export default function UpdateAction({ navigation, id }) {
 
     const { VehicleNo, OwnerName, PassengerName, Incident } = inpval;
 
-    const res2 = await fetch(`http://localhost:8000/incident/update/${id}`, {
+    const res2 = await fetch(`http://192.168.92.248:8000/incident/update/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -15,7 +15,7 @@ export default function ViewIncident({ navigation, id }) {
   const getdata = async () => {
     try {
       await axios
-        .get(`http://192.168.25.248:8000/incident/view/6364da749ae4c588894fc221`)
+        .get(`http://192.168.92.248:8000/incident/view/${id}`)
         .then((res) => {
           if (res.status === 201) {
             setProductdata(res.data);

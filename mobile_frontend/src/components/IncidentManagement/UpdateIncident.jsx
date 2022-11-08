@@ -25,7 +25,7 @@ export default function UpdateIncident({ navigation }) {
   // const { id } = useParams("");
 
   const getdata = async () => {
-    const res = await fetch(`http://192.168.25.248:8000/incident/view/${id}`, {
+    const res = await fetch(`http://192.168.92.248:8000/incident/view/63692304d770c6ef29074d8d`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export default function UpdateIncident({ navigation }) {
 
     const { VehicleNo, OwnerName, PassengerName, Incident } = inpval;
 
-    const res2 = await fetch(`http://192.168.25.248:8000/incident/update/${id}`, {
+    const res2 = await fetch(`http://192.168.92.248:8000/incident/update/63692304d770c6ef29074d8d`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -92,28 +92,28 @@ export default function UpdateIncident({ navigation }) {
 
       <View style={styles.container}>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Referrence No :</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Referrence No : {inpval.id}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No :</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No : {inpval.VehicleNo}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name :</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name : {inpval.OwnerName}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name :</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name : {inpval.PassengerName}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {inpval.Incident}</Text>
       
       <View style={styles.inputView}>
       
         <TextInput
           style={styles.TextInput}
-          placeholder="Enter the Incident"
+          placeholder="Enter the Action"
           placeholderTextColor="#003f5c"
-          value={inpval.Incident}
-          onChangeText={(Incident) => setdata(Incident)}
+          value={inpval.Action}
+          onChangeText={(Action) => setdata(Action)}
         />
       </View>
       </View>
