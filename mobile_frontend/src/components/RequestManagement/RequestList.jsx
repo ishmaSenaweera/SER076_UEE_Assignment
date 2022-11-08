@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import SearchBar from "react-native-dynamic-search-bar";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function RequestList({ navigation }) {
   return (

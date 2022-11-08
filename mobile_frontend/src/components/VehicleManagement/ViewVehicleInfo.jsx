@@ -1,11 +1,13 @@
 import { Card, Icon } from "@rneui/themed";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import axios from "axios";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function ViewVehicleInfo({ navigation, route }) {
   const deleteVehicle = async () => {
     try {
       await axios.delete(
-        `http://192.168.1.190:8000/vehicle/delete/${route.params.vehicle._id}`
+        `http://192.168.1.65:8000/vehicle/delete/${route.params.vehicle._id}`
       );
     } catch (error) {
       console.log(error);
@@ -41,6 +43,7 @@ export default function ViewVehicleInfo({ navigation, route }) {
         <Text style={styles.TextInput}>
           Vehicle Type : {route.params.vehicle.vehicleType}
         </Text>
+        <Card.Divider color="black" style={{ height: 4 }} />
 
         <View style={styles.row}>
           <TouchableOpacity style={styles.updateBtn}>
@@ -61,41 +64,41 @@ export default function ViewVehicleInfo({ navigation, route }) {
 const styles = StyleSheet.create({
   icon: { fontSize: 35 },
   TextTitle1: {
-    marginTop: 10,
-    fontSize: 30,
+    marginTop: 30,
+    marginLeft: 50,
+    fontSize: 40,
   },
   container1: {
+    paddingTop: 5,
     backgroundColor: "#D5BEFF",
     margin: 10,
     borderWidth: 1,
     borderColor: "#D5BEFF",
     borderRadius: 25,
-    height: "80%",
+    height: "74%",
   },
   TextInput: {
     height: 50,
-    padding: 10,
+    paddingTop: 7,
+    paddingLeft: 15,
     borderWidth: 5,
-    marginTop: 0,
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 10,
     borderColor: "#8B51F5",
     marginTop: 10,
     marginBottom: 10,
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
   },
   row: {
     flexDirection: "row",
-    flexWrap: "wrap",
     alignItems: "center",
   },
   updateBtn: {
-    width: "25%",
+    width: "28%",
     borderRadius: 25,
-    marginTop: 25,
-    marginLeft: 20,
+    marginLeft: 15,
     marginBottom: 20,
     height: 50,
     alignItems: "center",
@@ -103,10 +106,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#8B51F5",
   },
   hideBtn: {
-    width: "25%",
+    width: "28%",
     borderRadius: 25,
-    marginTop: 25,
-    marginLeft: 25,
+    marginLeft: 15,
     marginBottom: 20,
     height: 50,
     alignItems: "center",
@@ -114,10 +116,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#8B51F5",
   },
   deleteBtn: {
-    width: "25%",
+    width: "28%",
     borderRadius: 25,
-    marginTop: 25,
-    marginLeft: 25,
+    marginLeft: 15,
     marginBottom: 20,
     height: 50,
     alignItems: "center",

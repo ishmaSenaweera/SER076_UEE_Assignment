@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import AuthContext from "../../context/UserContext";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -27,10 +28,7 @@ export default function Login() {
       };
 
       /* Sending a POST request to the server with the user's email and password. */
-      const result = await axios.post(
-        "http://192.168.1.5:8000/user/login",
-        loginData
-      );
+      const result = await axios.post(BASE_URL + "/user/login", loginData);
 
       /* Checking if the status is true. */
       if (result) {

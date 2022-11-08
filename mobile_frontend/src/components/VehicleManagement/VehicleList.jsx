@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import AuthContext from "../../context/UserContext";
 import { useIsFocused } from "@react-navigation/native";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function VehicleList({ navigation }) {
   const [vehicles, setVehicles] = useState([]);
@@ -20,7 +21,7 @@ export default function VehicleList({ navigation }) {
   const getVehicles = async () => {
     try {
       const result = await axios.get(
-        `http://192.168.1.190:8000/vehicle/getByUser/${userId}`
+        BASE_URL + `/vehicle/getByUser/${userId}`
       );
       /* Setting the state of the notes and totalPage variables. */
       setVehicles(result?.data);
@@ -48,7 +49,7 @@ export default function VehicleList({ navigation }) {
       <Card.Divider color="black" style={{ height: 4 }} />
       <ScrollView
         style={{
-          height: "70%",
+          height: "72%",
           margin: 10,
           backgroundColor: "#D5BEFF",
           borderRadius: 25,
@@ -104,8 +105,8 @@ const styles = StyleSheet.create({
   },
   icon: { marginTop: 10, marginRight: 20, fontSize: 35 },
   TextTitle1: {
-    padding: 0,
-    fontSize: 30,
+    marginTop: 20,
+    fontSize: 20,
     marginLeft: 20,
   },
   TextTitle2: {
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
   },
   text2: {
     fontSize: 15,
-    padding: 8,
+    padding: 5,
     marginLeft: "auto",
   },
 });

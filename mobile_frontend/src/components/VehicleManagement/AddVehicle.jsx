@@ -1,15 +1,16 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Card, Icon } from "@rneui/themed";
 import {
-  Button,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { BASE_URL } from "../constants/Url.json";
 import axios from "axios";
 import AuthContext from "../../context/UserContext";
+import CheckBox from "expo-checkbox";
 
 export default function AddVehicle({ navigation }) {
   const [make, setMake] = useState("");
@@ -17,6 +18,7 @@ export default function AddVehicle({ navigation }) {
   const [plateNo, setPlateNo] = useState("");
   const [passengers, setPassengers] = useState("");
   const [vehicleType, setVehicleType] = useState("");
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const { userId } = useContext(AuthContext);
 
@@ -40,11 +42,7 @@ export default function AddVehicle({ navigation }) {
         passengers,
         vehicleType,
       };
-
-      const result = await axios.post(
-        "http://192.168.1.190:8000/vehicle/add",
-        UserData
-      );
+      const result = await axios.post(BASE_URL + "/vehicle/add", UserData);
 
       if (result?.status === 201) {
         alert(result?.data?.Message);
@@ -66,38 +64,52 @@ export default function AddVehicle({ navigation }) {
         </TouchableOpacity>
         <Text style={styles.TextTitle1}>Add New Vehicle</Text>
       </View>
+
       <Card.Divider color="black" style={{ height: 4 }} />
+
       <View style={styles.container1}>
         <Text style={styles.text1}>Make</Text>
         <TextInput
           value={make}
           style={styles.TextInput}
+          placeholder="Make"
           onChangeText={(e) => setMake(e)}
         />
         <Text style={styles.text1}>Model</Text>
         <TextInput
           value={model}
           style={styles.TextInput}
+          placeholder="Model"
           onChangeText={(e) => setModel(e)}
         />
         <Text style={styles.text1}>Plate Number</Text>
         <TextInput
           value={plateNo}
           style={styles.TextInput}
+          placeholder="Plate Number"
           onChangeText={(e) => setPlateNo(e)}
         />
         <Text style={styles.text1}>No of Passengers</Text>
         <TextInput
           value={passengers}
           style={styles.TextInput}
+          placeholder="No of Passengers"
           onChangeText={(e) => setPassengers(e)}
         />
         <Text style={styles.text1}>Vehicle Type</Text>
         <TextInput
           value={vehicleType}
           style={styles.TextInput}
+          placeholder="Vehicle Type"
           onChangeText={(e) => setVehicleType(e)}
         />
+        <CheckBox
+          disabled={false}
+          value={toggleCheckBox}
+          onValueChange={(newValue) => setToggleCheckBox(newValue)}
+        />
+
+        <Card.Divider color="black" style={{ height: 4, marginTop: 10 }} />
 
         <View style={styles.row}>
           <TouchableOpacity style={styles.resetBtn} onPress={resetForm}>
@@ -115,12 +127,13 @@ export default function AddVehicle({ navigation }) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    flexWrap: "wrap",
     alignItems: "center",
   },
   icon: { fontSize: 35 },
   TextTitle1: {
-    fontSize: 30,
+    marginTop: 40,
+    marginLeft: 10,
+    fontSize: 40,
   },
   container1: {
     backgroundColor: "#D5BEFF",
@@ -129,19 +142,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#D5BEFF",
     borderRadius: 25,
-    height: "85%",
+    height: "77%",
   },
   text1: {
     fontWeight: "bold",
     fontSize: 20,
     marginTop: 10,
-    marginLeft: 10,
+    marginLeft: 15,
   },
   resetBtn: {
-    width: "30%",
+    width: "40%",
     borderRadius: 25,
-    marginTop: 25,
-    marginLeft: 50,
+    marginLeft: 27,
     marginBottom: 20,
     height: 50,
     alignItems: "center",
@@ -151,10 +163,9 @@ const styles = StyleSheet.create({
     borderColor: "#8B51F5",
   },
   addBtn: {
-    width: "30%",
+    width: "40%",
     borderRadius: 25,
-    marginTop: 25,
-    marginLeft: 50,
+    marginLeft: 20,
     marginBottom: 20,
     height: 50,
     alignItems: "center",
