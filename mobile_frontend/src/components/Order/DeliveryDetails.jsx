@@ -1,15 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import { Text, Card, Button, Icon } from "@rneui/themed";
+import { useContext, useEffect, useState } from "react";
+import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
+import { Text, Card } from "@rneui/themed";
 import AuthContext from "../../context/UserContext";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function DeliveryDetails() {
   const id = "63625be8985430bcd416fc01";
@@ -22,7 +17,7 @@ export default function DeliveryDetails() {
   async function getOrder() {
     try {
       await axios
-        .get(`http://192.168.1.2:8000/order/getById/${id}`)
+        .get(BASE_URL + `/order/getById/${id}`)
         .then((res) => {
           if (res.status === 200) {
             console.log(res.data.data);

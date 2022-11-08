@@ -9,15 +9,17 @@ import {
 } from "react-native";
 import axios from "axios";
 import AuthContext from "../../context/UserContext";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { setType } = useContext(AuthContext);
+
   const login = async (e) => {
     e.preventDefault();
-    setType("Site Manager")
+    setType("Site Manager");
     try {
       /* Creating an object with the email and password. */
       const loginData = {
@@ -26,10 +28,7 @@ export default function Login() {
       };
 
       /* Sending a POST request to the server with the user's email and password. */
-      const result = await axios.post(
-        "http://192.168.135.248:8000/user/login",
-        loginData
-      );
+      const result = await axios.post(BASE_URL + "/user/login", loginData);
 
       /* Checking if the status is true. */
       if (result) {
@@ -37,8 +36,7 @@ export default function Login() {
         console.log(result.data.type);
       }
     } catch (err) {
-      // setLoading(false);
-      alert(err.response.data.errorMessage);
+      alert(err);
       console.log(err);
     }
   };

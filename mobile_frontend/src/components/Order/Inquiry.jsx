@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -7,8 +7,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AuthContext from "../../context/UserContext";
-import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
 
 export default function Inquiry() {
   const { userId } = useContext(AuthContext);
