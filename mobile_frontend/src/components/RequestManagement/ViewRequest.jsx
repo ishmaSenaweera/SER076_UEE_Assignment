@@ -8,70 +8,59 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { BASE_URL } from "../constants/Url.json";
 
-export default function AddRequest({ navigation }) {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [deliveryDate, setDeliveryDate] = useState(new Date());
-  const [isOpen, setIsOpen] = useState(false);
-
-  const changeSelectedDate = (event, selectedDate) => {
-    const currentDate = selectedDate || deliveryDate;
-    setDate(currentDate);
-  };
-
-  function handleDateOpen() {
-    setIsOpen(true);
-  }
-
+export default function ViewRequest({ navigation }) {
   return (
     <View>
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("RequestList", {})}
+        //   onPress={() => navigation.navigate("RequestList", {})}
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle1}>Request a Ride</Text>
+        <Text style={styles.TextTitle1}>Your Ride Request</Text>
       </View>
       <Card.Divider color="black" style={{ height: 4 }} />
       <View style={styles.container1}>
         <Text style={styles.text1}>Ride Details</Text>
         <Text style={styles.text2}>From</Text>
         <TextInput
-          value={from}
+          //   value={from}
           style={styles.TextInput}
-          onChangeText={(location1) => setFrom(location1)}
+          //   onChangeText={(location1) => setFrom(location1)}
+          editable={false}
         />
         <Text style={styles.text2}>To</Text>
         <TextInput
-          value={to}
+          //   value={to}
           style={styles.TextInput}
-          onChangeText={(location2) => setTo(location2)}
+          //   onChangeText={(location2) => setTo(location2)}
+          editable={false}
         />
         <Text style={styles.text2}>Time?</Text>
-        <TouchableOpacity onPress={handleDateOpen}>
-          <Text style={styles.TextInput}>{deliveryDate.toDateString()}</Text>
-        </TouchableOpacity>
-        {isOpen === true ? (
-          <DateTimePicker
-            value={deliveryDate}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={changeSelectedDate}
-          />
-        ) : (
-          ""
-        )}
+        <TextInput
+          //   value={to}
+          style={styles.TextInput}
+          //   onChangeText={(location2) => setTo(location2)}
+          editable={false}
+        />
         <Text style={styles.text2}>Seats Needed?</Text>
-        <Text style={styles.TextInput}></Text>
+        <Text style={styles.text3}>1</Text>
 
-        <TouchableOpacity style={styles.reqBtn}>
-          <Text style={styles.reqText}>Request</Text>
-        </TouchableOpacity>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.updateBtn}>
+            <Text style={styles.reqText}>Update</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.statusBtn}
+            onPress={() => navigation.navigate("ViewStatus", {})}
+          >
+            <Text style={styles.reqText}>View Status</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.deleteBtn}>
+            <Text style={styles.reqText}>Delete</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -104,16 +93,43 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
   },
-  reqBtn: {
-    width: "60%",
+  text3: {
+    fontSize: 40,
+    fontWeight: "bold",
+    marginLeft: 60,
+  },
+  updateBtn: {
+    width: "25%",
     borderRadius: 25,
     marginTop: 25,
-    marginLeft: 70,
+    marginLeft: 15,
     marginBottom: 20,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#8B51F5",
+  },
+  statusBtn: {
+    width: "35%",
+    borderRadius: 25,
+    marginTop: 25,
+    marginLeft: 15,
+    marginBottom: 20,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#405DF4",
+  },
+  deleteBtn: {
+    width: "25%",
+    borderRadius: 25,
+    marginTop: 25,
+    marginLeft: 15,
+    marginBottom: 20,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F55151",
   },
   reqText: {
     color: "white",
