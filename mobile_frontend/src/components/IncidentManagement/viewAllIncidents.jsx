@@ -10,6 +10,7 @@ import { CardList } from "react-native-card-list";
 import { deldata } from "./context/ContextProvider";
 import { Text, Card, Button, Icon } from "@rneui/themed";
 import SearchBar from "react-native-dynamic-search-bar";
+import { BASE_URL } from "../constants/Url.json";
 
 function ViewAllIncidents({ navigation }) {
   const [getincidentdata, setIncidentdata] = useState([]);
@@ -19,7 +20,7 @@ function ViewAllIncidents({ navigation }) {
   // const navigate = useNavigate();
 
   const getdata = async () => {
-    const res = await fetch(`http://192.168.92.248:8000/incident/view`, {
+    const res = await fetch(BASE_URL + `/incident/view`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -39,6 +40,26 @@ function ViewAllIncidents({ navigation }) {
     getdata();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const deleteincident = async (id) => {
+    const res2 = await fetch(BASE_URL + `/incident/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const deletedata = await res2.json();
+
+    if (res2.status === 422 || !deletedata) {
+      console.log("error");
+    } else {
+      alert("Deleted Incident Details Successfully");
+      console.log("incident deleted");
+      // setDLTdata(deletedata);
+      getdata();
+    }
+  };
 
   return (
     <>
@@ -77,12 +98,25 @@ function ViewAllIncidents({ navigation }) {
                   </Text>
                   
                   <View style={styles.fixToText} >
-      <Button title='Remove' 
+      {/* <Button title='Remove' 
       onPress={() =>
         navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
       }
+      ></Button> */}
+      <Button title='Remove' 
+      onPress={() => deleteincident(element._id)}
       ></Button>
-      <Button style={{color: '#ed5209'}} title='Take Action'></Button>
+      <Button style={{color: '#ed5209'}} title='Take Action'
+      // {/* onPress={() =>
+      //   navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
+      // } */}
+      onPress={() =>
+                      navigation.navigate("ViewIncident", {
+                        id: element._id,
+                      })
+                    }
+                    />
+      
       </View>
                   {/* <Button
                     icon={

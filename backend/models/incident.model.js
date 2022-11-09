@@ -13,10 +13,20 @@ const incidentSchema = new mongoose.Schema({
   //   type: String,
   //   required: true,
   // },
-  Incident: {
+  incident: {
     type: String,
-    required: true,
+    //required: true,
   },
+  action: {
+    type: String,
+    //required: true,
+    default: "None"
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required: true,
+  }
 });
 
 const incidents = new mongoose.model("incidents", incidentSchema);

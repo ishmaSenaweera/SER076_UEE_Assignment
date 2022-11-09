@@ -7,16 +7,18 @@ const incidents = require("../models/incident.model");
 
 
 router.post("/incident/new", async (req, res) => {
-    const { Incident } =
-      req.body;
-
+    // const { Incident } =
+    //   req.body;
+      await incidents.findOne({ email: req.body.email });
     
       try {
         const addincident = new incidents({
+          user: req.body.user,
           // VehicleNo: req.body.VehicleNo,
           // OwnerName: req.body.OwnerName,
           // PassengerName: req.body.PassengerName,
-          Incident: req.body.Incident
+          incident: req.body.incident,
+          action: req.body.action
           
         })
 

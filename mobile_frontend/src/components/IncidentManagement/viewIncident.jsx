@@ -5,6 +5,7 @@ import { ScrollView } from "react-native";
 import { Card, Button, Icon } from "@rneui/themed";
 import axios from "axios";
 import AuthContext from "../../context/UserContext";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function ViewIncident({ navigation, id }) {
   // const id = route.params.id;
@@ -15,7 +16,7 @@ export default function ViewIncident({ navigation, id }) {
   const getdata = async () => {
     try {
       await axios
-        .get(`http://192.168.92.248:8000/incident/view/${id}`)
+        .get(BASE_URL + `/incident/view/${id}`)
         .then((res) => {
           if (res.status === 201) {
             setProductdata(res.data);

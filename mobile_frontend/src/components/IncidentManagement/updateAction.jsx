@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Icon } from "@rneui/themed";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
 import { updatedata } from "./context/ContextProvider";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function UpdateAction({ navigation, id }) {
 
@@ -25,7 +26,7 @@ export default function UpdateAction({ navigation, id }) {
   // const { id } = useParams("");
 
   const getdata = async () => {
-    const res = await fetch(`http://192.168.92.248:8000/incident/view/${id}`, {
+    const res = await fetch(BASE_URL + `/incident/view/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

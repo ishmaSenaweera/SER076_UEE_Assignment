@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Icon } from "@rneui/themed";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
 import { updatedata } from "./context/ContextProvider";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function UpdateIncident({ navigation }) {
 
   const { setUPdata } = useContext(updatedata);
 
   const [inpval, setINP] = useState({
-    Action: "",
+    incident: "",
     
   });
 
@@ -25,7 +26,7 @@ export default function UpdateIncident({ navigation }) {
   // const { id } = useParams("");
 
   const getdata = async () => {
-    const res = await fetch(`http://192.168.92.248:8000/incident/view/63692304d770c6ef29074d8d`, {
+    const res = await fetch(BASE_URL + `/incident/view/636ae3df7a2c620b602e3143`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -50,15 +51,15 @@ export default function UpdateIncident({ navigation }) {
   const updateincident = async (e) => {
     e.preventDefault();
 
-    const { VehicleNo, OwnerName, PassengerName, Incident } = inpval;
+    const { VehicleNo, OwnerName, PassengerName, incident } = inpval;
 
-    const res2 = await fetch(`http://192.168.92.248:8000/incident/update/63692304d770c6ef29074d8d`, {
+    const res2 = await fetch(BASE_URL + `/incident/update/636ae3df7a2c620b602e3143`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        Action,
+        incident,
         
         
       }),
@@ -104,22 +105,22 @@ export default function UpdateIncident({ navigation }) {
         <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name : {inpval.PassengerName}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {inpval.Incident}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {inpval.incident}</Text>
       
       <View style={styles.inputView}>
       
         <TextInput
           style={styles.TextInput}
-          placeholder="Enter the Action"
+          
           placeholderTextColor="#003f5c"
-          value={inpval.Action}
-          onChangeText={(Action) => setdata(Action)}
+          // value={inpval.incident}
+          onChangeText={setdata}
         />
       </View>
       </View>
       <View style={styles.fixToText} >
       <Button title='Back'></Button>
-      <Button onClick={updateincident} title='Update'></Button>
+      <Button onPress={updateincident} title='Update'></Button>
       </View>
       {/* <View style={styles.button2} >
       <Button title='Add'></Button>

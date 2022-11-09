@@ -1,63 +1,135 @@
-import React from "react";
-import { Button, Card, Icon } from "@rneui/themed";
-import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
+import { useContext, useState } from "react";
+import { Card, Icon } from "@rneui/themed";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { BASE_URL } from "../constants/Url.json";
+import axios from "axios";
+import AuthContext from "../../context/UserContext";
+import CheckBox from "expo-checkbox";
 
 export default function AddAction({ navigation }) {
+  const [incident, setIncident] = useState("");
+  const [action, setAction] = useState("");
+  // const [model, setModel] = useState("");
+  // const [plateNo, setPlateNo] = useState("");
+  // const [passengers, setPassengers] = useState("");
+  // const [vehicleType, setVehicleType] = useState("");
+  // const [toggleCheckBox, setToggleCheckBox] = useState(false);
+
+   const { userId } = useContext(AuthContext);
+
+  const resetData = (e) => {
+    setIncident("");
+    setAction("");
+    // setModel("");
+    // setPlateNo("");
+    // setPassengers("");
+    // setVehicleType("");
+  };
+
+  const AddAction = async (e) => {
+    e.preventDefault();
+    try {
+      /* Creating an object with the same name as the variables. */
+      const UserData = {
+        user: userId,
+        incident,
+        action
+        // model,
+        // plateNo,
+        // passengers,
+        // vehicleType,
+      };
+      const result = await axios.post(BASE_URL + "/incident/new", UserData);
+
+      if (result?.status === 201) {
+        alert(result?.data?.Message);
+        /* Reloading the page. */
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err?.response?.data?.errorMessage);
+    }
+  };
+
   return (
     <View>
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("RequestList", {})}
+          onPress={() => navigation.navigate("ViewAllIncidents", {})}
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle1}>Take Action</Text>
+        <Text style={styles.TextTitle1}>Add Incident</Text>
       </View>
-<View>
 
-</View>
-      <Card.Divider color="black" />
+      <Card.Divider color="black" style={{ height: 4 }} />
 
-      <View style={styles.container}>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident ID</Text>
-      </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No</Text>
-      </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name</Text>
-      </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name</Text>
-      </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident</Text>
-      </View>
-      
-        
-      
-      <View style={styles.inputView}>
-      
-        <TextInput
+      <View style={styles.container1}>
+        <Text style={styles.text1}>Incident ID</Text>
+        {/* <TextInput
+          value={action}
           style={styles.TextInput}
-          placeholder="Enter the Action"
-          placeholderTextColor="#003f5c"
-          onChangeText={(Action) => setEmail(Action)}
+          placeholder="Incident"
+          onChangeText={(e) => setAction(e)}
+        /> */}
+
+<Text style={styles.text1}>Vehicle No</Text>
+        {/* <TextInput
+          value={action}
+          style={styles.TextInput}
+          placeholder="Incident"
+          onChangeText={(e) => setAction(e)}
+        /> */}
+
+<Text style={styles.text1}>Owner Name</Text>
+        {/* <TextInput
+          value={action}
+          style={styles.TextInput}
+          placeholder="Incident"
+          onChangeText={(e) => setAction(e)}
+        /> */}
+
+<Text style={styles.text1}>Passenger Name</Text>
+        {/* <TextInput
+          value={action}
+          style={styles.TextInput}
+          placeholder="Incident"
+          onChangeText={(e) => setAction(e)}
+        /> */}
+
+<Text style={styles.text1}>Incident</Text>
+        {/* <TextInput
+          value={action}
+          style={styles.TextInput}
+          placeholder="Incident"
+          onChangeText={(e) => setAction(e)}
+        /> */}
+
+<Text style={styles.text1}>Action</Text>
+        <TextInput
+          value={action}
+          style={styles.TextInput}
+          placeholder="action"
+          onChangeText={(e) => setAction(e)}
         />
-      </View>
-      
-      <View style={styles.fixToText} >
-      <Button title='Back' 
-      onPress={() =>
-        navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
-      }
-      ></Button>
-      <Button title='Add'></Button>
-      </View>
-      {/* <View style={styles.button2} >
-      <Button title='Add'></Button>
-      </View> */}
+        
+
+        <Card.Divider color="black" style={{ height: 4, marginTop: 10 }} />
+
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.resetBtn} onPress={resetData}>
+            <Text style={styles.resetText}>Reset</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.addBtn} onPress={AddAction}>
+            <Text style={styles.addText}>Add</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -66,106 +138,68 @@ export default function AddAction({ navigation }) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    flexWrap: "wrap",
     alignItems: "center",
   },
   icon: { fontSize: 35 },
   TextTitle1: {
-    fontSize: 30,
     marginTop: 40,
-  },
-  TextTitle2: {
+    marginLeft: 10,
     fontSize: 40,
-    margin:20,
   },
-  container: {
+  container1: {
     backgroundColor: "#D5BEFF",
-    margin: 20,
+    marginLeft: 10,
+    marginRight: 10,
     borderWidth: 1,
     borderColor: "#D5BEFF",
     borderRadius: 25,
-    height: "80%",
+    height: "77%",
   },
   text1: {
     fontWeight: "bold",
-    fontSize: 25,
-  },
-  text2: {
     fontSize: 20,
+    marginTop: 10,
+    marginLeft: 15,
   },
-  container1: {
-    marginTop: 200,
-    marginHorizontal: 20,
-    elevation: 20,
-    borderRadius: 10,
-    backgroundColor: "#fff",
+  resetBtn: {
+    width: "40%",
+    borderRadius: 25,
+    marginLeft: 27,
+    marginBottom: 20,
+    height: 50,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#ffffff",
+    borderWidth: 3,
+    borderColor: "#8B51F5",
   },
-
-  header: {
-    fontSize: 50,
-    fontWeight: "bold",
-    alignItems: "center",
-  },
-
-  bar: {
-    flex: 1,
-    height: 3,
-    backgroundColor: "grey",
-    width: "20%",
-    marginBottom: 20,
+  addBtn: {
+    width: "40%",
+    borderRadius: 25,
     marginLeft: 20,
-    marginRight: 20,
-  },
-
-  header2: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 10,
-    alignItems: "center",
-  },
-
-  inputView: {
-    backgroundColor: "#dbd8d3",
-    elevation: 20,
-    borderColor: "#f2bc57",
-    borderRadius: 10,
-    width: "80%",
-    height: 45,
-    margin: 20,
-  },
-
-  TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    marginLeft: 20,
-  },
-
-  loginBtn: {
-    width: "70%",
-    borderRadius: 10,
-    marginTop: 10,
     marginBottom: 20,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#8B51F5",
   },
-  button1: {
-    width: "40%",
-    marginLeft: 70,
+  resetText: {
+    color: "black",
+    fontSize: 20,
   },
-  button2: {
-    width: "20%",
-    float: 'center',
+  addText: {
+    color: "white",
+    fontSize: 20,
   },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 100,
-    marginRight: 100,
-    marginTop: 10
+  TextInput: {
+    height: 50,
+    padding: 10,
+    borderWidth: 5,
+    marginTop: 0,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+    borderColor: "#8B51F5",
+    backgroundColor: "white",
   },
 });

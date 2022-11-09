@@ -1,339 +1,194 @@
-import React, { useState } from 'react'
+import { useContext, useState } from "react";
+import { Card, Icon } from "@rneui/themed";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { BASE_URL } from "../constants/Url.json";
 import axios from "axios";
-import { Button, Card, Icon } from "@rneui/themed";
-import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
+import AuthContext from "../../context/UserContext";
+import CheckBox from "expo-checkbox";
 
-const AddIncident = ({navigation}) => {
+export default function AddIncident({ navigation }) {
+  const [incident, setIncident] = useState("");
+  // const [model, setModel] = useState("");
+  // const [plateNo, setPlateNo] = useState("");
+  // const [passengers, setPassengers] = useState("");
+  // const [vehicleType, setVehicleType] = useState("");
+  // const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
-  
+   const { userId } = useContext(AuthContext);
 
-  const [inpval, setINP] = useState({
-    // VehicleNo: "",
-    // OwnerName: "",
-    // PassengerName: "",
-    Incident: "",
-    
-  })
+  const resetData = (e) => {
+    setIncident("");
+    // setModel("");
+    // setPlateNo("");
+    // setPassengers("");
+    // setVehicleType("");
+  };
 
-  const addinpdata = async (e) => {
+  const AddIncident = async (e) => {
     e.preventDefault();
-    const data = {
-      // VehicleNo: inpval.VehicleNo,
-      // OwnerName: inpval.OwnerName,
-      // PassengerName: inpval.PassengerName,
-      Incident: inpval.Incident,
-    }
+    try {
+      /* Creating an object with the same name as the variables. */
+      const UserData = {
+        user: userId,
+        incident
+        // model,
+        // plateNo,
+        // passengers,
+        // vehicleType,
+      };
+      const result = await axios.post(BASE_URL + "/incident/new", UserData);
 
-    axios.post("http://192.168.92.248:8000/incident/new", data).then(()=>{
-
-      if(data){
-        alert("Add Incident Details Successfully");
-      
+      if (result?.status === 201) {
+        alert(result?.data?.Message);
+        /* Reloading the page. */
       }
-      }).catch((err)=>{
-        if (!inpval.Incident) {
-          alert("Please enter all incident details")
-          
-      }else{
-        alert(err);
-      }
-      })
+    } catch (err) {
+      console.error(err);
+      alert(err?.response?.data?.errorMessage);
     }
-    const setdata = (e) => {
-      setINP({...inpval, [e.target.name]: e.target.value});
-  }
-
-  // const handlePhoto = (e) => {
-  //   setINP({...inpval, Image: e.target.files[0]});
-  // }
+  };
 
   return (
-//     <div style={{ marginLeft: "100px", marginTop: "10px", marginBottom: "100px" }}>
-//       <Container>
-//         <Modal
-//         dialogClassName="my-modal"
-//         show={true}
-//         onHide={props.handleModalClose}
-//         backdrop="static"
-//       >
-//         <a href='/'><Modal.Header closeButton></Modal.Header></a>
-//         <Modal.Title style={{ textAlign: "center" }}>Add Product</Modal.Title>
-//         <br></br>
-        
-//         <Modal.Body>
-//         <form className="formCard" border="dark">
-//           <Row className="justify-content-md-center">
-            
-//               <Form.Group className="mb-3">
-//                 <Form.Label>Product Code :</Form.Label>
-//                 <input
-//                 class="border border-warning"
-//                   placeholder="Enter Product Code"
-//                   type='text'
-//                   value={inpval.VehicleNo} onChange={setdata} name="VehicleNo"
-//                   style={{width:"700px", marginLeft:"25px", borderRadius:"10px"}}
-//                 />
-//               </Form.Group>
-//               </Row>
-//               <Row className="justify-content-md-center">
-//               <Form.Group className="mb-3">
-//                 <Form.Label>Product Name :</Form.Label>
-//                 <input
-//                 class="border border-warning"
-//                   placeholder="Enter Product Name"
-//                   type='text'
-//                   value={inpval.OwnerName} onChange={setdata} name="OwnerName"
-//                   style={{width:"700px", marginLeft:"20px", borderRadius:"10px"}}
-//                 />
-//               </Form.Group>
-//               </Row>
-//               <Row className="justify-content-md-center">
-//               <Form.Group className="mb-3">
-//                 <Form.Label>PassengerName :</Form.Label>
-//                 <input
-//                 class="border border-warning"
-//                   placeholder="Enter Product PassengerName"
-//                   type='text'
-//                   as="textarea"
-//                   rows={8}
-//                   value={inpval.PassengerName} onChange={setdata} name="PassengerName"
-//                   style={{width:"700px", marginLeft:"43px", borderRadius:"10px"}}
-//                 />
-//               </Form.Group>
-//               </Row>
-
-//               <Row className="justify-content-md-center">
-//                 <Col>
-//               <Form.Group className="mb-3">
-              
-//                 <Form.Label>Incident :</Form.Label>
-//                 <input
-//                 class="border border-warning"
-//                   placeholder="Enter Incident"
-//                   type='text'
-//                   value={inpval.Incident} onChange={setdata} name="Incident"
-//                   style={{width:"300px", marginLeft:"97px", borderRadius:"10px"}}
-//                 />
-                
-//                 </Form.Group>
-//                 </Col>
-                
-//               </Row>
-
-//               <Row className="justify-content-md-center">
-                
-              
-//               </Row>
-              
-              
-
-              
-
-//               <Row className="justify-content-md-center">
-// <Col>
-// <Button
-//                 variant="outline-warning"
-//                 size="lg"
-//                 type="submit"
-//                 style={{ width: "56%", marginLeft: "120px" }}
-//                 onClick={addinpdata}
-//               >
-//                 Add Product
-//               </Button>
-
-              
-           
-              
-
-//               </Col>
-
-              
-
-      
-// <Col>
-// <a href="/"><Button variant="outline-warning" size="lg" style={{ width: "56%", marginLeft: "5px" }}>
-//                 Cancel
-//               </Button></a>
-//               </Col>
-//             </Row>
-
-            
-          
-//         </form>
-
-        
-
-//         </Modal.Body>
-//         </Modal>
-//       </Container>
-//     </div>
-<View>
+    <View>
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("RequestList", {})}
+          onPress={() => navigation.navigate("ViewAllIncidents", {})}
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle1}>Take Action</Text>
+        <Text style={styles.TextTitle1}>Add Incident</Text>
       </View>
-<View>
 
-</View>
-      <Card.Divider color="black" />
+      <Card.Divider color="black" style={{ height: 4 }} />
 
-      <View style={styles.container}>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident ID</Text>
-      </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No</Text>
-      </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name</Text>
-      </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name</Text>
-      </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident</Text>
-      </View>
-      
-        
-      
-      <View style={styles.inputView}>
-      
-        <TextInput
+      <View style={styles.container1}>
+        <Text style={styles.text1}>Referrence No</Text>
+        {/* <TextInput
+          value={incident}
           style={styles.TextInput}
-          placeholder="Enter the Action"
-          placeholderTextColor="#003f5c"
-          // onChangeText={(Action) => setdata(Action)}
-           onChange={(Incident) => setdata(Incident)}
+          placeholder="Incident"
+          onChangeText={(e) => setIncident(e)}
+        /> */}
+
+<Text style={styles.text1}>Vehicle No</Text>
+        {/* <TextInput
+          value={incident}
+          style={styles.TextInput}
+          placeholder="Incident"
+          onChangeText={(e) => setIncident(e)}
+        /> */}
+
+<Text style={styles.text1}>Owner Name</Text>
+        {/* <TextInput
+          value={incident}
+          style={styles.TextInput}
+          placeholder="Incident"
+          onChangeText={(e) => setIncident(e)}
+        /> */}
+
+<Text style={styles.text1}>Passenger Name</Text>
+        {/* <TextInput
+          value={incident}
+          style={styles.TextInput}
+          placeholder="Incident"
+          onChangeText={(e) => setIncident(e)}
+        /> */}
+
+<Text style={styles.text1}>Incident</Text>
+        <TextInput
+          value={incident}
+          style={styles.TextInput}
+          placeholder="Incident"
+          onChangeText={(e) => setIncident(e)}
         />
-      </View>
-      
-      <View style={styles.fixToText} >
-      <Button title='Back' 
-      onPress={() =>
-        navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
-      }
-      ></Button>
-      {/* <Button title='Add' onPress={addinpdata}></Button> */}
-      </View>
-      <TouchableOpacity style={styles.loginBtn} onPress={addinpdata}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
-      {/* <View style={styles.button2} >
-      <Button title='Add'></Button>
-      </View> */}
+        
+
+        <Card.Divider color="black" style={{ height: 4, marginTop: 10 }} />
+
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.resetBtn} onPress={resetData}>
+            <Text style={styles.resetText}>Reset</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.addBtn} onPress={AddIncident}>
+            <Text style={styles.addText}>Add</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
-  )
+  );
 }
-export default AddIncident;
 
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    flexWrap: "wrap",
     alignItems: "center",
   },
   icon: { fontSize: 35 },
   TextTitle1: {
-    fontSize: 30,
     marginTop: 40,
-  },
-  TextTitle2: {
+    marginLeft: 10,
     fontSize: 40,
-    margin:20,
   },
-  container: {
+  container1: {
     backgroundColor: "#D5BEFF",
-    margin: 20,
+    marginLeft: 10,
+    marginRight: 10,
     borderWidth: 1,
     borderColor: "#D5BEFF",
     borderRadius: 25,
-    height: "80%",
+    height: "77%",
   },
   text1: {
     fontWeight: "bold",
-    fontSize: 25,
-  },
-  text2: {
     fontSize: 20,
+    marginTop: 10,
+    marginLeft: 15,
   },
-  container1: {
-    marginTop: 200,
-    marginHorizontal: 20,
-    elevation: 20,
-    borderRadius: 10,
-    backgroundColor: "#fff",
+  resetBtn: {
+    width: "40%",
+    borderRadius: 25,
+    marginLeft: 27,
+    marginBottom: 20,
+    height: 50,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#ffffff",
+    borderWidth: 3,
+    borderColor: "#8B51F5",
   },
-
-  header: {
-    fontSize: 50,
-    fontWeight: "bold",
-    alignItems: "center",
-  },
-
-  bar: {
-    flex: 1,
-    height: 3,
-    backgroundColor: "grey",
-    width: "20%",
-    marginBottom: 20,
+  addBtn: {
+    width: "40%",
+    borderRadius: 25,
     marginLeft: 20,
-    marginRight: 20,
-  },
-
-  header2: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 10,
-    alignItems: "center",
-  },
-
-  inputView: {
-    backgroundColor: "#dbd8d3",
-    elevation: 20,
-    borderColor: "#f2bc57",
-    borderRadius: 10,
-    width: "80%",
-    height: 45,
-    margin: 20,
-  },
-
-  TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    marginLeft: 20,
-  },
-
-  loginBtn: {
-    width: "70%",
-    borderRadius: 10,
-    marginTop: 10,
     marginBottom: 20,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#8B51F5",
   },
-  button1: {
-    width: "40%",
-    marginLeft: 70,
+  resetText: {
+    color: "black",
+    fontSize: 20,
   },
-  button2: {
-    width: "20%",
-    float: 'center',
+  addText: {
+    color: "white",
+    fontSize: 20,
   },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 100,
-    marginRight: 100,
-    marginTop: 10
+  TextInput: {
+    height: 50,
+    padding: 10,
+    borderWidth: 5,
+    marginTop: 0,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+    borderColor: "#8B51F5",
+    backgroundColor: "white",
   },
 });
