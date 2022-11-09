@@ -9,9 +9,11 @@ import {
 } from "react-native";
 import axios from "axios";
 import SearchBar from "react-native-dynamic-search-bar";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function RequestList({ navigation }) {
   const [requestList, setRequestList] = useState([]);
+  const isFocused = useIsFocused();
 
   async function getRequestData() {
     try {
@@ -28,7 +30,7 @@ export default function RequestList({ navigation }) {
 
   useEffect(() => {
     getRequestData();
-  }, []);
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>
@@ -78,7 +80,9 @@ export default function RequestList({ navigation }) {
                       " " +
                       element.passenger.lastName}
                   </Text>
-                  <Text style={styles.text2}>Location : {element.locationTo}</Text>
+                  <Text style={styles.text2}>
+                    Location : {element.locationTo}
+                  </Text>
                 </View>
               </View>
             </TouchableOpacity>
