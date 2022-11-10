@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Card, Icon } from "@rneui/themed";
 import {
-  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -9,43 +8,51 @@ import {
   View,
 } from "react-native";
 
-export default function ViewRequest({ navigation }) {
+export default function ViewRequest({ navigation, route }) {
+  const data = route.params.data;
+  console.log(data);
+  const [from, setFrom] = useState(data.locationFrom);
+  const [to, setTo] = useState(data.locationTo);
+  const [time, setTime] = useState(data.dateAndTime.toLocaleTimeString());
+  const [seats, setSeats] = useState(data.noOfSeats);
+
+  function handleDelete() {
+    
+  }
+  
+
+
   return (
     <View>
-      <View style={styles.row}>
-        <TouchableOpacity
-        //   onPress={() => navigation.navigate("RequestList", {})}
-        >
-          <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
-        </TouchableOpacity>
-        <Text style={styles.TextTitle1}>Your Ride Request</Text>
-      </View>
-      <Card.Divider color="black" style={{ height: 4 }} />
+      <Text style={styles.TextTitle}>Your Ride Request</Text>
+
       <View style={styles.container1}>
         <Text style={styles.text1}>Ride Details</Text>
-        <Text style={styles.text2}>From</Text>
-        <TextInput
-          //   value={from}
-          style={styles.TextInput}
-          //   onChangeText={(location1) => setFrom(location1)}
-          editable={false}
-        />
-        <Text style={styles.text2}>To</Text>
-        <TextInput
-          //   value={to}
-          style={styles.TextInput}
-          //   onChangeText={(location2) => setTo(location2)}
-          editable={false}
-        />
-        <Text style={styles.text2}>Time?</Text>
-        <TextInput
-          //   value={to}
-          style={styles.TextInput}
-          //   onChangeText={(location2) => setTo(location2)}
-          editable={false}
-        />
-        <Text style={styles.text2}>Seats Needed?</Text>
-        <Text style={styles.text3}>1</Text>
+
+        <Card.Divider color="black" style={{ height: 6 }} />
+
+        <View style={styles.row}>
+          <Text style={styles.label}>From</Text>
+          <Text style={styles.required}>*</Text>
+        </View>
+        <TextInput value={from} style={styles.TextInput} editable={false} />
+
+        <View style={styles.row}>
+          <Text style={styles.label}>To</Text>
+          <Text style={styles.required}>*</Text>
+        </View>
+        <TextInput value={to} style={styles.TextInput} editable={false} />
+
+        <View style={styles.row}>
+          <Text style={styles.label}>Time?</Text>
+          <Text style={styles.required}>*</Text>
+        </View>
+        <TextInput value={time} style={styles.TextInput} editable={false} />
+
+        <Text style={styles.label}>Seats Needed?</Text>
+        <Text style={styles.seatsText}>{seats}</Text>
+
+        <Card.Divider color="black" style={{ height: 8 }} />
 
         <View style={styles.row}>
           <TouchableOpacity style={styles.updateBtn}>
@@ -71,10 +78,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
+    top: 0,
   },
   icon: { fontSize: 35 },
-  TextTitle1: {
-    fontSize: 30,
+  TextTitle: {
+    fontSize: 40,
+    textAlign: "center",
   },
   container1: {
     backgroundColor: "#D5BEFF",
@@ -82,21 +91,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#D5BEFF",
     borderRadius: 25,
-    height: "83%",
+    height: "82%",
   },
   text1: {
     fontWeight: "bold",
     fontSize: 25,
     padding: 10,
+    textAlign: "center",
   },
-  text2: {
-    fontSize: 20,
-    padding: 10,
-  },
-  text3: {
-    fontSize: 40,
+  label: {
     fontWeight: "bold",
-    marginLeft: 60,
+    fontSize: 20,
+    marginTop: 10,
+    marginLeft: 15,
+  },
+  required: {
+    fontWeight: "bold",
+    color: "red",
+    fontSize: 20,
+    marginTop: 10,
+    marginLeft: 2,
   },
   updateBtn: {
     width: "25%",
@@ -138,12 +152,15 @@ const styles = StyleSheet.create({
   TextInput: {
     height: 50,
     padding: 10,
-    borderWidth: 5,
+    borderWidth: 3,
     marginTop: 0,
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 10,
     borderColor: "#8B51F5",
     backgroundColor: "white",
+    fontSize: 22,
+    color: "black",
   },
+  seatsText: { fontSize: 45, marginLeft: 50 },
 });
