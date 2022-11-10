@@ -15,7 +15,7 @@ const VehicleSchema = new mongoose.Schema(
     plateNoHide: { type: Boolean, default: true },
     passengers: { type: Number },
     passengersHide: { type: Boolean, default: true },
-    registered: { type: String, default: "No" },
+    registered: { type: Boolean, default: false },
     registeredHide: { type: Boolean, default: true },
     vehicleType: { type: String },
   },
