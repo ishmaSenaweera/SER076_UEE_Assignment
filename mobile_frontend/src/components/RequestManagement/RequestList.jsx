@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import SearchBar from "react-native-dynamic-search-bar";
 import { useIsFocused } from "@react-navigation/native";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function RequestList({ navigation }) {
   const [requestList, setRequestList] = useState([]);
@@ -17,7 +18,7 @@ export default function RequestList({ navigation }) {
 
   async function getRequestData() {
     try {
-      await axios.get("http://192.168.1.5:8000/request/getAll").then((res) => {
+      await axios.get(BASE_URL + "/request/getAll").then((res) => {
         if (res.status === 200) {
           setRequestList(res.data);
         }

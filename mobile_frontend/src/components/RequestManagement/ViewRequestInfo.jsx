@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { BASE_URL } from "../constants/Url.json";
 
 export default function ViewRequestInfo({ navigation }) {
   return (
