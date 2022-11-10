@@ -1,22 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/themed";
-<<<<<<< HEAD
-import ViewProducts from "../components/Product/ViewProducts";
-import ViewCart from "../components/Order/ViewCart";
-import ViewOrder from "../components/Order/ViewOrder";
-import SupplierList from "../components/Product/SupplierList";
-import ViewSingleCartItem from "../components/Order/ViewSingleCartItem";
-import Inquiry from "../components/Order/Inquiry";
-import DeliveryDetails from "../components/Order/DeliveryDetails";
-import Login from "../components/UserManagement/auth/Login";
-import Register from "../components/UserManagement/auth/Register";
-=======
 import Login from "../components/UserManagement/auth/Login";
 import Register from "../components/UserManagement/auth/Register";
 import RequestNavigationStack from "../components/Request";
 import VehicleNavigationStack from "../components/Vehicle";
 import RideSummary from "../components/RequestManagement/RideSummary";
->>>>>>> 4a20d2f34353ad57d0a1f53590df92fb43fcb307
+
 
 const Tab = createBottomTabNavigator();
 
@@ -48,8 +37,7 @@ const Tabs = () => {
       }}
     >
       <Tab.Screen
-<<<<<<< HEAD
-        name="Suppliers"
+        name="Login"
         component={Login}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -62,11 +50,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-<<<<<<< HEAD
-        name="Cart"
-=======
         name="Register"
->>>>>>> 4a20d2f34353ad57d0a1f53590df92fb43fcb307
         component={Register}
         options={{
           tabBarIcon: ({ focused }) => (

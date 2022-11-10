@@ -11,51 +11,7 @@ import {
 import axios from "axios";
 
 
-export default function UserProfile() {
 
-  const [userData, setUserData] = useState("");
- 
-  async function getData() {
-    try {
-      const result = await axios.get("");
-      
-      setUserData(result.data);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  useEffect(() => {
-    getData();
-  }, []);
-
- 
-    
-  return (
-    <View style={styles.container}>
-      <View style={styles.bar} />
-      <Text style={styles.header}>Travel Buddy</Text>
-      <Text style={styles.header2}>user profile</Text>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        
-      </View>
-      <StatusBar style="auto" />
-      <ScrollView>
-     
-     
-      {userData ? (
-            <view>
-                {userData?.firstName} {userData?.lastName}
-            </view>}
-     
-      
-      <TouchableOpacity style={styles.loginBtn} onPress={delete}>
-        <Text style={styles.loginText}>delete</Text>
-      </TouchableOpacity>
-      </ScrollView>
-    </View>  
-    
-  );}
-  
 
       const styles = StyleSheet.create({
       container: {
