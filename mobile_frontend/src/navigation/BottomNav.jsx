@@ -50,9 +50,6 @@ const Tabs = () => {
       <Tab.Screen
 <<<<<<< HEAD
         name="Suppliers"
-=======
-        name="Login"
->>>>>>> 4a20d2f34353ad57d0a1f53590df92fb43fcb307
         component={Login}
         options={{
           tabBarIcon: ({ focused }) => (
