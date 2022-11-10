@@ -58,9 +58,7 @@ export default function VehicleList({ navigation }) {
           return (
             <TouchableOpacity
               key={i}
-              onPress={() =>
-                navigation.navigate("ViewVehicleInfo", { vehicle: vehicle })
-              }
+              onPress={() => navigation.navigate("ViewVehicleInfo", vehicle)}
             >
               <View
                 style={{
@@ -71,6 +69,7 @@ export default function VehicleList({ navigation }) {
                   borderColor: "#8A8484",
                   borderRadius: 15,
                   padding: 8,
+                  elevation: 15,
                 }}
               >
                 <View style={styles.row}>

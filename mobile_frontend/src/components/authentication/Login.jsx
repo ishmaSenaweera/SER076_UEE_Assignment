@@ -28,7 +28,7 @@ export default function Login() {
       };
 
       /* Sending a POST request to the server with the user's email and password. */
-      const result = await axios.post(BASE_URL + "/user/login", loginData);
+      // const result = await axios.post(BASE_URL + "/user/login", loginData);
 
       /* Checking if the status is true. */
       if (result) {
