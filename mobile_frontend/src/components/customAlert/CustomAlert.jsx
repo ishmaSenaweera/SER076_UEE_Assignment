@@ -53,6 +53,7 @@ export default function CustomAlert({
                   marginTop: 15,
                   alignItems: "center",
                   justifyContent: "center",
+                  textAlign: "center"
                 }}
               >
                 {displayMsg}
