@@ -10,19 +10,16 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { BASE_URL } from "../constants/Url.json";
 import axios from "axios";
-import AuthContext from "../../context/UserContext";
 import CustomAlert from "../customAlert/CustomAlert";
 
-export default function AddRequest({ navigation }) {
-  const { userId } = useContext(AuthContext);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [time, setTime] = useState(new Date());
-  const [seats, setSeats] = useState(1);
+function UpdateRequest({ navigation, route }) {
+  const [from, setFrom] = useState(route.params.data.locationFrom);
+  const [to, setTo] = useState(route.params.data.locationTo);
+  const [time, setTime] = useState(new Date(route.params.data.dateAndTime));
+  const [seats, setSeats] = useState(route.params.data.noOfSeats);
   const [isOpen, setIsOpen] = useState(false);
   const [errorShow, setErrorShow] = useState(false);
-  const [successShow, setSuccessShow] = useState(false);
-  const [responseData, setResponseData] = useState([]);
+  const [successShow, setSuccessShow] = useState(false);  
 
   const changeSelectedTime = (event, selectedTime) => {
     const currentTime = selectedTime || time;
@@ -34,11 +31,11 @@ export default function AddRequest({ navigation }) {
     setIsOpen(true);
   }
 
-  function handleReset() {
-    setFrom("");
-    setTo("");
-    setTime(new Date());
-    setSeats(1);
+  function handleUndo() {
+    setFrom(route.params.data.locationFrom);
+    setTo(route.params.data.locationTo);
+    setTime(new Date(route.params.data.dateAndTime));
+    setSeats(route.params.data.noOfSeats);
   }
 
   function handleMinus() {
@@ -53,25 +50,23 @@ export default function AddRequest({ navigation }) {
     }
   }
 
-  async function handleRequest() {
+  async function handleUpdate() {
     try {
       if (from === "" || to === "") {
         setErrorShow(true);
       } else {
         const dataObject = {
-          passenger: userId,
+          passenger: route.params.data.passenger,
           locationFrom: from,
           locationTo: to,
           dateAndTime: time,
           noOfSeats: seats,
         };
 
-        await axios.post(BASE_URL + "/request/add", dataObject).then((res) => {
-          if (res.status === 201) {
-            // Setting saved data in a useState to pass to other component
-            setResponseData(res.data.data);
-          }
-        });
+        await axios.put(
+          BASE_URL + `/request/update/${route.params.data._id}`,
+          dataObject
+        );
         setSuccessShow(true);
       }
     } catch (error) {
@@ -80,19 +75,30 @@ export default function AddRequest({ navigation }) {
   }
 
   function handleNavigate() {
+    const dataObject = {
+      passenger: route.params.data.passenger,
+      locationFrom: from,
+      locationTo: to,
+      dateAndTime: time,
+      noOfSeats: seats,
+      _id: route.params.data._id,
+    };
+    dataObject.dateAndTime = dataObject.dateAndTime.toString();
     setSuccessShow(false);
-    navigation.navigate("ViewRequest", { data: responseData });
+    navigation.navigate("ViewRequest", { data: dataObject });
   }
 
   return (
     <View>
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("RequestList", {})}
+          onPress={() =>
+            navigation.navigate("ViewRequest", { data: route.params.data })
+          }
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle}>Request a Ride</Text>
+        <Text style={styles.TextTitle}>Update Request</Text>
       </View>
 
       <View style={styles.container1}>
@@ -162,33 +168,29 @@ export default function AddRequest({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <Card.Divider color="black" style={{ height: 10 }} />
+        <Card.Divider color="black" style={{ height: 15 }} />
 
         <View style={styles.bottomRow}>
-          <TouchableOpacity style={styles.resetBtn} onPress={handleReset}>
-            <Text style={styles.resetText}>Reset</Text>
+          <TouchableOpacity style={styles.undoBtn} onPress={handleUndo}>
+            <Text style={styles.resetText}>Undo</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.reqBtn} onPress={handleRequest}>
-            <Text style={styles.reqText}>Request</Text>
+          <TouchableOpacity style={styles.updateBtn} onPress={handleUpdate}>
+            <Text style={styles.reqText}>Update</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       <CustomAlert
-        displayMode={"error"}
-        displayMsg={"Please enter all the mandatory fields!"}
-        visibility={errorShow}
-        dismissAlert={setErrorShow}
-      />
-      <CustomAlert
         displayMode={"success"}
-        displayMsg={"Request sent successfully!"}
+        displayMsg={"Request updated successfully!"}
         visibility={successShow}
         dismissAlert={handleNavigate}
       />
     </View>
   );
 }
+
+export default UpdateRequest;
 
 const styles = StyleSheet.create({
   row: {
@@ -241,7 +243,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 2,
   },
-  resetBtn: {
+  undoBtn: {
     width: "40%",
     borderRadius: 25,
     marginLeft: 27,
@@ -253,7 +255,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "#8B51F5",
   },
-  reqBtn: {
+  updateBtn: {
     width: "40%",
     borderRadius: 25,
     marginLeft: 20,

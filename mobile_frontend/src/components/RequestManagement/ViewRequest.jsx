@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Card, Icon } from "@rneui/themed";
+import React, { useEffect, useState } from "react";
+import { Card } from "@rneui/themed";
 import {
   StyleSheet,
   Text,
@@ -7,19 +7,56 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import axios from "axios";
+import { BASE_URL } from "../constants/Url.json";
+import { useIsFocused } from "@react-navigation/native";
+import CustomAlert from "../customAlert/CustomAlert";
 
-export default function ViewRequest({ navigation, route }) {
-  const data = route.params.data;
-  console.log(data);
-  const [from, setFrom] = useState(data.locationFrom);
-  const [to, setTo] = useState(data.locationTo);
-  const [time, setTime] = useState(data.dateAndTime.toLocaleTimeString());
-  const [seats, setSeats] = useState(data.noOfSeats);
+export default function ViewRequest({ navigation, route }) { 
+  const isFocused = useIsFocused();
+  const timeEdited = new Date(
+    route.params.data.dateAndTime
+  ).toLocaleTimeString();
+  const [from, setFrom] = useState(route.params.data.locationFrom);
+  const [to, setTo] = useState(route.params.data.locationTo);
+  const [time, setTime] = useState(timeEdited);
+  const [seats, setSeats] = useState(route.params.data.noOfSeats);
+  const [confirm, setConfirm] = useState(false);
+  const [successShow, setSuccessShow] = useState(false);
 
-  function handleDelete() {
-    
+  const deleteHandler = async () => {
+    setConfirm(true);
+  };
+
+  const successAlert = (e) => {
+    setSuccessShow(false);
+    navigation.navigate("RequestList", {});
+  };
+
+  async function handleDelete(e) {
+    if (e) {
+      try {
+        await axios
+          .delete(BASE_URL + `/request/delete/${route.params.data._id}`)
+          .then((res) => {
+            if (res.status === 200) {
+              setSuccessShow(true);
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setConfirm(false);
+    }
   }
-  
+  useEffect(() => {
+    setFrom(route.params.data.locationFrom);
+    setTo(route.params.data.locationTo);
+    setTime(new Date(route.params.data.dateAndTime).toLocaleTimeString());
+    setSeats(route.params.data.noOfSeats);
+  }, [isFocused]);
+
   return (
     <View>
       <Text style={styles.TextTitle}>Your Ride Request</Text>
@@ -53,20 +90,43 @@ export default function ViewRequest({ navigation, route }) {
         <Card.Divider color="black" style={{ height: 8 }} />
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.updateBtn}>
+          <TouchableOpacity
+            style={styles.updateBtn}
+            onPress={() =>
+              navigation.navigate("UpdateRequest", { data: route.params.data })
+            }
+          >
             <Text style={styles.reqText}>Update</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.statusBtn}
-            onPress={() => navigation.navigate("ViewStatus", {})}
+            onPress={() =>
+              navigation.navigate("ViewStatus", { id: route.params.data._id })
+            }
           >
             <Text style={styles.reqText}>View Status</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteBtn}>
+
+          <TouchableOpacity style={styles.deleteBtn} onPress={deleteHandler}>
             <Text style={styles.reqText}>Delete</Text>
           </TouchableOpacity>
         </View>
       </View>
+
+      <CustomAlert
+        displayMode={"confirm"}
+        displayMsg={"Do you really want to delete?"}
+        visibility={confirm}
+        dismissAlert={setConfirm}
+        confirmAlert={handleDelete}
+      />
+      <CustomAlert
+        displayMode={"success"}
+        displayMsg={"Request deleted successfully!"}
+        visibility={successShow}
+        dismissAlert={successAlert}
+      />
     </View>
   );
 }
