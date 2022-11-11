@@ -11,8 +11,9 @@ import { deldata } from "./context/ContextProvider";
 import { Text, Card, Button, Icon } from "@rneui/themed";
 import SearchBar from "react-native-dynamic-search-bar";
 import { BASE_URL } from "../constants/Url.json";
+import { DataTable } from 'react-native-paper';
 
-function ViewAllIncidents({ navigation }) {
+function ViewReport({ navigation }) {
   const [getincidentdata, setIncidentdata] = useState([]);
 
   const { setDLTdata } = useContext(deldata);
@@ -63,59 +64,18 @@ function ViewAllIncidents({ navigation }) {
 
   return (
     <>
-      
-
 <View style={styles.container}>
       <Text style={styles.TextTitle1}></Text>
       <View style={styles.row}>
         <Text style={styles.TextTitle2}>List of Incidents</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("ViewReport", {})}>
-          <Icon
-            name="report"
-            color="#000000"
-            iconStyle={{ marginLeft: 60, fontSize: 40 }}
-          />
-        </TouchableOpacity>
       </View>
       <Card.Divider color="black" />
-      <View style={{ margin: 10 }}>
-        <SearchBar
-          type="search"
-          placeholder="Search"
-          onChangeText={(incident) => {
-            setSearchTerm(incident);
-          }}
-          onClearPress={getdata}
-        />
-      </View>
+      
       <ScrollView style={{ height: "58%", marginBottom: 10 }}>
-        {getincidentdata
-          .filter((element) => {
-            if (searchTerm === "") {
-              return element;
-            } else if (
-              element.incident
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase())
-            ) {
-              return element;
-            } else {
-              return false;
-            }
-          })
-          .map((element, id) => {
-            // if(element.length === 0){
-            //   <Text style={styles.errorMessage}>No Result Found</Text>
-            // }
-            return (
-              <TouchableOpacity
-                onPress={() => navigation.navigate("viewIncident", {})}
-                key={id}
-              >
-                <View
+      <View
                   style={{
                     borderWidth: 1,
-                    height: 100,
+                    height: 700,
                     margin: 15,
                     backgroundColor: "#DFD8D7",
                     borderColor: "#DFD8D7",
@@ -123,46 +83,58 @@ function ViewAllIncidents({ navigation }) {
                     elevation: 20,
                   }}
                 >
-                  <View style={styles.row1}>
+                    <View>
+                    <DataTable>
+        <DataTable.Header>
+          <DataTable.Title>Inc ID</DataTable.Title>
+          <DataTable.Title>Vehicle No</DataTable.Title>
+          <DataTable.Title>Vehicle Owner</DataTable.Title>
+          <DataTable.Title>Passenger</DataTable.Title>
+        </DataTable.Header>
+        
+        {getincidentdata
+          
+          .map((element, id) => {
+            
+            return (
+              
+                
+                  <View key={id}>
                     
 
                     <View>
-                      <Text style={{marginLeft : 50, fontWeight: "bold", fontSize: 20}}>
-                        Incident ID : I{id+1000}
-                      </Text>
+                      
+
+<DataTable.Row key={id}>
+          <DataTable.Cell>I{id+1000}</DataTable.Cell>
+          <DataTable.Cell>aa</DataTable.Cell>
+          <DataTable.Cell>bc</DataTable.Cell>
+          <DataTable.Cell>aa</DataTable.Cell>
+        </DataTable.Row>
                       </View>
                       <View style={styles.fixToText} >
       
-      <Button title='Remove'
-      style={{color: '#ed5209', margin: 150}} 
-      onPress={() => deleteincident(element._id)}
-      ></Button>
+      
       </View>
-      <View style={styles.fixToText} >
-      <Button style={{color: '#ed5209', margin: 250}} title='Take Action'
-       
-      onPress={() =>
-                      navigation.navigate("AddAction", {
-                        id: element._id,
-                      })
-                    }
-                    />
-                    </View>
+      
       
       </View>
                     
                   
-                </View>
-              </TouchableOpacity>
+                
+              
             );
           })}
+          </DataTable>
+                    </View>
+          </View>
       </ScrollView>
     </View>
     </>
   );
 }
 
-export default ViewAllIncidents;
+export default ViewReport;
 
 
 

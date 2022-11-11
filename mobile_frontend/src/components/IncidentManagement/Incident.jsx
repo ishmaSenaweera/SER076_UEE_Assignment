@@ -7,7 +7,7 @@ import axios from "axios";
 import AuthContext from "../../context/UserContext";
 import { BASE_URL } from "../constants/Url.json";
 
-export default function ViewIncident({ navigation, id }) {
+export default function Incident({ navigation, id }) {
   // const id = route.params.id;
   const { userId } = useContext(AuthContext);
   const [getincidentdata, setProductdata] = useState([]);
@@ -41,7 +41,7 @@ export default function ViewIncident({ navigation, id }) {
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle1}>View Incident</Text>
+        <Text style={styles.TextTitle1}>Incident</Text>
       </View>
 <View>
 
@@ -64,20 +64,27 @@ export default function ViewIncident({ navigation, id }) {
       <View style={styles.TextTitle2}>
         <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {getincidentdata.Incident}</Text>
       </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Action : {getincidentdata.Action}</Text>
-      </View>
+      
+      
+      <TouchableOpacity onPress={() => navigation.navigate("AddIncident", {})} style={{marginLeft: 100, marginBottom: 35}}>
+          <Icon
+            name="add"
+            color="#000000"
+            iconStyle={{ marginLeft: 100, fontSize: 40 }}
+          />
+        </TouchableOpacity>
+      
       <View style={styles.row}>
           <TouchableOpacity style={styles.resetBtn} 
           onPress={() =>
-         navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
+         navigation.navigate("RideSummary", { screen: "RideSummary" })
        }>
             <Text style={styles.resetText}>Back</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.addBtn}>
             <Text style={styles.addText} 
             onPress={() =>
-                      navigation.navigate("UpdateAction", {
+                      navigation.navigate("UpdateIncident", {
                         id: element._id,
                       })
                     }>Update</Text>
