@@ -10,6 +10,8 @@ import {
 } from "react-native";
 
 export default function ViewUserInfo({ navigation }) {
+
+  
   return (
     <View>
       <View style={styles.row}>
@@ -24,12 +26,12 @@ export default function ViewUserInfo({ navigation }) {
       <Card.Divider color="black" style={{ height: 4 }} />
 
       <View style={styles.container1}>
-        <Text style={styles.TextInput}>Make : </Text>
-        <Text style={styles.TextInput}>Model : </Text>
-        <Text style={styles.TextInput}>Year : </Text>
-        <Text style={styles.TextInput}>Plate No: </Text>
-        <Text style={styles.TextInput}>Passengers : </Text>
-        <Text style={styles.TextInput}>Registered : </Text>
+        <Text style={styles.TextInput}>First Name : </Text>
+        <Text style={styles.TextInput}>Last Name : </Text>
+        <Text style={styles.TextInput}>E-Mail : </Text>
+        <Text style={styles.TextInput}>Phone Number: </Text>
+        <Text style={styles.TextInput}>Date Of Birth : </Text>
+        <Text style={styles.TextInput}>User Type : </Text>
 
         <View style={styles.row}>
           <TouchableOpacity style={styles.updateBtn}>
