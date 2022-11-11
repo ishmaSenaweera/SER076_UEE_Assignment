@@ -3,25 +3,57 @@ import { Button, Card, Icon } from "@rneui/themed";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
 import { updatedata } from "./context/ContextProvider";
 import { BASE_URL } from "../constants/Url.json";
+import axios from "axios";
 
 export default function UpdateIncident({ navigation }) {
 
-  const { setUPdata } = useContext(updatedata);
+  // const { setUPdata } = useContext(updatedata);
 
-  const [inpval, setINP] = useState({
-    incident: "",
+  // const [inpval, setINP] = useState({
+  //   incident: "",
     
-  });
+  // });
 
-  const setdata = (e) => {
-    const { name, value } = e.target;
-    setINP((preval) => {
-      return {
-        ...preval,
-        [name]: value,
-      };
-    });
-  };
+   const [incident, setIncident] = useState("");
+   const [id, setId] = useState("");
+
+   useEffect(() => {
+    getdata()
+}, [])
+
+const handleEdit = (item) => {
+  var data = {
+      "incident" : incident,
+      "id": _id
+  }
+  axios({
+      url:BASE_URL + "/incident/update/636ae3df7a2c620b602e3143",
+      method:"PATCH",
+      data : data,
+      headers : {
+          "Content-Type" : "application/json"
+      }
+  }).then((res) => {
+      console.log(data);
+      getdata();
+      //setIncident("")
+      setIncident(item.incident)
+      setId(item._id)
+      // setVisible(false)
+      console.log(data);
+  })
+
+}
+
+  // const setdata = (e) => {
+  //   const { name, value } = e.target;
+  //   setINP((preval) => {
+  //     return {
+  //       ...preval,
+  //       [name]: value,
+  //     };
+  //   });
+  // };
 
   // const { id } = useParams("");
 
@@ -38,49 +70,58 @@ export default function UpdateIncident({ navigation }) {
       console.log("Please take the action");
       return 0;
     } else {
-      setINP(data);
+      setIncident(data.incident);
+      setId(data._id)
       console.log("get data");
+      console.log(data);
     }
   };
 
-  useEffect(() => {
-    getdata();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const onChangeIncidentName = (value) => {
+    setIncident(value)
+        }
 
-  const updateincident = async (e) => {
-    e.preventDefault();
+  // useEffect(() => {
+  //   getdata();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-    const { VehicleNo, OwnerName, PassengerName, incident } = inpval;
+  // const updateincident = async (e) => {
+  //   e.preventDefault();
 
-    const res2 = await fetch(BASE_URL + `/incident/update/636ae3df7a2c620b602e3143`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        incident,
+  //   const { VehicleNo, OwnerName, PassengerName, incident } = inpval;
+
+  //   const res2 = await fetch(BASE_URL + `/incident/update/636ae3df7a2c620b602e3143`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       incident,
         
         
-      }),
-    });
+  //     }),
+  //   });
 
-    const data2 = await res2.json();
+  //   const data2 = await res2.json();
 
-    if (res2.status === 422 || !data2) {
-      alert("Please enter all action details");
-    } else {
-      alert("Update Action Details Successfully");
-      navigate("/view");
-      setUPdata(data2);
-    }
-  };
+  //   if (res2.status === 422 || !data2) {
+  //     alert("Please enter all action details");
+  //   } else {
+  //     alert("Update Action Details Successfully");
+  //     console.log("Update Incident Details Successfully")
+  //     // navigation.navigate("ViewIncident", {});
+  //     setUPdata(data2);
+  //     console.log("Update Incident Details Successfully")
+  //     console.log(data2);
+  //   }
+  // };
 
   return (
     <View>
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("RequestList", {})}
+          onPress={() => navigation.navigate("ViewAllIncidents", {})}
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
@@ -93,19 +134,19 @@ export default function UpdateIncident({ navigation }) {
 
       <View style={styles.container}>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Referrence No : {inpval.id}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Referrence No : {id}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No : {inpval.VehicleNo}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No :</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name : {inpval.OwnerName}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name :</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name : {inpval.PassengerName}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name :</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {inpval.incident}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {incident}</Text>
       
       <View style={styles.inputView}>
       
@@ -113,14 +154,22 @@ export default function UpdateIncident({ navigation }) {
           style={styles.TextInput}
           
           placeholderTextColor="#003f5c"
-          // value={inpval.incident}
-          onChangeText={setdata}
+           value={incident}
+          name='incident'
+          onChangeText={onChangeIncidentName}
         />
       </View>
       </View>
       <View style={styles.fixToText} >
-      <Button title='Back'></Button>
-      <Button onPress={updateincident} title='Update'></Button>
+      <Button title='Back'
+      onPress={() =>
+        navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
+      }/>
+      <Button onPress={handleEdit} title='Update'
+      // onPress={() =>
+      //      navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
+      //    } 
+         />
       </View>
       {/* <View style={styles.button2} >
       <Button title='Add'></Button>

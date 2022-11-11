@@ -31,28 +31,50 @@ export default function AddIncident({ navigation }) {
   };
 
   const AddIncident = async (e) => {
-    e.preventDefault();
-    try {
-      /* Creating an object with the same name as the variables. */
-      const UserData = {
-        user: userId,
-        incident
-        // model,
-        // plateNo,
-        // passengers,
-        // vehicleType,
-      };
-      const result = await axios.post(BASE_URL + "/incident/new", UserData);
+    // e.preventDefault();
+    // try {
+    //   /* Creating an object with the same name as the variables. */
+    //   const UserData = {
+    //     //user: userId,
+    //     "incident" : incident
+        
+    //   };
+    //   const result = await axios.post(BASE_URL + "/incident/new", UserData);
 
-      if (result?.status === 201) {
-        alert(result?.data?.Message);
-        /* Reloading the page. */
+    //   if (result?.status === 201) {
+    //     alert(result?.data?.Message);
+    //     /* Reloading the page. */
+    //   }
+    // } catch (err) {
+    //   console.error(err);
+    //   alert(err?.response?.data?.errorMessage);
+    // }
+
+    var data = {
+      "incident" : incident,
+      "user" : userId,
+      "action" : action
+  }
+  axios({
+      url:BASE_URL + "/incident/new",
+      method:"POST",
+      data : data,
+      headers : {
+          "Content-Type" : "application/json"
       }
-    } catch (err) {
-      console.error(err);
-      alert(err?.response?.data?.errorMessage);
-    }
+  }).then((res) => {
+      console.log(data);
+      
+      setIncident("")
+      // setVisible(false)
+      console.log(data);
+      alert("Successfully")
+  })
   };
+
+  const onChangeIncidentName = (value) => {
+    setIncident(value)
+        }
 
   return (
     <View>
@@ -105,7 +127,8 @@ export default function AddIncident({ navigation }) {
           value={incident}
           style={styles.TextInput}
           placeholder="Incident"
-          onChangeText={(e) => setIncident(e)}
+          onChangeText={onChangeIncidentName}
+
         />
         
 

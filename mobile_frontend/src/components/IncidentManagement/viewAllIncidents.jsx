@@ -111,7 +111,7 @@ function ViewAllIncidents({ navigation }) {
       //   navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
       // } */}
       onPress={() =>
-                      navigation.navigate("ViewIncident", {
+                      navigation.navigate("AddAction", {
                         id: element._id,
                       })
                     }

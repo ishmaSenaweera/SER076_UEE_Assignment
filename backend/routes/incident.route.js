@@ -18,7 +18,7 @@ router.post("/incident/new", async (req, res) => {
           // OwnerName: req.body.OwnerName,
           // PassengerName: req.body.PassengerName,
           incident: req.body.incident,
-          action: req.body.action
+           action: req.body.action
           
         })
 

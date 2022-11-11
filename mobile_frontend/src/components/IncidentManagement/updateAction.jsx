@@ -3,30 +3,65 @@ import { Button, Card, Icon } from "@rneui/themed";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
 import { updatedata } from "./context/ContextProvider";
 import { BASE_URL } from "../constants/Url.json";
+import axios from "axios";
 
-export default function UpdateAction({ navigation, id }) {
+export default function UpdateAction({ navigation }) {
 
-  const { setUPdata } = useContext(updatedata);
+  // const { setUPdata } = useContext(updatedata);
 
-  const [inpval, setINP] = useState({
-    Action: "",
+  // const [inpval, setINP] = useState({
+  //   incident: "",
     
-  });
+  // });
 
-  const setdata = (e) => {
-    const { name, value } = e.target;
-    setINP((preval) => {
-      return {
-        ...preval,
-        [name]: value,
-      };
-    });
-  };
+   const [incident, setIncident] = useState("");
+   const [id, setId] = useState("");
+   const [action, setAction] = useState("");
+
+   useEffect(() => {
+    getdata()
+}, [])
+
+const handleEdit = (item) => {
+  var data = {
+      "incident" : incident,
+      "id": id,
+      "action" : action
+  }
+  axios({
+      url:BASE_URL + "/incident/update/636ae3df7a2c620b602e3143",
+      method:"PATCH",
+      data : data,
+      headers : {
+          "Content-Type" : "application/json"
+      }
+  }).then((res) => {
+      console.log(data);
+      getdata();
+      //setIncident("")
+      setIncident(item.incident)
+      setId(item.id)
+      setAction(item.action)
+      // setVisible(false)
+      console.log(data);
+  })
+
+}
+
+  // const setdata = (e) => {
+  //   const { name, value } = e.target;
+  //   setINP((preval) => {
+  //     return {
+  //       ...preval,
+  //       [name]: value,
+  //     };
+  //   });
+  // };
 
   // const { id } = useParams("");
 
   const getdata = async () => {
-    const res = await fetch(BASE_URL + `/incident/view/${id}`, {
+    const res = await fetch(BASE_URL + `/incident/view/636ae3df7a2c620b602e3143`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -38,53 +73,63 @@ export default function UpdateAction({ navigation, id }) {
       console.log("Please take the action");
       return 0;
     } else {
-      setINP(data);
+      setIncident(data.incident);
+      setId(data.id);
+      setAction(data.action);
       console.log("get data");
+      console.log(data);
     }
   };
 
-  useEffect(() => {
-    getdata();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const onChangeActionName = (value) => {
+    setAction(value)
+        }
 
-  const updateaction = async (e) => {
-    e.preventDefault();
+  // useEffect(() => {
+  //   getdata();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-    const { VehicleNo, OwnerName, PassengerName, Incident } = inpval;
+  // const updateincident = async (e) => {
+  //   e.preventDefault();
 
-    const res2 = await fetch(`http://192.168.92.248:8000/incident/update/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        Action,
+  //   const { VehicleNo, OwnerName, PassengerName, incident } = inpval;
+
+  //   const res2 = await fetch(BASE_URL + `/incident/update/636ae3df7a2c620b602e3143`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       incident,
         
         
-      }),
-    });
+  //     }),
+  //   });
 
-    const data2 = await res2.json();
+  //   const data2 = await res2.json();
 
-    if (res2.status === 422 || !data2) {
-      alert("Please enter all action details");
-    } else {
-      alert("Update Action Details Successfully");
-      navigate("/view");
-      setUPdata(data2);
-    }
-  };
+  //   if (res2.status === 422 || !data2) {
+  //     alert("Please enter all action details");
+  //   } else {
+  //     alert("Update Action Details Successfully");
+  //     console.log("Update Incident Details Successfully")
+  //     // navigation.navigate("ViewIncident", {});
+  //     setUPdata(data2);
+  //     console.log("Update Incident Details Successfully")
+  //     console.log(data2);
+  //   }
+  // };
 
   return (
     <View>
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("RequestList", {})}
+          onPress={() => navigation.navigate("ViewAllIncidents", {})}
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle1}>Update Action</Text>
+        <Text style={styles.TextTitle1}>Add Action</Text>
       </View>
 <View>
 
@@ -93,7 +138,7 @@ export default function UpdateAction({ navigation, id }) {
 
       <View style={styles.container}>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident ID :</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Referrence No : {id}</Text>
       </View>
       <View style={styles.TextTitle2}>
         <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No :</Text>
@@ -105,25 +150,30 @@ export default function UpdateAction({ navigation, id }) {
         <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name :</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident :</Text>
-      </View>
-      <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Action</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {incident}</Text>
       
       <View style={styles.inputView}>
       
         <TextInput
           style={styles.TextInput}
-          placeholder="Enter the Action"
+          
           placeholderTextColor="#003f5c"
-          value={inpval.Action}
-          onChangeText={(Action) => setdata(Action)}
+           value={action}
+          name='incident'
+          onChangeText={onChangeActionName}
         />
       </View>
       </View>
       <View style={styles.fixToText} >
-      <Button title='Back'></Button>
-      <Button onClick={updateaction} title='Update'></Button>
+      <Button title='Back'
+      onPress={() =>
+        navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
+      }/>
+      <Button onPress={handleEdit} title='Update'
+      // onPress={() =>
+      //      navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
+      //    } 
+         />
       </View>
       {/* <View style={styles.button2} >
       <Button title='Add'></Button>
