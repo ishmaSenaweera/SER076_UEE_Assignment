@@ -12,7 +12,7 @@ import { BASE_URL } from "../constants/Url.json";
 import { useIsFocused } from "@react-navigation/native";
 import CustomAlert from "../customAlert/CustomAlert";
 
-export default function ViewRequest({ navigation, route }) {
+export default function ViewRequest({ navigation, route }) { 
   const isFocused = useIsFocused();
   const timeEdited = new Date(
     route.params.data.dateAndTime
@@ -101,7 +101,9 @@ export default function ViewRequest({ navigation, route }) {
 
           <TouchableOpacity
             style={styles.statusBtn}
-            onPress={() => navigation.navigate("ViewStatus", {})}
+            onPress={() =>
+              navigation.navigate("ViewStatus", { id: route.params.data._id })
+            }
           >
             <Text style={styles.reqText}>View Status</Text>
           </TouchableOpacity>

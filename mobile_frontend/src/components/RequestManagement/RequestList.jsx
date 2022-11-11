@@ -15,8 +15,8 @@ import { BASE_URL } from "../constants/Url.json";
 import AuthContext from "../../context/UserContext";
 
 export default function RequestList({ navigation }) {
-  const [requestList, setRequestList] = useState([]);
   const isFocused = useIsFocused();
+  const [requestList, setRequestList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const { userName } = useContext(AuthContext);
 

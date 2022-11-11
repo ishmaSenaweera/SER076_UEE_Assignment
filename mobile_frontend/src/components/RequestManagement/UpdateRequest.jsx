@@ -19,8 +19,7 @@ function UpdateRequest({ navigation, route }) {
   const [seats, setSeats] = useState(route.params.data.noOfSeats);
   const [isOpen, setIsOpen] = useState(false);
   const [errorShow, setErrorShow] = useState(false);
-  const [successShow, setSuccessShow] = useState(false);
-  const [responseData, setResponseData] = useState([]);
+  const [successShow, setSuccessShow] = useState(false);  
 
   const changeSelectedTime = (event, selectedTime) => {
     const currentTime = selectedTime || time;
@@ -82,8 +81,8 @@ function UpdateRequest({ navigation, route }) {
       locationTo: to,
       dateAndTime: time,
       noOfSeats: seats,
+      _id: route.params.data._id,
     };
-    dataObject._id = route.params.data._id;
     dataObject.dateAndTime = dataObject.dateAndTime.toString();
     setSuccessShow(false);
     navigation.navigate("ViewRequest", { data: dataObject });
