@@ -13,12 +13,15 @@ router.post("/incident/new", async (req, res) => {
     
       try {
         const addincident = new incidents({
-          user: req.body.user,
+          //user: req.body.user,
           // VehicleNo: req.body.VehicleNo,
           // OwnerName: req.body.OwnerName,
           // PassengerName: req.body.PassengerName,
           incident: req.body.incident,
-           action: req.body.action
+           action: req.body.action,
+            passenger: req.body.passenger._id,
+       vehicleOwner: req.body.vehicleOwner,
+      // vehicle: req.body.vehicle,
           
         })
 
@@ -38,7 +41,7 @@ router.get("/incident/view", async (req, res) => {
   try {
     
 
-    const getincidentdata = await incidents.find();
+    const getincidentdata = await incidents.find().populate("passenger");
 
     res.status(201).json(getincidentdata);
     console.log(getincidentdata);

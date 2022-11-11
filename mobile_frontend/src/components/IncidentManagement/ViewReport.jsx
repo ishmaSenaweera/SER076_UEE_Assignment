@@ -106,10 +106,10 @@ function ViewReport({ navigation }) {
                       
 
 <DataTable.Row key={id}>
-          <DataTable.Cell>I{id+1000}</DataTable.Cell>
-          <DataTable.Cell>aa</DataTable.Cell>
-          <DataTable.Cell>bc</DataTable.Cell>
-          <DataTable.Cell>aa</DataTable.Cell>
+          <DataTable.Cell>{element._id}</DataTable.Cell>
+          <DataTable.Cell></DataTable.Cell>
+          <DataTable.Cell></DataTable.Cell>
+          <DataTable.Cell></DataTable.Cell>
         </DataTable.Row>
                       </View>
                       <View style={styles.fixToText} >

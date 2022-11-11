@@ -3,6 +3,10 @@ import Login from "../components/authentication/Login";
 import AuthContext from "../context/UserContext";
 import { NavigationContainer } from "@react-navigation/native";
 import Tabs from "./BottomNav";
+import AddIncident from "../components/IncidentManagement/AddIncident";
+import ViewIncident from "../components/IncidentManagement/viewIncident";
+import ViewReport from "../components/IncidentManagement/ViewReport";
+import UpdateIncident from "../components/IncidentManagement/UpdateIncident";
 
 
 
@@ -11,7 +15,7 @@ function AppNav() {
 
   return (
     <>
-      {userType === null && <Login/>}
+      {userType === null && <ViewReport/>}
       {userType === "Site Manager" && (
         <NavigationContainer>
           <Tabs />

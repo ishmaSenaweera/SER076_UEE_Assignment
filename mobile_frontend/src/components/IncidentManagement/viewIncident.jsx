@@ -10,13 +10,13 @@ import { BASE_URL } from "../constants/Url.json";
 export default function ViewIncident({ navigation, id }) {
   // const id = route.params.id;
   const { userId } = useContext(AuthContext);
-  const [getincidentdata, setProductdata] = useState([]);
+  const [incidentindividual, setProductdata] = useState([]);
   const [units, setUnits] = useState(2);
 
   const getdata = async () => {
     try {
       await axios
-        .get(BASE_URL + `/incident/view/${id}`)
+        .get(BASE_URL + `/incident/view/636eb246f5be579fda8eb06a`)
         .then((res) => {
           if (res.status === 201) {
             setProductdata(res.data);
@@ -50,22 +50,22 @@ export default function ViewIncident({ navigation, id }) {
 
       <View style={styles.container}>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Indient ID : {getincidentdata.id}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident ID : I{incidentindividual._id}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No : {getincidentdata.VehicleNo}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Vehicle No : {incidentindividual.vehicle}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name : {getincidentdata.OwnerName}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Owner Name : {incidentindividual.vehicleOwner}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name : {getincidentdata.PassengerName}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Passenger Name : {incidentindividual.passenger}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {getincidentdata.Incident}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Incident : {incidentindividual.incident}</Text>
       </View>
       <View style={styles.TextTitle2}>
-        <Text style={{fontSize: 20, textAlign: "center"}}>Action : {getincidentdata.Action}</Text>
+        <Text style={{fontSize: 20, textAlign: "center"}}>Action : {incidentindividual.action}</Text>
       </View>
       <View style={styles.row}>
           <TouchableOpacity style={styles.resetBtn} 

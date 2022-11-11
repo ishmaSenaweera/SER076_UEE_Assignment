@@ -20,6 +20,7 @@ export default function AddIncident({ navigation }) {
   
 
    const { userId } = useContext(AuthContext);
+   const { userName } = useContext(AuthContext);
 
   const resetData = (e) => {
     setIncident("");
@@ -38,7 +39,9 @@ export default function AddIncident({ navigation }) {
 
     var data = {
       "incident" : incident,
-      "user" : userId
+      //"user" : userId
+      "passenger" : userId,
+      //"vehicleOwner" : vehicleOwner
       
   }
   axios({
@@ -49,7 +52,7 @@ export default function AddIncident({ navigation }) {
           "Content-Type" : "application/json"
       }
   }).then((res) => {
-      console.log(data);
+      // console.log(data);
       
       setIncident("")
     
@@ -76,7 +79,7 @@ export default function AddIncident({ navigation }) {
       <Card.Divider color="black" style={{ height: 4 }} />
 
       <View style={styles.container1}>
-        <Text style={styles.text1}>Referrence No : {id}</Text>
+        <Text style={styles.text1}>Referrence No</Text>
        
 
 <Text style={styles.text1}>Vehicle No</Text>
@@ -85,7 +88,7 @@ export default function AddIncident({ navigation }) {
 <Text style={styles.text1}>Owner Name</Text>
         
 
-<Text style={styles.text1}>Passenger Name</Text>
+<Text style={styles.text1}>Passenger Name : {userName}</Text>
         
 
 
