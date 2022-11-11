@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useContext, useState } from "react";
+
 import {
   StyleSheet,
   Text,
@@ -44,20 +45,20 @@ export default function Register() {
 
       
       const result = await axios.post(
-        "http://192.168.8.174:8000/register",
+        "http://192.168.8.174:8000/user/register",
         RegisterData
       );
 
       if (result) {
         setType(result.data.type);
-        // console.log(result.data.type, "Success");
+        console.log(result.data.type, "Success");
         console.log(result.data.type);
       }
     } catch (err) {
-    //   setLoading(false);
-    //   alert(err.response.data.errorMessage);
-    //   console.log(err);
-    console.log("Errorrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+    setLoading(false);
+    alert(err.response.data.errorMessage);
+    console.log(err);
+    
      }
   };
   

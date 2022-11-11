@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useContext, useState } from "react";
+import { Card, Icon } from "@rneui/themed";
 import {
   StyleSheet,
   Text,
@@ -10,7 +11,7 @@ import {
 import axios from "axios";
 
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -26,7 +27,7 @@ export default function Login() {
 
       
       const result = await axios.post(
-        "http://192.168.8.174:8000/login",
+        "http://192.168.8.174:8000/user/login",
         loginData
       );
 
@@ -72,6 +73,13 @@ export default function Login() {
       <TouchableOpacity style={styles.loginBtn} onPress={login}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
+      
+         
+          <TouchableOpacity>
+            <Text style={{color:"#bb8de0",textAlign:'center',fontSize:16,fontWeight:'bold'}}>Need Account ? Register now</Text>
+          </TouchableOpacity>
+        
+      
     </View>
   );
 }

@@ -52,7 +52,7 @@ router.get("/get/:id", async (req, res) => {
 });
 
 /* This is a route handler for the / route. It is used to get all the users. */
-router.get("/", async (req, res) => {
+router.get("/getAll", async (req, res) => {
   try {
     const users = await User.find();
     /* Sending the users object to the client. */
