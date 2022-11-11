@@ -10,11 +10,57 @@ import {
 } from "react-native";
 
 
-
-
-
-
 export default function AddUser({ navigation }) {
+
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [dob, setDob] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [userType, setUserType] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordVerify, setPasswordVerify] = useState("");
+  const [loading, setLoading] = useState(false);
+ 
+  const adduser = async (e) => {
+    e.preventDefault();
+    try {
+     
+      setLoading(true);
+
+     
+      const UserData = {
+        firstName:firstName,
+        lastName:lastName,
+        email:email,
+        dob:dob,
+        mobile:mobile,
+        userType:userType,
+        password:password,
+      };
+
+      console.log(UserData);
+
+      
+      const result = await axios.post(
+        "http://192.168.8.174:8000/user/register",
+        UserData
+      );
+
+      if (result) {
+        setType(result.data.type);
+        console.log(result.data.type, "Success");
+        console.log(result.data.type);
+      }
+    } catch (err) {
+    setLoading(false);
+    alert(err.response.data.errorMessage);
+    console.log(err);
+    
+     }
+  };
+
   return (
     <View>
       <View style={styles.row}>
@@ -133,10 +179,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#8B51F5",
   },
-  resetText: {
-    color: "black",
-    fontSize: 20,
-  },
+  
   addText: {
     color: "white",
     fontSize: 20,
