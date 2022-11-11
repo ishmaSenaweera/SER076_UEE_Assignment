@@ -40,7 +40,7 @@ router.put("/update/:id", async (req, res) => {
 });
 
 /* Delete a request */
-router.delete("/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     const id = req.params.id;
     await Request.findByIdAndDelete(id).exec();
@@ -70,7 +70,7 @@ router.delete("/status/:id", async (req, res) => {
 /* Get All Requests */
 router.get("/getAll", async (req, res) => {
   try {
-    const result = await Request.find()
+    const result = await Request.find({status : "Requested"})
       .populate("passenger")
       .populate("vehicleOwner")
       .populate("vehicle");

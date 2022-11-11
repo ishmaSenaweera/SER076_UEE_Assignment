@@ -77,9 +77,6 @@ export default function RequestList({ navigation }) {
             }
           })
           .map((element, index) => {
-            // if(element.length === 0){
-            //   <Text style={styles.errorMessage}>No Result Found</Text>
-            // }
             return (
               <TouchableOpacity
                 onPress={() => navigation.navigate("ViewRequestInfo", {})}
