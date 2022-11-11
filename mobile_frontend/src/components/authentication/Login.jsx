@@ -31,10 +31,10 @@ export default function Login() {
       // const result = await axios.post(BASE_URL + "/user/login", loginData);
 
       /* Checking if the status is true. */
-      if (result) {
-        setType(result.data.type);
-        console.log(result.data.type);
-      }
+      // if (result) {
+      //   setType(result.data.type);
+      //   console.log(result.data.type);
+      // }
     } catch (err) {
       alert(err);
       console.log(err);

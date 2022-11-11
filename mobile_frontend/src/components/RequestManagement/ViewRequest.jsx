@@ -20,8 +20,6 @@ export default function ViewRequest({ navigation, route }) {
     
   }
   
-
-
   return (
     <View>
       <Text style={styles.TextTitle}>Your Ride Request</Text>

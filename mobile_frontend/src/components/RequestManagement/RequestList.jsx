@@ -82,7 +82,12 @@ export default function RequestList({ navigation }) {
             // }
             return (
               <TouchableOpacity
-                onPress={() => navigation.navigate("ViewRequestInfo", {})}
+                onPress={() =>
+                  navigation.navigate("ViewRequestInfo", {
+                    request: element,
+                    image: `https://xsgames.co/randomusers/assets/avatars/male/${index}.jpg`,
+                  })
+                }
                 key={index}
               >
                 <View
