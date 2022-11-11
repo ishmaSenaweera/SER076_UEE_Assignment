@@ -37,7 +37,7 @@ export default function ViewIncident({ navigation, id }) {
     <View>
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("RequestList", {})}
+          onPress={() => navigation.navigate("ViewAllIncidents", {})}
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
@@ -67,14 +67,27 @@ export default function ViewIncident({ navigation, id }) {
       <View style={styles.TextTitle2}>
         <Text style={{fontSize: 20, textAlign: "center"}}>Action : {getincidentdata.Action}</Text>
       </View>
+      <View style={styles.row}>
+          <TouchableOpacity style={styles.resetBtn} 
+          onPress={() =>
+         navigation.navigate("ViewAllIncidents", { screen: "ViewAllIncidents" })
+       }>
+            <Text style={styles.resetText}>Back</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.addBtn}>
+            <Text style={styles.addText} 
+            onPress={() =>
+                      navigation.navigate("UpdateAction", {
+                        id: element._id,
+                      })
+                    }>Update</Text>
+          </TouchableOpacity>
+        </View>
+
+
+
       
-      <View style={styles.fixToText} >
-      <Button title='Back'></Button>
-      <Button title='Update'></Button>
-      </View>
-      {/* <View style={styles.button2} >
-      <Button title='Add'></Button>
-      </View> */}
+      
       </View>
     </View>
   );
@@ -184,5 +197,73 @@ const styles = StyleSheet.create({
     marginLeft: 100,
     marginRight: 100,
     marginTop: 43
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: { fontSize: 35 },
+  TextTitle1: {
+    marginTop: 40,
+    marginLeft: 10,
+    fontSize: 40,
+  },
+  container1: {
+    backgroundColor: "#D5BEFF",
+    marginLeft: 10,
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: "#D5BEFF",
+    borderRadius: 25,
+    height: "77%",
+  },
+  text1: {
+    fontWeight: "bold",
+    fontSize: 20,
+    marginTop: 10,
+    marginLeft: 15,
+    marginBottom: 30,
+    marginRight: 15
+  },
+  resetBtn: {
+    width: "40%",
+    borderRadius: 25,
+    marginLeft: 27,
+    marginBottom: 20,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
+    borderWidth: 3,
+    borderColor: "#8B51F5",
+  },
+  addBtn: {
+    width: "40%",
+    borderRadius: 25,
+    marginLeft: 20,
+    marginBottom: 20,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#8B51F5",
+  },
+  resetText: {
+    color: "black",
+    fontSize: 20,
+  },
+  addText: {
+    color: "white",
+    fontSize: 20,
+  },
+  TextInput: {
+    height: 50,
+    padding: 10,
+    borderWidth: 5,
+    marginTop: 0,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+    borderColor: "#8B51F5",
+    backgroundColor: "white",
   },
 });

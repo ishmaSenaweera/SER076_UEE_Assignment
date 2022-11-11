@@ -6,54 +6,40 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  DropDown
 } from "react-native";
 import { BASE_URL } from "../constants/Url.json";
 import axios from "axios";
 import AuthContext from "../../context/UserContext";
 import CheckBox from "expo-checkbox";
+import DropDownPicker from 'react-native-dropdown-picker';
+   
 
 export default function AddIncident({ navigation }) {
   const [incident, setIncident] = useState("");
-  // const [model, setModel] = useState("");
-  // const [plateNo, setPlateNo] = useState("");
-  // const [passengers, setPassengers] = useState("");
-  // const [vehicleType, setVehicleType] = useState("");
-  // const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  
 
    const { userId } = useContext(AuthContext);
 
   const resetData = (e) => {
     setIncident("");
-    // setModel("");
-    // setPlateNo("");
-    // setPassengers("");
-    // setVehicleType("");
+    
   };
 
-  const AddIncident = async (e) => {
-    // e.preventDefault();
-    // try {
-    //   /* Creating an object with the same name as the variables. */
-    //   const UserData = {
-    //     //user: userId,
-    //     "incident" : incident
-        
-    //   };
-    //   const result = await axios.post(BASE_URL + "/incident/new", UserData);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Loseing a Phone', value: 'Loseing a Phone'},
+    {label: 'Loseing a Wallet', value: 'Loseing a Wallet'}
+  ]);
 
-    //   if (result?.status === 201) {
-    //     alert(result?.data?.Message);
-    //     /* Reloading the page. */
-    //   }
-    // } catch (err) {
-    //   console.error(err);
-    //   alert(err?.response?.data?.errorMessage);
-    // }
+  const AddIncident = async (e) => {
+    
 
     var data = {
       "incident" : incident,
-      "user" : userId,
-      "action" : action
+      "user" : userId
+      
   }
   axios({
       url:BASE_URL + "/incident/new",
@@ -66,7 +52,7 @@ export default function AddIncident({ navigation }) {
       console.log(data);
       
       setIncident("")
-      // setVisible(false)
+    
       console.log(data);
       alert("Successfully")
   })
@@ -90,53 +76,41 @@ export default function AddIncident({ navigation }) {
       <Card.Divider color="black" style={{ height: 4 }} />
 
       <View style={styles.container1}>
-        <Text style={styles.text1}>Referrence No</Text>
-        {/* <TextInput
-          value={incident}
-          style={styles.TextInput}
-          placeholder="Incident"
-          onChangeText={(e) => setIncident(e)}
-        /> */}
+        <Text style={styles.text1}>Referrence No : {id}</Text>
+       
 
 <Text style={styles.text1}>Vehicle No</Text>
-        {/* <TextInput
-          value={incident}
-          style={styles.TextInput}
-          placeholder="Incident"
-          onChangeText={(e) => setIncident(e)}
-        /> */}
+        
 
 <Text style={styles.text1}>Owner Name</Text>
-        {/* <TextInput
-          value={incident}
-          style={styles.TextInput}
-          placeholder="Incident"
-          onChangeText={(e) => setIncident(e)}
-        /> */}
+        
 
 <Text style={styles.text1}>Passenger Name</Text>
-        {/* <TextInput
-          value={incident}
-          style={styles.TextInput}
-          placeholder="Incident"
-          onChangeText={(e) => setIncident(e)}
-        /> */}
+        
 
-<Text style={styles.text1}>Incident</Text>
-        <TextInput
-          value={incident}
-          style={styles.TextInput}
-          placeholder="Incident"
-          onChangeText={onChangeIncidentName}
 
-        />
+
+<DropDownPicker
+style={{}}
+      open={open}
+      value={incident}
+      items={items}
+      setOpen={setOpen}
+      setValue={setIncident}
+      setItems={setItems}
+      placeholder="Select Your Incident"
+    />
+        
         
 
         <Card.Divider color="black" style={{ height: 4, marginTop: 10 }} />
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.resetBtn} onPress={resetData}>
-            <Text style={styles.resetText}>Reset</Text>
+          <TouchableOpacity style={styles.resetBtn} 
+          onPress={() =>
+         navigation.navigate("Incident", { screen: "Incident" })
+       }>
+            <Text style={styles.resetText}>Back</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.addBtn} onPress={AddIncident}>
             <Text style={styles.addText}>Add</Text>
@@ -172,6 +146,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 10,
     marginLeft: 15,
+    marginBottom: 30,
+    marginRight: 15
   },
   resetBtn: {
     width: "40%",
