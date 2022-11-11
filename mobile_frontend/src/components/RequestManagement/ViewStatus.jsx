@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Icon } from "@rneui/themed";
 import {
   ScrollView,
@@ -7,13 +7,50 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import axios from "axios";
+import { BASE_URL } from "../constants/Url.json";
+import { useIsFocused } from "@react-navigation/native";
+import { addListener } from "../../../../backend/models/request.model";
 
-export default function ViewStatus({ navigation }) {
+export default function ViewStatus({ navigation, route }) {
+  const id = route.params.id;
+  const isFocused = useIsFocused();
+  const [reqData, setReqData] = useState([]);
+  const [status, setStatus] = useState("Pending");
+
+  async function getReqData() {
+    await axios.get(BASE_URL + `/request/ride/${id}`).then((res) => {
+      if (res.status === 200) {
+        setReqData(res.data[0]);
+        if (res.data[0].status === "Accepted") {
+          setStatus("Accepted");
+        }
+      }
+    });
+  }
+
+  async function handleConfirm() {
+    const dataObject = {
+      status: "Confirmed",
+    };
+    await axios.put(BASE_URL + `/request/status/${id}`, dataObject).then((res) => {
+      if (res.status === 200) {
+        alert("aaa");
+      }
+    });
+  }
+
+  useEffect(() => {
+    getReqData();
+  }, [isFocused]);
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("ViewRequest", {})}
+          onPress={() => {
+            navigation.navigate("ViewRequest", { data: reqData });
+          }}
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
@@ -22,32 +59,71 @@ export default function ViewStatus({ navigation }) {
 
       <Card.Divider color="black" style={{ height: 4 }} />
 
-      <View style={styles.container1}>
-        <Text style={styles.text1}>Status : </Text>
+      <View
+        style={status === "Pending" ? styles.container1 : styles.container2}
+      >
+        <Text style={styles.text}>Status : {status}</Text>
       </View>
 
-      <ScrollView style={{ height: "50%", marginBottom: 10 }}>
-        <TouchableOpacity
-        //   onPress={() => navigation.navigate("ViewRequestInfo", {})}
-        >
+      {reqData.status === "Accepted" ? (
+        <ScrollView style={{ height: "70%", marginBottom: 10 }}>
           <View
             style={{
               borderWidth: 1,
-              height: 150,
-              margin: 15,
+              margin: 10,
               backgroundColor: "#DFD8D7",
               borderColor: "#DFD8D7",
               borderRadius: 15,
+              elevation: 20,
             }}
           >
+            <Text style={styles.text1}>
+              Vehicle Owner :{" "}
+              {reqData.vehicleOwner.firstName +
+                " " +
+                reqData.vehicleOwner.lastName}
+            </Text>
+            <Text style={styles.text1}>
+              Mobile : {reqData.vehicleOwner.mobile}
+            </Text>
+            <Text
+              style={{
+                fontStyle: "italic",
+                fontSize: 25,
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              Vehicle Details:
+            </Text>
+            <Text style={styles.text2}>Make : {reqData.vehicle.make}</Text>
+            <Text style={styles.text2}>Model : {reqData.vehicle.model}</Text>
+            <Text style={styles.text2}>
+              Plate No : {reqData.vehicle.plateNo}
+            </Text>
+            <Text style={styles.text2}>
+              Passengers : {reqData.vehicle.passengers}
+            </Text>
+            <Text style={styles.text2}>
+              Registered : {reqData.vehicle.registered === true ? "Yes" : "No"}
+            </Text>
+            <Text style={styles.text2}>
+              Vehicle Type : {reqData.vehicle.vehicleType}
+            </Text>
+
             <View style={{ padding: 10 }}>
-              <TouchableOpacity style={styles.confirmBtn}>
+              <TouchableOpacity
+                style={styles.confirmBtn}
+                onPress={handleConfirm}
+              >
                 <Text style={styles.conText}>Confirm Ride</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </TouchableOpacity>
-      </ScrollView>
+        </ScrollView>
+      ) : (
+        ""
+      )}
     </View>
   );
 }
@@ -74,22 +150,40 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   container1: {
-    backgroundColor: "white",
+    backgroundColor: "#F5FFCB",
     margin: 20,
     borderWidth: 4,
     borderColor: "#D5BEFF",
     borderRadius: 25,
-    height: "20%",
+    height: "10%",
   },
-  text1: {
-    padding: 30,
+  container2: {
+    backgroundColor: "#009945",
+    margin: 20,
+    borderWidth: 4,
+    borderColor: "#D5BEFF",
+    borderRadius: 25,
+    height: "10%",
+  },
+  text: {
+    padding: 10,
     fontSize: 20,
     fontWeight: "bold",
+    textAlign: "center",
+  },
+  text1: {
+    padding: 3,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  text2: {
+    padding: 3,
+    fontSize: 20,
   },
   confirmBtn: {
     width: "40%",
     borderRadius: 25,
-    marginTop: 60,
+    marginTop: 20,
     marginLeft: 150,
     height: 50,
     backgroundColor: "#8B51F5",

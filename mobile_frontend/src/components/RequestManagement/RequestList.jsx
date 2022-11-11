@@ -15,8 +15,8 @@ import { BASE_URL } from "../constants/Url.json";
 import AuthContext from "../../context/UserContext";
 
 export default function RequestList({ navigation }) {
-  const [requestList, setRequestList] = useState([]);
   const isFocused = useIsFocused();
+  const [requestList, setRequestList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const { userName } = useContext(AuthContext);
 
@@ -77,9 +77,6 @@ export default function RequestList({ navigation }) {
             }
           })
           .map((element, index) => {
-            // if(element.length === 0){
-            //   <Text style={styles.errorMessage}>No Result Found</Text>
-            // }
             return (
               <TouchableOpacity
                 onPress={() => navigation.navigate("ViewRequestInfo", {})}
