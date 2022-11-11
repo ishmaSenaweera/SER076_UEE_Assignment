@@ -5,12 +5,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import Tabs from "./BottomNav";
 import Register from "../components/UserManagement/auth/Register";
 
+
+
 function AppNav() {
   const { userType } = useContext(AuthContext);
 
   return (
     <>
-      {userType === null && <Login />}
+      {userType === null && <Login/>}
       {userType === "Site Manager" && (
         <NavigationContainer>
           <Tabs />

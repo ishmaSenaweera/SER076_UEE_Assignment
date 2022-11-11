@@ -1,22 +1,32 @@
 const mongoose = require("mongoose");
 
 const incidentSchema = new mongoose.Schema({
-  VehicleNo: {
+  // VehicleNo: {
+  //   type: String,
+  //   required: true,
+  // },
+  // OwnerName: {
+  //   type: String,
+  //   required: true,
+  // },
+  // PassengerName: {
+  //   type: String,
+  //   required: true,
+  // },
+  incident: {
     type: String,
-    required: true,
+    //required: true,
   },
-  OwnerName: {
+  action: {
     type: String,
-    required: true,
+    //required: true,
+    default: "None"
   },
-  PassengerName: {
-    type: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
     required: true,
-  },
-  Incident: {
-    type: String,
-    required: true,
-  },
+  }
 });
 
 const incidents = new mongoose.model("incidents", incidentSchema);
