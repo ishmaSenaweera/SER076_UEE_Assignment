@@ -21,6 +21,17 @@ export default function RequestNavigationStack() {
         headerShown: false,
       }}
     >
+      {vehicleOwnerBlock === true ? (
+        <>
+          <Stack.Screen
+            name="ViewRequestVehicleOwner"
+            component={ViewRequestVehicleOwner}
+          />
+          <Stack.Screen name="RideSummary" component={RideSummary} />
+        </>
+      ) : (
+        <></>
+      )}
       {vehicleOwnerBlock === false ? (
         <>
           <Stack.Screen name="RequestList" component={RequestList} />
@@ -29,20 +40,14 @@ export default function RequestNavigationStack() {
           <Stack.Screen name="ViewRequest" component={ViewRequest} />
           <Stack.Screen name="ViewStatus" component={ViewStatus} />
           <Stack.Screen name="UpdateRequest" component={UpdateRequest} />
-
+          <Stack.Screen name="RideSummary" component={RideSummary} />
           <Stack.Screen
             name="ViewRequestVehicleOwner"
             component={ViewRequestVehicleOwner}
           />
         </>
       ) : (
-        <>
-          <Stack.Screen
-            name="ViewRequestVehicleOwner"
-            component={ViewRequestVehicleOwner}
-          />
-          <Stack.Screen name="RideSummary" component={RideSummary} />
-        </>
+        <></>
       )}
     </Stack.Navigator>
   );
