@@ -40,7 +40,7 @@ router.put("/update/:id", async (req, res) => {
 });
 
 /* Delete a request */
-router.delete("/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     const id = req.params.id;
     await Request.findByIdAndDelete(id).exec();
@@ -52,7 +52,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 /* Update request status */
-router.delete("/status/:id", async (req, res) => {
+router.put("/status/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const result = await Request.findByIdAndUpdate(id, {
@@ -70,7 +70,21 @@ router.delete("/status/:id", async (req, res) => {
 /* Get All Requests */
 router.get("/getAll", async (req, res) => {
   try {
-    const result = await Request.find()
+    const result = await Request.find({ status: "Requested" })
+      .populate("passenger")
+      .populate("vehicleOwner")
+      .populate("vehicle");
+    res.status(200).send(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+/* Get Ride By Id */
+router.get("/ride/:id", async (req, res) => {
+  try {
+    const result = await Request.find({ _id: req.params.id })     
       .populate("passenger")
       .populate("vehicleOwner")
       .populate("vehicle");
