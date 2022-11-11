@@ -20,9 +20,7 @@ export default function VehicleList({ navigation }) {
 
   const getVehicles = async () => {
     try {
-      const result = await axios.get(
-        BASE_URL + `/vehicle/getByUser/${userId}`
-      );
+      const result = await axios.get(BASE_URL + `/vehicle/getByUser/${userId}`);
       /* Setting the state of the notes and totalPage variables. */
       setVehicles(result?.data);
     } catch (error) {
@@ -33,6 +31,7 @@ export default function VehicleList({ navigation }) {
   useEffect(() => {
     getVehicles();
   }, [isFocused]);
+
   return (
     <View>
       <Text style={styles.TextTitle1}>Hi {userName},</Text>
@@ -76,7 +75,7 @@ export default function VehicleList({ navigation }) {
               >
                 <View style={styles.row}>
                   <Text style={styles.text1}>
-                    {vehicle.make}-{vehicle.model}
+                    {vehicle.make} {vehicle.model}
                   </Text>
                   <Text style={styles.text2}>{vehicle.vehicleType}</Text>
                 </View>
