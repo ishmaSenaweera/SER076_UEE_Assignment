@@ -20,6 +20,7 @@ export default function AddIncident({ navigation }) {
   
 
    const { userId } = useContext(AuthContext);
+  const { userName } = useContext(AuthContext);
 
   const resetData = (e) => {
     setIncident("");
@@ -29,8 +30,10 @@ export default function AddIncident({ navigation }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'Loseing a Phone', value: 'Loseing a Phone'},
-    {label: 'Loseing a Wallet', value: 'Loseing a Wallet'}
+    {label: 'Lose a Phone', value: 'Loseing a Phone'},
+    {label: 'Lose a Wallet', value: 'Loseing a Wallet'},
+    {label: 'Lose a Bag', value: 'Loseing a Bag'},
+    {label: 'Lose a Jewellery', value: 'Loseing a Jewellery'}
   ]);
 
   const AddIncident = async (e) => {
@@ -38,7 +41,8 @@ export default function AddIncident({ navigation }) {
 
     var data = {
       "incident" : incident,
-      "user" : userId
+      //"user" : userId,
+      "passenger" : userId,
       
   }
   axios({
@@ -85,7 +89,7 @@ export default function AddIncident({ navigation }) {
 <Text style={styles.text1}>Owner Name</Text>
         
 
-<Text style={styles.text1}>Passenger Name</Text>
+<Text style={styles.text1}>Passenger Name : {userName}</Text>
         
 
 

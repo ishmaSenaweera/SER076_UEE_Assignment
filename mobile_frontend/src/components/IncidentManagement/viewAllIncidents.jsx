@@ -54,7 +54,7 @@ function ViewAllIncidents({ navigation }) {
     if (res2.status === 422 || !deletedata) {
       console.log("error");
     } else {
-      alert("Deleted Incident Details Successfully");
+      alert("Incident Details Deleted Successfully");
       console.log("incident deleted");
       // setDLTdata(deletedata);
       getdata();

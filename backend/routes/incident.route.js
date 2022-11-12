@@ -13,12 +13,15 @@ router.post("/incident/new", async (req, res) => {
     
       try {
         const addincident = new incidents({
-          user: req.body.user,
+          //user: req.body.user,
           // VehicleNo: req.body.VehicleNo,
           // OwnerName: req.body.OwnerName,
           // PassengerName: req.body.PassengerName,
           incident: req.body.incident,
-           action: req.body.action
+           action: req.body.action,
+            passenger: req.body.passenger,
+       vehicleOwner: req.body.vehicleOwner,
+      vehicle: req.body.vehicle,
           
         })
 
@@ -38,7 +41,10 @@ router.get("/incident/view", async (req, res) => {
   try {
     
 
-    const getincidentdata = await incidents.find();
+    const getincidentdata = await incidents.find()
+    .populate("passenger")
+      .populate("vehicleOwner")
+      .populate("vehicle");;
 
     res.status(201).json(getincidentdata);
     console.log(getincidentdata);
@@ -47,49 +53,49 @@ router.get("/incident/view", async (req, res) => {
   }
 });
 
-router.get("/incident/view-current", async (req, res) => {
-  try {
-    const pageNo = req.query.pageNo || 1;
-    const itemsPerPage = req.query.pageSize || 10;
-    const skip = (pageNo - 1) * itemsPerPage;
-    const count = await incidents.estimatedDocumentCount();
-    const pageCount = Math.ceil(count / itemsPerPage);
+// router.get("/incident/view-current", async (req, res) => {
+//   try {
+//     const pageNo = req.query.pageNo || 1;
+//     const itemsPerPage = req.query.pageSize || 10;
+//     const skip = (pageNo - 1) * itemsPerPage;
+//     const count = await incidents.estimatedDocumentCount();
+//     const pageCount = Math.ceil(count / itemsPerPage);
 
-    const getincidentdata = await incidents
-      .find({ user: req.body.user._id })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(itemsPerPage)
-      .populate("user");
+//     const getincidentdata = await incidents
+//       .find({ user: req.body.user._id })
+//       .sort({ createdAt: -1 })
+//       .skip(skip)
+//       .limit(itemsPerPage)
+//       .populate("user");
 
-    res.status(201).json({ pagination: { count, pageCount }, getincidentdata });
-  } catch (error) {
-    return res.status(422).json(error);
-  }
-});
+//     res.status(201).json({ pagination: { count, pageCount }, getincidentdata });
+//   } catch (error) {
+//     return res.status(422).json(error);
+//   }
+// });
 
-router.get("/incident/view-current/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
+// router.get("/incident/view-current/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
 
-    const pageNo = req.query.pageNo || 1;
-    const itemsPerPage = req.query.pageSize || 10;
-    const skip = (pageNo - 1) * itemsPerPage;
-    const count = await incidents.estimatedDocumentCount();
-    const pageCount = Math.ceil(count / itemsPerPage);
+//     const pageNo = req.query.pageNo || 1;
+//     const itemsPerPage = req.query.pageSize || 10;
+//     const skip = (pageNo - 1) * itemsPerPage;
+//     const count = await incidents.estimatedDocumentCount();
+//     const pageCount = Math.ceil(count / itemsPerPage);
 
-    const getincidentdata = await incidents
-      .find({ user: id })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(itemsPerPage)
-      .populate("user");
+//     const getincidentdata = await incidents
+//       .find({ user: id })
+//       .sort({ createdAt: -1 })
+//       .skip(skip)
+//       .limit(itemsPerPage)
+//       .populate("user");
 
-    res.status(201).json({ pagination: { count, pageCount }, getincidentdata });
-  } catch (error) {
-    return res.status(422).json(error);
-  }
-});
+//     res.status(201).json({ pagination: { count, pageCount }, getincidentdata });
+//   } catch (error) {
+//     return res.status(422).json(error);
+//   }
+// });
 
 // get individual incident
 
@@ -125,17 +131,17 @@ router.patch("/incident/update/:id", async (req, res) => {
 
 // update incident data
 
-router.put("/incident/update-status/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
+// router.put("/incident/update-status/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
 
-    const updateincident = await incidents.findByIdAndUpdate(id, req.body);
+//     const updateincident = await incidents.findByIdAndUpdate(id, req.body);
 
-    res.status(201).json(updateincident);
-  } catch (error) {
-    res.status(422).json(error);
-  }
-});
+//     res.status(201).json(updateincident);
+//   } catch (error) {
+//     res.status(422).json(error);
+//   }
+// });
 
 // delete incident
 router.delete("/incident/delete/:id", async (req, res) => {

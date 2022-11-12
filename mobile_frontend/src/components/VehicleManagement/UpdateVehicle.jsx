@@ -13,51 +13,59 @@ import AuthContext from "../../context/UserContext";
 import CheckBox from "expo-checkbox";
 import CustomAlert from "../customAlert/CustomAlert";
 
-export default function AddVehicle({ navigation }) {
-  const [make, setMake] = useState("");
-  const [model, setModel] = useState("");
-  const [plateNo, setPlateNo] = useState("");
-  const [passengers, setPassengers] = useState("");
-  const [vehicleType, setVehicleType] = useState("");
-  const [registered, setRegistered] = useState(false);
+export default function UpdateVehicle({ navigation, route }) {
+  const [make, setMake] = useState(route.params.make);
+  const [model, setModel] = useState(route.params.model);
+  const [plateNo, setPlateNo] = useState(route.params.plateNo);
+  const [passengers, setPassengers] = useState(
+    route.params.passengers?.toString()
+  );
+  const [vehicleType, setVehicleType] = useState(route.params.vehicleType);
+  const [registered, setRegistered] = useState(route.params.registered);
   const [backShow, setBackShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [errorShow, setErrorShow] = useState(false);
-  const [error, setError] = useState("");
   const [successShow, setSuccessShow] = useState(false);
 
   const { userId } = useContext(AuthContext);
 
   const resetForm = () => {
-    setMake("");
-    setModel("");
-    setPlateNo("");
-    setPassengers("");
-    setVehicleType("");
+    setMake(route.params.make);
+    setModel(route.params.model);
+    setPlateNo(route.params.plateNo);
+    setPassengers(route.params.passengers);
+    setVehicleType(route.params.vehicleType);
   };
 
   const backButton = (e) => {
-    if (make !== "" || model !== "" || vehicleType !== "") {
+    if (
+      make !== route.params.make ||
+      model !== route.params.model ||
+      vehicleType !== route.params.vehicleType
+    ) {
       setBackShow(true);
     } else {
-      navigation.navigate("VehicleList", {});
+      navigation.navigate("VehicleList", route.params);
     }
   };
 
   const confirmAlert = (e) => {
     setBackShow(false);
     if (e) {
-      navigation.navigate("VehicleList", {});
+      navigation.navigate("VehicleList", route.params);
     }
   };
 
   const successAlert = (e) => {
     setSuccessShow(false);
     setBackShow(false);
-    navigation.navigate("VehicleList", {});
+    navigation.navigate("VehicleList", route.params);
   };
 
-  const register = async (e) => {
+  const updateHandler = (e) => {
+    setConfirm(true);
+  };
+
+  const update = async (e) => {
     if (e) {
       try {
         /* Creating an object with the same name as the variables. */
@@ -70,41 +78,21 @@ export default function AddVehicle({ navigation }) {
           vehicleType,
           registered,
         };
-        const result = await axios.post(BASE_URL + "/vehicle/add", UserData);
+
+        const result = await axios.put(
+          BASE_URL + `/vehicle/update/${route.params._id}`,
+          UserData
+        );
 
         if (result?.status === 201) {
           setSuccessShow(true);
         }
       } catch (err) {
         console.error(err);
-        alert(err?.response?.data?.errorMessage);
+        setErrorShow(true);
       }
     } else {
       setConfirm(false);
-    }
-  };
-
-  const registerHandler = (e) => {
-    e.preventDefault();
-    try {
-      if (!make.trim()) {
-        setError("Please Enter Make of the Vehicle (Toyota, Nissan, etc.)");
-        setErrorShow(true);
-        return;
-      } else if (!model.trim()) {
-        setError("Please Enter Model of the Vehicle (Corolla, Tiida, etc.)");
-        setErrorShow(true);
-        return;
-      } else if (!vehicleType.trim()) {
-        setError("Please Enter Vehicle Type (Car, Van, etc.)");
-        setErrorShow(true);
-        return;
-      } else {
-        setConfirm(true);
-      }
-    } catch (err) {
-      console.error(err);
-      alert(err?.response?.data?.errorMessage);
     }
   };
 
@@ -114,7 +102,7 @@ export default function AddVehicle({ navigation }) {
         <TouchableOpacity onPress={() => backButton()}>
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle}>Add New Vehicle</Text>
+        <Text style={styles.TextTitle}>Update Vehicle</Text>
       </View>
 
       <Card.Divider color="black" style={{ height: 4 }} />
@@ -157,7 +145,6 @@ export default function AddVehicle({ navigation }) {
           value={passengers}
           style={styles.TextInput}
           maxLength={1}
-          keyboardType="numeric"
           placeholder="No of Passengers (1, 2, 3, etc.)"
           onChangeText={(e) => setPassengers(e.replace(/[^0-9]/g, ""))}
         />
@@ -178,7 +165,7 @@ export default function AddVehicle({ navigation }) {
             disabled={false}
             style={styles.checkBox}
             value={registered}
-            onValueChange={(e) => setRegistered(e)}
+            onValueChange={setRegistered}
           />
           <Text style={styles.label}>Vehicle Registered in SLIIT</Text>
         </View>
@@ -189,7 +176,7 @@ export default function AddVehicle({ navigation }) {
           <TouchableOpacity style={styles.resetBtn} onPress={resetForm}>
             <Text style={styles.resetText}>Reset</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.addBtn} onPress={registerHandler}>
+          <TouchableOpacity style={styles.addBtn} onPress={updateHandler}>
             <Text style={styles.addText}>Add</Text>
           </TouchableOpacity>
         </View>
@@ -203,21 +190,14 @@ export default function AddVehicle({ navigation }) {
       />
       <CustomAlert
         displayMode={"confirm"}
-        displayMsg={"Do you want to add this vehicle?"}
+        displayMsg={"Do you want to update this vehicle?"}
         visibility={confirm}
         dismissAlert={setConfirm}
-        confirmAlert={register}
-      />
-      <CustomAlert
-        displayMode={"error"}
-        displayMsg={error}
-        visibility={errorShow}
-        dismissAlert={setErrorShow}
-        confirmAlert={confirmAlert}
+        confirmAlert={update}
       />
       <CustomAlert
         displayMode={"success"}
-        displayMsg={"Vehicle Added Successfully"}
+        displayMsg={"Vehicle Updated Successfully"}
         visibility={successShow}
         dismissAlert={successAlert}
       />
@@ -233,7 +213,7 @@ const styles = StyleSheet.create({
   icon: { fontSize: 35 },
   TextTitle: {
     marginTop: 40,
-    marginLeft: 10,
+    marginLeft: 25,
     fontSize: 40,
   },
   container: {
@@ -302,6 +282,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 10,
+    elevation: 15,
     borderColor: "#8B51F5",
     backgroundColor: "white",
   },

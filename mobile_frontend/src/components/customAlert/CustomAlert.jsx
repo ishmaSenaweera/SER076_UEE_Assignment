@@ -47,13 +47,24 @@ export default function CustomAlert({
               ) : (
                 ""
               )}
+              {displayMode == "pending" ? (
+                <>
+                  <Ionicons
+                    name="alert-circle-outline"
+                    color={"black"}
+                    size={100}
+                  />
+                </>
+              ) : (
+                ""
+              )}
               <Text
                 style={{
                   fontSize: 22,
                   marginTop: 15,
                   alignItems: "center",
                   justifyContent: "center",
-                  textAlign: "center"
+                  textAlign: "center",
                 }}
               >
                 {displayMsg}
