@@ -3,6 +3,7 @@ import Login from "../components/authentication/Login";
 import AuthContext from "../context/UserContext";
 import { NavigationContainer } from "@react-navigation/native";
 import Tabs from "./BottomNav";
+import Register from "../components/UserManagement/auth/Register";
 
 
 

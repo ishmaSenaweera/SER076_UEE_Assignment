@@ -40,6 +40,29 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.post("/add", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+
+    const newUser = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      mobile: req.body.mobile,
+      dob: req.body.dob,
+      userType: req.body.userType,
+      passwordHash: passwordHash,
+    });
+
+    await newUser.save();
+
+    res.status(201).send({ Message: "User added successfully." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
 /* This is a route handler for the /profile route. It is used to get the user information. */
 router.get("/get/:id", async (req, res) => {
   try {
@@ -52,7 +75,7 @@ router.get("/get/:id", async (req, res) => {
 });
 
 /* This is a route handler for the / route. It is used to get all the users. */
-router.get("/", async (req, res) => {
+router.get("/getAll", async (req, res) => {
   try {
     const users = await User.find();
     /* Sending the users object to the client. */

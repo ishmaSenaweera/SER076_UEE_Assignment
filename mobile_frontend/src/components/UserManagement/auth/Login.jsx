@@ -1,74 +1,147 @@
-   
-import React, { Component } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useContext, useState } from "react";
+import { Card, Icon } from "@rneui/themed";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import axios from "axios";
 
-const Login = ()=>{
-   return (
-        <SafeAreaView>
-            <ScrollView>
-            <Text style={styles.header}>Travel Buddy</Text>
-            <Text style={styles.header2}>Login</Text>
-                <View style={{padding:10,backgroundColor:'#fff'}}>
-                    
-                    <View style={styles.formInput}>
-                        <TextInput style={styles.textInput} 
-                        placeholder="Your email address"/>
-                    </View>
 
-                    <View style={styles.formInput}>
-                        <TextInput style={styles.textInput}
-                         placeholder="Password" secureTextEntry={true}/>
-                    </View>
+export default function Login({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-                    <View style={styles.formInput}>
-                        <TouchableOpacity>
-                            <Text style={{color:"#db2218",textAlign:'right',fontSize:16,fontWeight:'bold'}}>Forgot password?</Text>
-                        </TouchableOpacity>
-                    </View>
+ 
+  const login = async (e) => {
+    e.preventDefault();
+    try {
+      
+      const loginData = {
+        email,
+        password,
+      };
 
-                    <View style={styles.formInput}>
-                        <TouchableOpacity style={styles.defaultButton}>
-                            <Text style={{textAlign:'center',fontSize:16,color:'#fff'}}>Login</Text>
-                        </TouchableOpacity>
-                    </View>
-                   
-                    
-                    <View style={styles.formInput}>
-                        <View style={{height:1,backgroundColor:'#ddd',width:'100%'}}></View>
-                    </View>
+      
+      const result = await axios.post(
+        "http://192.168.8.174:8000/user/login",
+        loginData
+      );
 
-                    <View style={styles.formInput}>
-                        <TouchableOpacity>
-                            <Text style={{color:"#14b53f",textAlign:'center',fontSize:16,fontWeight:'bold'}}>Need Account ? Register now</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    )
-}
-
-const styles=StyleSheet.create({
-    container:{
-        flex:1
-    },defaultBg:{
-        width:'100%',
-        height:120
-    },formInput:{
-        marginTop:10,
-        padding:10,
-    },textInput:{
-        padding:10,
-        fontSize:16,
-        borderWidth:1,
-        borderColor:"#a7a7a7",
-        borderRadius:10
-    },defaultButton:{
-        padding:15,
-        backgroundColor:'#4287f5',
-        borderRadius:10,
+      
+      if (result) {
+        setType(result.data.type);
+        console.log(result.data.type);
+      }
+    } catch (err) {
+      
+      alert(err.response.data.errorMessage);
+      console.log(err);
     }
-});
+  };
 
-export default Login;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Travel Buddy</Text>
+      <Text style={styles.header2}>Login</Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={styles.bar} />
+      </View>
+      <StatusBar style="auto" />
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Email"
+          placeholderTextColor="#003f5c"
+          onChangeText={(email) => setEmail(email)}
+        />
+      </View>
+
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Password"
+          placeholderTextColor="#003f5c"
+          secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+        />
+      </View>
+
+      <TouchableOpacity style={styles.loginBtn} onPress={login}>
+        <Text style={styles.loginText}>LOGIN</Text>
+      </TouchableOpacity>
+      
+         
+          <TouchableOpacity>
+            <Text style={{color:"#bb8de0",textAlign:'center',fontSize:16,fontWeight:'bold'}}>Need Account ? Register now</Text>
+          </TouchableOpacity>
+        
+      
+    </View>
+  );
+}
+const styles = StyleSheet.create({
+    container: {
+      marginTop: 200,
+      marginHorizontal: 20,
+      elevation: 20,
+      borderRadius: 10,
+      backgroundColor: "#ebd9fa",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  
+    header: {
+      fontSize: 60,
+      fontWeight: "bold",
+      alignItems: "center",
+    },
+  
+    bar: {
+      flex: 1,
+      height: 3,
+      backgroundColor: "grey",
+      width: "20%",
+      marginBottom: 20,
+      marginLeft: 20,
+      marginRight: 20,
+    },
+  
+    header2: {
+      fontSize: 30,
+      fontWeight: "bold",
+      marginBottom: 10,
+      alignItems: "center",
+    },
+  
+    inputView: {
+      backgroundColor: "white",
+      elevation: 20,
+      borderColor: "#f2bc57",
+      borderRadius: 10,
+      width: "80%",
+      height: 45,
+      marginBottom: 20,
+    },
+  
+    TextInput: {
+      height: 50,
+      flex: 1,
+      padding: 10,
+      marginLeft: 20,
+    },
+  
+    loginBtn: {
+      width: "70%",
+      borderRadius: 10,
+      marginTop: 10,
+      marginBottom: 20,
+      height: 50,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#bb8de0",
+    },
+  });
