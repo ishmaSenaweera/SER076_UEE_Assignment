@@ -15,8 +15,10 @@ export default function UpdateIncident({ navigation }) {
    const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'Loseing a Phone', value: 'Loseing a Phone'},
-    {label: 'Loseing a Wallet', value: 'Loseing a Wallet'}
+    {label: 'Lose a Phone', value: 'Loseing a Phone'},
+    {label: 'Lose a Wallet', value: 'Loseing a Wallet'},
+    {label: 'Lose a Bag', value: 'Loseing a Bag'},
+    {label: 'Lose a Jewellery', value: 'Loseing a Jewellery'}
   ]);
 
    useEffect(() => {
@@ -29,7 +31,7 @@ const handleEdit = (item) => {
       "id": _id
   }
   axios({
-      url:BASE_URL + "/incident/update/636ae3df7a2c620b602e3143",
+      url:BASE_URL + `/incident/update/${id}`,
       method:"PATCH",
       data : data,
       headers : {
@@ -52,7 +54,7 @@ const handleEdit = (item) => {
   // const { id } = useParams("");
 
   const getdata = async () => {
-    const res = await fetch(BASE_URL + `/incident/view/636ae3df7a2c620b602e3143`, {
+    const res = await fetch(BASE_URL + `/incident/view/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +87,7 @@ const handleEdit = (item) => {
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle1}>Add Incident</Text>
+        <Text style={styles.TextTitle1}>Update Incident</Text>
       </View>
 
       <Card.Divider color="black" style={{ height: 4 }} />

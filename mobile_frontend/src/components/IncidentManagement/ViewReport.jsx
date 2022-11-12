@@ -67,7 +67,7 @@ function ViewReport({ navigation }) {
 <View style={styles.container}>
       <Text style={styles.TextTitle1}></Text>
       <View style={styles.row}>
-        <Text style={styles.TextTitle2}>List of Incidents</Text>
+        <Text style={styles.TextTitle2}>Incidents Report</Text>
       </View>
       <Card.Divider color="black" />
       
