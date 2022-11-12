@@ -25,6 +25,7 @@ export default function RequestNavigationStack() {
       <Stack.Screen name="UpdateAction" component={ViewReport} />
       <Stack.Screen name="AddAction" component={AddAction} />
       <Stack.Screen name="UpdateAction" component={UpdateAction} />
+      <Stack.Screen name="Incident" component={UpdateAction} />
     </Stack.Navigator>
   );
 }

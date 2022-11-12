@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import { BASE_URL } from "../constants/Url.json";
 import { useIsFocused } from "@react-navigation/native";
-import { addListener } from "../../../../backend/models/request.model";
+//import { addListener } from "../../../../backend/models/request.model";
 
 export default function ViewStatus({ navigation, route }) {
   const id = route.params.id;

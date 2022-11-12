@@ -7,6 +7,7 @@ import AddIncident from "../components/IncidentManagement/AddIncident";
 import ViewIncident from "../components/IncidentManagement/viewIncident";
 import ViewReport from "../components/IncidentManagement/ViewReport";
 import UpdateIncident from "../components/IncidentManagement/UpdateIncident";
+import AddRequest from "../components/RequestManagement/AddRequest";
 
 
 
@@ -15,7 +16,7 @@ function AppNav() {
 
   return (
     <>
-      {userType === null && <ViewReport/>}
+      {userType === null && <Login/>}
       {userType === "Site Manager" && (
         <NavigationContainer>
           <Tabs />
