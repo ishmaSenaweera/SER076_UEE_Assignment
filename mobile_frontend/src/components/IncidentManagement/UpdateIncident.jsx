@@ -15,8 +15,10 @@ export default function UpdateIncident({ navigation }) {
    const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'Loseing a Phone', value: 'Loseing a Phone'},
-    {label: 'Loseing a Wallet', value: 'Loseing a Wallet'}
+    {label: 'Lose a Phone', value: 'Loseing a Phone'},
+    {label: 'Lose a Wallet', value: 'Loseing a Wallet'},
+    {label: 'Lose a Bag', value: 'Loseing a Bag'},
+    {label: 'Lose a Jewellery', value: 'Loseing a Jewellery'}
   ]);
 
    useEffect(() => {
