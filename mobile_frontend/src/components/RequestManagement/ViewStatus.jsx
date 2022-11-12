@@ -10,20 +10,17 @@ import {
 import axios from "axios";
 import { BASE_URL } from "../constants/Url.json";
 import { useIsFocused } from "@react-navigation/native";
-import AuthContext from "../../context/UserContext";
+import CustomAlert from "../customAlert/CustomAlert";
 
 export default function ViewStatus({ navigation, route }) {
   const id = route.params.id;
   const isFocused = useIsFocused();
   const [reqData, setReqData] = useState([]);
-  const [status, setStatus] = useState("Pending");
-
-  const { userId, setVehicleOwnerBlock } = useContext(AuthContext);
+  const [status, setStatus] = useState("");
+  const [successShow, setSuccessShow] = useState(false);
 
   async function getReqData() {
-    await axios.get(BASE_URL + `/request/ride/${id}`).then((res) => {
-      console.log(res.data[0]);
-      console.log(res.data[0].vehicleOwner?.firstName);
+    await axios.get(BASE_URL + `/request/ride/${id}`).then((res) => {   
       if (res.status === 200) {
         setReqData(res.data[0]);
         if (res.data[0].status === "Accepted") {
@@ -35,6 +32,11 @@ export default function ViewStatus({ navigation, route }) {
     });
   }
 
+  function ConfirmHandler() {
+    setSuccessShow(false);
+    navigation.navigate("RideSummary", { id: id });
+  }
+
   async function handleConfirm() {
     const dataObject = {
       status: "Confirmed",
@@ -44,8 +46,7 @@ export default function ViewStatus({ navigation, route }) {
       .then((res) => {
         if (res.status === 200) {
           //setVehicleOwnerBlock(true);
-          navigation.navigate("RideSummary", { data: reqData });
-          alert("aaa");
+          setSuccessShow(true);
         }
       });
   }
@@ -89,15 +90,16 @@ export default function ViewStatus({ navigation, route }) {
               borderColor: "#DFD8D7",
               borderRadius: 15,
               elevation: 20,
+              padding: 10,
             }}
           >
-            <Text style={styles.text1}>
+            <Text style={styles.text2}>
               Vehicle Owner :{" "}
               {reqData.vehicleOwner?.firstName +
                 " " +
                 reqData.vehicleOwner?.lastName}
             </Text>
-            <Text style={styles.text1}>
+            <Text style={styles.text2}>
               Mobile : {reqData.vehicleOwner?.mobile}
             </Text>
             <Text
@@ -105,7 +107,6 @@ export default function ViewStatus({ navigation, route }) {
                 fontStyle: "italic",
                 fontSize: 25,
                 fontWeight: "bold",
-                textAlign: "center",
               }}
             >
               Vehicle Details:
@@ -149,6 +150,12 @@ export default function ViewStatus({ navigation, route }) {
       ) : (
         ""
       )}
+      <CustomAlert
+        displayMode={"success"}
+        displayMsg={"Request confirmed successfully!"}
+        visibility={successShow}
+        dismissAlert={ConfirmHandler}
+      />
     </View>
   );
 }
@@ -206,7 +213,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   confirmBtn: {
-    width: "40%",
+    width: "45%",
     borderRadius: 25,
     marginTop: 20,
     marginLeft: 150,
