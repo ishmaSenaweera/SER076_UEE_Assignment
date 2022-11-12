@@ -11,7 +11,7 @@ import axios from "axios";
 import AuthContext from "../../context/UserContext";
 import { BASE_URL } from "../constants/Url.json";
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -70,6 +70,10 @@ export default function Login() {
 
       <TouchableOpacity style={styles.loginBtn} onPress={login}>
         <Text style={styles.loginText}>LOGIN</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate("Register", {})}>
+        <Text style={{ color: "#bb8de0", textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>Need Account ? Register now</Text>
       </TouchableOpacity>
     </View>
   );

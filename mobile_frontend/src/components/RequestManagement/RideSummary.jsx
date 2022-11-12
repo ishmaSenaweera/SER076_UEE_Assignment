@@ -9,7 +9,7 @@ export default function RideSummary({ navigation }) {
 
       <Card.Divider color="black" style={{ height: 4 }} />
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Incident", {Screen: "Incident"})}>
         <Icon
           name="warning"
           // color={focused ? "#000000" : "#585858"}

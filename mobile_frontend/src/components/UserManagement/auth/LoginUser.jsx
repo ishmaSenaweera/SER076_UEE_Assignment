@@ -27,13 +27,13 @@ export default function Login({ navigation }) {
 
       
       const result = await axios.post(
-        "http://192.168.8.174:8000/user/login",
+        "http://172.28.2.1:8000/user/login",
         loginData
       );
 
       
       if (result) {
-        setType(result.data.type);
+        setType(result.data);
         console.log(result.data.type);
       }
     } catch (err) {

@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/themed";
-import Login from "../components/UserManagement/auth/Login";
-import Register from "../components/UserManagement/auth/Register";
+import Login from "../components/UserManagement/auth/LoginUser";
+import Register from "../components/UserManagement/auth/RegisterUser";
 import RequestNavigationStack from "../components/Request";
 import VehicleNavigationStack from "../components/Vehicle";
 import RideSummary from "../components/RequestManagement/RideSummary";
@@ -102,7 +102,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Incident"
+        name="RideSummary"
         component={RideSummary}
         options={{
           tabBarIcon: ({ focused }) => (
