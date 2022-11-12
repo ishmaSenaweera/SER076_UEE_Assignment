@@ -41,7 +41,10 @@ router.get("/incident/view", async (req, res) => {
   try {
     
 
-    const getincidentdata = await incidents.find();
+    const getincidentdata = await incidents.find()
+    .populate("passenger")
+      .populate("vehicleOwner")
+      .populate("vehicle");;
 
     res.status(201).json(getincidentdata);
     console.log(getincidentdata);
