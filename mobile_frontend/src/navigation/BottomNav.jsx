@@ -6,6 +6,7 @@ import RequestNavigationStack from "../components/Request";
 import VehicleNavigationStack from "../components/Vehicle";
 import RideSummary from "../components/RequestManagement/RideSummary";
 
+
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {

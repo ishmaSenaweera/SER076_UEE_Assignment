@@ -1,90 +1,215 @@
-import React, { Component } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useContext, useState } from "react";
 
-const Register = ()=>{
-    return (
-        <SafeAreaView>
-            <ScrollView>
-                
-                <View style={{padding:10}}>
-                    
-                    <View style={styles.formInput}>
-                        <TextInput style={styles.textInput}
-                         placeholder="First Name"/>
-                    </View>
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import axios from "axios";
 
-                    <View style={styles.formInput}>
-                        <TextInput style={styles.textInput} 
-                        placeholder="Last Name"/>
-                    </View>
 
-                    <View style={styles.formInput}>
-                        <TextInput style={styles.textInput} 
-                        placeholder= "Email Address"/>
-                    </View>
+export default function Register() {
 
-                    <View style={styles.formInput}>
-                        <TextInput style={styles.textInput} 
-                        placeholder="Phone Number"/>
-                    </View>
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [dob, setDob] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [userType, setUserType] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordVerify, setPasswordVerify] = useState("");
+  const [loading, setLoading] = useState(false);
+ 
+  const register = async (e) => {
+    e.preventDefault();
+    try {
+     
+      setLoading(true);
 
-                    <View style={styles.formInput}>
-                        <TextInput style={styles.textInput} 
-                        placeholder="User Type"/>
-                    </View>
-                     
-                    <View style={styles.formInput}>
-                        <TextInput style={styles.textInput}
-                        placeholder="Password" secureTextEntry={true}/>
-                    </View>
+     
+      const RegisterData = {
+        firstName:firstName,
+        lastName:lastName,
+        email:email,
+        dob:dob,
+        mobile:mobile,
+        userType:userType,
+        password:password,
+      };
 
-                    <View style={styles.formInput}>
-                        <TextInput style={styles.textInput} 
-                        placeholder="Confirm Password" secureTextEntry={true}/>
-                    </View>
-                   
-                    <View style={styles.formInput}>
-                        <TouchableOpacity style={styles.defaultButton}>
-                            <Text style={{textAlign:'center',fontSize:16,color:'#fff'}}>Register</Text>
-                        </TouchableOpacity>
-                    </View>
-                    
-                    <View style={styles.formInput}>
-                        <View style={{height:1,backgroundColor:'#ddd',width:'100%'}}></View>
-                    </View>
+      console.log(RegisterData);
 
-                    <View style={styles.formInput}>
-                        <TouchableOpacity>
-                            <Text style={{color:"#4287f5",textAlign:'center',fontSize:16,fontWeight:'bold'}}>Already Have Account ? Login</Text>
-                        </TouchableOpacity>
-                    </View>
-                    
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    )
+      
+      const result = await axios.post(
+        "http://192.168.8.174:8000/user/register",
+        RegisterData
+      );
+
+      if (result) {
+        setType(result.data.type);
+        console.log(result.data.type, "Success");
+        console.log(result.data.type);
+      }
+    } catch (err) {
+    setLoading(false);
+    alert(err.response.data.errorMessage);
+    console.log(err);
+    
+     }
+  };
+  
+
+  
+  return (
+    <View style={styles.container}>
+      <View style={styles.bar} />
+      <Text style={styles.header}>Travel Buddy</Text>
+      <Text style={styles.header2}>Register</Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        
+      </View>
+      <StatusBar style="auto" />
+      <ScrollView>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="First Name"
+          placeholderTextColor="#003f5c"
+          onChangeText={(firstName) => setFirstName(firstName)}
+        />
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Last Name"
+          placeholderTextColor="#003f5c"
+          onChangeText={(lastName) => setLastName(lastName)}
+        />
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Email"
+          placeholderTextColor="#003f5c"
+          onChangeText={(email) => setEmail(email)}
+        />
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Phone"
+          placeholderTextColor="#003f5c"
+          onChangeText={(mobile) => setMobile(mobile)}
+        />
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Date of Birth"
+          placeholderTextColor="#003f5c"
+          onChangeText={(dob) => setDob(dob)}
+        />
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="User Type"
+          placeholderTextColor="#003f5c"
+          onChangeText={(userType) => setUserType(userType)}
+        />
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Password"
+          placeholderTextColor="#003f5c"
+          secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+        />
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Re-password"
+          placeholderTextColor="#003f5c"
+          secureTextEntry={true}
+          onChangeText={(passwordVerify) => setPasswordVerify(passwordVerify)}
+        />
+      </View>
+      <View style={{marginBottom:"100px"}}>
+      <TouchableOpacity style={styles.registerBtn} onPress={register}>
+        <Text style={styles.registerText}>Register</Text>
+      </TouchableOpacity>
+      </View>
+      </ScrollView>
+    </View>  
+    
+  );
+  
 }
-
-const styles=StyleSheet.create({
-    container:{
-        flex:1
-    },defaultBg:{
-        width:'100%',
-        height:120
-    },formInput:{
-        marginTop:10,
-        padding:10,
-    },textInput:{
-        padding:10,
-        fontSize:16,
-        borderWidth:1,
-        borderColor:"#a7a7a7",
-        borderRadius:10
-    },defaultButton:{
-        padding:15,
-        backgroundColor:'#14b53f',
-        borderRadius:10,
-    }
-});
-
-export default Register;
+      const styles = StyleSheet.create({
+      container: {
+      marginTop: 70,
+      marginHorizontal: 20,
+      elevation: 20,
+      borderRadius: 10,
+      backgroundColor: "#ebd9fa",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  
+    header: {
+      fontSize: 20,
+      fontWeight: "bold",
+      alignItems: "center",
+    },
+  
+    bar: {
+      flex: 1,
+      height: 3,
+      backgroundColor: "grey",
+      width: "20%",
+      marginBottom: 20,
+      marginLeft: 20,
+      marginRight: 20,
+    },
+  
+    header2: {
+      fontSize: 14,
+      fontWeight: "bold",
+      marginBottom: 10,
+      alignItems: "center",
+    },
+  
+    inputView: {
+      backgroundColor: "white",
+      elevation: 20,
+      borderColor: "#f2bc57",
+      borderRadius: 10,
+      width: "80%",
+      height: 45,
+      marginBottom: 20,
+    },
+  
+    TextInput: {
+      height: 15,
+      flex: 1,
+      padding: 10,
+      marginLeft: 20,
+    },
+  
+    registerBtn: {
+      width: "70%",
+      borderRadius: 10,
+      marginTop: 10,
+      marginBottom: 20,
+      height: 50,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#bb8de0",
+    },
+  });
