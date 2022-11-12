@@ -7,6 +7,7 @@ function AuthContextProvider(props) {
   const [userType, setUserType] = useState(null);
   const [userId, setUserId] = useState("636608378b984d338dde3d4a");
   const [userName, setUserName] = useState("Chathuni");
+  const [vehicleOwnerBlock, setVehicleOwnerBlock] = useState(false);
 
   function setType(type) {
     setUserType(type);
@@ -25,10 +26,12 @@ function AuthContextProvider(props) {
         userId,
         userType,
         userName,
+        vehicleOwnerBlock,
         setType,
         setUserId,
         setUserName,
         logout,
+        setVehicleOwnerBlock,
       }}
     >
       {props.children}

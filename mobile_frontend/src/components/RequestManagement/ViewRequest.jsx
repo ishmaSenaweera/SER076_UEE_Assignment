@@ -16,7 +16,7 @@ export default function ViewRequest({ navigation, route }) {
   const isFocused = useIsFocused();
   const timeEdited = new Date(
     route.params.data.dateAndTime
-  ).toLocaleTimeString();
+  )?.toLocaleTimeString();
   const [from, setFrom] = useState(route.params.data.locationFrom);
   const [to, setTo] = useState(route.params.data.locationTo);
   const [time, setTime] = useState(timeEdited);

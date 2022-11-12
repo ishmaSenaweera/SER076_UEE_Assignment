@@ -2,21 +2,36 @@ import { Card, Icon } from "@rneui/themed";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import axios from "axios";
 import { BASE_URL } from "../constants/Url.json";
+import CustomAlert from "../customAlert/CustomAlert";
+import { useState } from "react";
 
 export default function ViewVehicleInfo({ navigation, route }) {
-  const deleteVehicle = async () => {
-    try {
-      const result = await axios.delete(
-        BASE_URL + `/vehicle/delete/${route.params.vehicle._id}`
-      );
-      if (result?.status === 201) {
-        alert(result?.data?.Message);
-        /* Reloading the page. */
-        navigation.navigate("VehicleList", {});
+  const [confirm, setConfirm] = useState(false);
+  const [successShow, setSuccessShow] = useState(false);
+
+  const deleteHandler = async () => {
+    setConfirm(true);
+  };
+
+  const successAlert = (e) => {
+    setSuccessShow(false);
+    navigation.navigate("VehicleList", {});
+  };
+
+  const deleteVehicle = async (e) => {
+    if (e) {
+      try {
+        const result = await axios.delete(
+          BASE_URL + `/vehicle/delete/${route.params._id}`
+        );
+        if (result?.status === 201) {
+          setSuccessShow(true);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-      alert(err?.response?.data?.errorMessage);
+    } else {
+      setConfirm(false);
     }
   };
   return (
@@ -33,40 +48,52 @@ export default function ViewVehicleInfo({ navigation, route }) {
       <Card.Divider color="black" style={{ height: 4 }} />
 
       <View style={styles.container1}>
-        <Text style={styles.TextInput}>Make : {route.params.vehicle.make}</Text>
+        <Text style={styles.TextInput}>Make : {route.params.make}</Text>
+        <Text style={styles.TextInput}>Model : {route.params.model}</Text>
+        <Text style={styles.TextInput}>Plate No: {route.params.plateNo}</Text>
         <Text style={styles.TextInput}>
-          Model : {route.params.vehicle.model}
+          Passengers : {route.params.passengers}
         </Text>
         <Text style={styles.TextInput}>
-          Plate No: {route.params.vehicle.plateNo}
-        </Text>
-        <Text style={styles.TextInput}>
-          Passengers : {route.params.vehicle.passengers}
-        </Text>
-        <Text style={styles.TextInput}>
-          Registered : {route.params.vehicle.registered}
-        </Text>
-        <Text style={styles.TextInput}>
-          Vehicle Type : {route.params.vehicle.vehicleType}
+          Vehicle Type : {route.params.vehicleType}
         </Text>
         <Text style={styles.TextInput}>
           Registered in SLIIT :{" "}
-          {(route.params.vehicle.registered = true ? "Yes" : "No")}
+          {route.params.registered === true ? "Yes" : "No"}
         </Text>
         <Card.Divider color="black" style={{ height: 4 }} />
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.updateBtn}>
+          <TouchableOpacity
+            style={styles.updateBtn}
+            onPress={() => navigation.navigate("UpdateVehicle", route.params)}
+          >
             <Text style={styles.reqText}>Update</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.hideBtn}>
+          <TouchableOpacity
+            style={styles.hideBtn}
+            onPress={() => navigation.navigate("HideVehicle", route.params)}
+          >
             <Text style={styles.reqText}>Hide</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteBtn} onPress={deleteVehicle}>
+          <TouchableOpacity style={styles.deleteBtn} onPress={deleteHandler}>
             <Text style={styles.reqText}>Delete</Text>
           </TouchableOpacity>
         </View>
       </View>
+      <CustomAlert
+        displayMode={"confirm"}
+        displayMsg={"Are you sure you want to delete this vehicle?"}
+        visibility={confirm}
+        dismissAlert={setConfirm}
+        confirmAlert={deleteVehicle}
+      />
+      <CustomAlert
+        displayMode={"success"}
+        displayMsg={"Vehicle deleted successfully!"}
+        visibility={successShow}
+        dismissAlert={successAlert}
+      />
     </View>
   );
 }
@@ -85,7 +112,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#D5BEFF",
     borderRadius: 25,
-    height: "81%",
+    height: "76%",
   },
   TextInput: {
     height: 50,
@@ -99,6 +126,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontSize: 25,
+    elevation: 20,
     fontWeight: "bold",
   },
   row: {

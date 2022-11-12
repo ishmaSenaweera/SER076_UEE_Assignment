@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, Icon } from "@rneui/themed";
 import {
   ScrollView,
@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import { BASE_URL } from "../constants/Url.json";
 import { useIsFocused } from "@react-navigation/native";
-import { addListener } from "../../../../backend/models/request.model";
+import AuthContext from "../../context/UserContext";
 
 export default function ViewStatus({ navigation, route }) {
   const id = route.params.id;
@@ -18,12 +18,18 @@ export default function ViewStatus({ navigation, route }) {
   const [reqData, setReqData] = useState([]);
   const [status, setStatus] = useState("Pending");
 
+  const { userId, setVehicleOwnerBlock } = useContext(AuthContext);
+
   async function getReqData() {
     await axios.get(BASE_URL + `/request/ride/${id}`).then((res) => {
+      console.log(res.data[0]);
+      console.log(res.data[0].vehicleOwner?.firstName);
       if (res.status === 200) {
         setReqData(res.data[0]);
         if (res.data[0].status === "Accepted") {
-          setStatus("Accepted");
+          setStatus(res.data[0].status);
+        } else {
+          setStatus(res.data[0].status);
         }
       }
     });
@@ -33,11 +39,15 @@ export default function ViewStatus({ navigation, route }) {
     const dataObject = {
       status: "Confirmed",
     };
-    await axios.put(BASE_URL + `/request/status/${id}`, dataObject).then((res) => {
-      if (res.status === 200) {
-        alert("aaa");
-      }
-    });
+    await axios
+      .put(BASE_URL + `/request/status/${id}`, dataObject)
+      .then((res) => {
+        if (res.status === 200) {
+          //setVehicleOwnerBlock(true);
+          navigation.navigate("RideSummary", { data: reqData });
+          alert("aaa");
+        }
+      });
   }
 
   useEffect(() => {
@@ -60,12 +70,16 @@ export default function ViewStatus({ navigation, route }) {
       <Card.Divider color="black" style={{ height: 4 }} />
 
       <View
-        style={status === "Pending" ? styles.container1 : styles.container2}
+        style={
+          status === "Pending" || status === "Requested"
+            ? styles.container1
+            : styles.container2
+        }
       >
         <Text style={styles.text}>Status : {status}</Text>
       </View>
 
-      {reqData.status === "Accepted" ? (
+      {reqData.status === "Accepted" || reqData.status === "Confirmed" ? (
         <ScrollView style={{ height: "70%", marginBottom: 10 }}>
           <View
             style={{
@@ -79,12 +93,12 @@ export default function ViewStatus({ navigation, route }) {
           >
             <Text style={styles.text1}>
               Vehicle Owner :{" "}
-              {reqData.vehicleOwner.firstName +
+              {reqData.vehicleOwner?.firstName +
                 " " +
-                reqData.vehicleOwner.lastName}
+                reqData.vehicleOwner?.lastName}
             </Text>
             <Text style={styles.text1}>
-              Mobile : {reqData.vehicleOwner.mobile}
+              Mobile : {reqData.vehicleOwner?.mobile}
             </Text>
             <Text
               style={{
@@ -96,19 +110,30 @@ export default function ViewStatus({ navigation, route }) {
             >
               Vehicle Details:
             </Text>
-            <Text style={styles.text2}>Make : {reqData.vehicle.make}</Text>
-            <Text style={styles.text2}>Model : {reqData.vehicle.model}</Text>
+            {reqData.vehicle?.makeHide === false && (
+              <Text style={styles.text2}>Make : {reqData.vehicle?.make}</Text>
+            )}
+            {reqData.vehicle?.modelHide === false && (
+              <Text style={styles.text2}>Model : {reqData.vehicle?.model}</Text>
+            )}
+            {reqData.vehicle?.plateNoHide === false && (
+              <Text style={styles.text2}>
+                Plate No : {reqData.vehicle?.plateNo}
+              </Text>
+            )}
+            {reqData.vehicle?.passengersHide === false && (
+              <Text style={styles.text2}>
+                Passengers : {reqData.vehicle?.passengers}
+              </Text>
+            )}
+            {reqData.vehicle?.registeredHide === false && (
+              <Text style={styles.text2}>
+                Registered :{" "}
+                {reqData.vehicle?.registered === true ? "Yes" : "No"}
+              </Text>
+            )}
             <Text style={styles.text2}>
-              Plate No : {reqData.vehicle.plateNo}
-            </Text>
-            <Text style={styles.text2}>
-              Passengers : {reqData.vehicle.passengers}
-            </Text>
-            <Text style={styles.text2}>
-              Registered : {reqData.vehicle.registered === true ? "Yes" : "No"}
-            </Text>
-            <Text style={styles.text2}>
-              Vehicle Type : {reqData.vehicle.vehicleType}
+              Vehicle Type : {reqData.vehicle?.vehicleType}
             </Text>
 
             <View style={{ padding: 10 }}>

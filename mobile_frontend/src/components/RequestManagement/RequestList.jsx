@@ -79,7 +79,12 @@ export default function RequestList({ navigation }) {
           .map((element, index) => {
             return (
               <TouchableOpacity
-                onPress={() => navigation.navigate("ViewRequestInfo", {})}
+                onPress={() =>
+                  navigation.navigate("ViewRequestInfo", {
+                    request: element,
+                    image: `https://xsgames.co/randomusers/assets/avatars/male/${index}.jpg`,
+                  })
+                }
                 key={index}
               >
                 <View
