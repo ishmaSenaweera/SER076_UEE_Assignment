@@ -37,32 +37,6 @@ const Tabs = () => {
       }}
     >
       <Tab.Screen
-        name="Login"
-        component={Login}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              name="code"
-              color={focused ? "#000000" : "#585858"}
-              iconStyle={{ marginRight: 10 }}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Register"
-        component={Register}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              name="code"
-              color={focused ? "#000000" : "#585858"}
-              iconStyle={{ marginRight: 10 }}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Home"
         component={Home}
         options={{

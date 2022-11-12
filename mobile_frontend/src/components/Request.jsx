@@ -12,7 +12,6 @@ import UpdateRequest from "./RequestManagement/UpdateRequest";
 
 export default function RequestNavigationStack() {
   const { vehicleOwnerBlock } = React.useContext(AuthContext);
-  console.log(vehicleOwnerBlock);
 
   const Stack = createNativeStackNavigator();
   return (
