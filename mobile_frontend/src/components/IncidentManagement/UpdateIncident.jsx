@@ -87,7 +87,7 @@ const handleEdit = (item) => {
         >
           <Icon name="chevron-left" color="black" iconStyle={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.TextTitle1}>Add Incident</Text>
+        <Text style={styles.TextTitle1}>Update Incident</Text>
       </View>
 
       <Card.Divider color="black" style={{ height: 4 }} />
