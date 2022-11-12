@@ -1,10 +1,10 @@
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import VehicleList from "./vehicleManagement/VehicleList";
-import AddVehicle from "./vehicleManagement/AddVehicle";
-import ViewVehicleInfo from "./vehicleManagement/ViewVehicleInfo";
-import UpdateVehicle from "./vehicleManagement/UpdateVehicle";
-import HideVehicle from "./vehicleManagement/HideVehicle";
+import VehicleList from "./VehicleManagement/VehicleList";
+import AddVehicle from "./VehicleManagement/AddVehicle";
+import ViewVehicleInfo from "./VehicleManagement/ViewVehicleInfo";
+import UpdateVehicle from "./VehicleManagement/UpdateVehicle";
+import HideVehicle from "./VehicleManagement/HideVehicle";
 
 export default function VehicleNavigationStack() {
   const Stack = createNativeStackNavigator();
