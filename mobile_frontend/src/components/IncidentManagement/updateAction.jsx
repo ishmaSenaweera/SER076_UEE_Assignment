@@ -24,7 +24,7 @@ const handleEdit = (item) => {
       "action" : action
   }
   axios({
-      url:BASE_URL + "/incident/update/636ae3df7a2c620b602e3143",
+      url:BASE_URL + `/incident/update/${id}`,
       method:"PATCH",
       data : data,
       headers : {
@@ -46,7 +46,7 @@ const handleEdit = (item) => {
   // const { id } = useParams("");
 
   const getdata = async () => {
-    const res = await fetch(BASE_URL + `/incident/view/636ae3df7a2c620b602e3143`, {
+    const res = await fetch(BASE_URL + `/incident/view/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
