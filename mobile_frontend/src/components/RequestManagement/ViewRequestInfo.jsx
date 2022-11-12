@@ -47,7 +47,7 @@ export default function ViewRequestInfo({ navigation, route }) {
         };
 
         await axios.put(
-          BASE_URL + `/request/update/${route.params.request._id}`,
+          BASE_URL + `/request/update/${route.params?.request?._id}`,
           dataObject
         );
         setSuccessShow(true);
@@ -107,24 +107,24 @@ export default function ViewRequestInfo({ navigation, route }) {
             }}
           />
           <Text style={styles.text1}>
-            {route.params.request.passenger.firstName}{" "}
-            {route.params.request.passenger.lastName}
+            {route.params?.request?.passenger.firstName}{" "}
+            {route.params?.request?.passenger.lastName}
           </Text>
         </View>
 
         <View style={styles.container2}>
           <Text style={styles.text2}>
-            From: {route.params.request.locationFrom}
+            From: {route.params?.request?.locationFrom}
           </Text>
           <Text style={styles.text2}>
-            To: {route.params.request.locationTo}
+            To: {route.params?.request?.locationTo}
           </Text>
           <Text style={styles.text2}>
             Time:{" "}
-            {new Date(route.params.request.dateAndTime).toLocaleTimeString()}
+            {new Date(route.params?.request?.dateAndTime).toLocaleTimeString()}
           </Text>
           <Text style={styles.text2}>
-            Seat: {route.params.request.noOfSeats}
+            Seat: {route.params?.request?.noOfSeats}
           </Text>
         </View>
 

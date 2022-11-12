@@ -14,7 +14,7 @@ import AuthContext from "../../context/UserContext";
 
 export default function ViewProposalVehicleOwner({ navigation, route }) {
   const timeEdited = new Date(
-    route.params.request?.dateAndTime
+    route.params?.request?.dateAndTime
   )?.toLocaleTimeString();
 
   const [confirm, setConfirm] = useState(false);
@@ -57,7 +57,7 @@ export default function ViewProposalVehicleOwner({ navigation, route }) {
         };
 
         await axios.put(
-          BASE_URL + `/request/update/${route.params.request?._id}`,
+          BASE_URL + `/request/update/${route.params?.request?._id}`,
           dataObject
         );
         setVehicleOwnerBlock(false);
@@ -73,7 +73,7 @@ export default function ViewProposalVehicleOwner({ navigation, route }) {
   async function getStatus(e) {
     try {
       const result = await axios.get(
-        BASE_URL + `/request/ride/${route.params.request?._id}`
+        BASE_URL + `/request/ride/${route.params?.request?._id}`
       );
       if (result.data[0].status === "Confirmed") {
         setSuccessShowStatus(true);
@@ -99,9 +99,9 @@ export default function ViewProposalVehicleOwner({ navigation, route }) {
         </View>
         <TextInput
           value={
-            route.params.request?.passenger?.firstName +
+            route.params?.request?.passenger?.firstName +
             " " +
-            route.params.request?.passenger?.lastName
+            route.params?.request?.passenger?.lastName
           }
           style={styles.TextInput}
           editable={false}
@@ -111,7 +111,7 @@ export default function ViewProposalVehicleOwner({ navigation, route }) {
           <Text style={styles.label}>Mobile</Text>
         </View>
         <TextInput
-          value={route.params.request?.passenger?.mobile.toString()}
+          value={route.params?.request?.passenger?.mobile.toString()}
           style={styles.TextInput}
           editable={false}
         />

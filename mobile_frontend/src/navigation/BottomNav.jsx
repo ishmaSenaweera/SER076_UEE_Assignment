@@ -5,6 +5,7 @@ import Register from "../components/UserManagement/auth/Register";
 import RequestNavigationStack from "../components/Request";
 import VehicleNavigationStack from "../components/Vehicle";
 import RideSummary from "../components/RequestManagement/RideSummary";
+import Home from "../components/Home";
 
 const Tab = createBottomTabNavigator();
 
@@ -63,7 +64,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Home"
-        component={RequestNavigationStack}
+        component={Home}
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon
